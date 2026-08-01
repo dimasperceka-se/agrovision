@@ -1,0 +1,331 @@
+# Perizinan & Sertifikasi — Proyek Agroforestri Kelapa + Durian
+
+**Konteks yang diasumsikan dalam dokumen ini**
+
+| Parameter | Nilai |
+|---|---|
+| Pengelola | Korporat / swasta (bukan program pemerintah, bukan PSN) |
+| Luas rencana | ±100.000 ha bruto |
+| Status lahan | APL / lahan milik |
+| Komoditas | Kelapa (*Cocos nucifera*) + Durian (*Durio zibethinus*) |
+| Tujuan | Akses pasar/ekspor, kredit karbon, kewajiban CSR/rehab DAS, legalitas & pembiayaan |
+
+> Dokumen ini disusun per Juli 2026. Regulasi perizinan dan protokol ekspor di bidang ini berubah cepat. Verifikasi setiap item ke instansi penerbit sebelum dipakai sebagai dasar keputusan investasi. Ini bukan nasihat hukum.
+
+---
+
+## 0. Peringatan Kritis — Baca Sebelum Daftar Sertifikat
+
+Empat hal berikut lebih menentukan daripada seluruh daftar sertifikat di bawahnya.
+
+### 0.1 Plafon 35.000 ha untuk kelapa
+
+Permentan No. 98/2013 Pasal 17 mengatur batas paling luas lahan usaha perkebunan per **1 perusahaan atau kelompok (group) perusahaan**. Angka per komoditas: kelapa sawit 100.000 ha; **kelapa 35.000 ha**; karet 23.000 ha; kakao 13.000 ha; kopi 13.000 ha; tebu 125.000 ha; teh 14.000 ha; tembakau 5.000 ha.
+
+**Implikasi:** porsi kelapa tidak dapat melebihi ±35.000 ha dalam satu grup. Pemecahan ke beberapa badan hukum untuk melewati plafon adalah praktik yang diawasi BPN dan Kementan dan akan menjadi temuan due diligence pemberi pinjaman.
+
+Durian adalah komoditas **hortikultura**, sehingga tidak berada di bawah plafon perkebunan yang sama. **Verifikasi apakah ada batas luas maksimum usaha hortikultura** ke Ditjen Hortikultura — angka ini belum terkonfirmasi dan menentukan struktur puluhan ribu hektare.
+
+Verifikasi juga terhadap kerangka perizinan yang berlaku sekarang, yaitu PP 28/2025 tentang perizinan berusaha berbasis risiko.
+
+### 0.2 Kewajiban 20% kebun masyarakat (FPKM)
+
+UU 39/2014 Pasal 58: perusahaan pemegang IUP/IUP-B wajib memfasilitasi pembangunan kebun masyarakat sekitar **paling rendah 20% dari total luas areal kebun yang diusahakan**, melalui pola kredit, bagi hasil, atau pendanaan lain, dan **harus dilaksanakan paling lambat 3 tahun sejak HGU diberikan**.
+
+Sanksi pelanggaran: denda, pemberhentian sementara kegiatan usaha, dan/atau **pencabutan IUP**.
+
+**Tafsir yang perlu diklarifikasi:** salah satu pembacaan otoritatif menyatakan 20% itu berada **di luar** HGU yang sudah dimiliki — artinya perusahaan harus menambah lahan, bukan mengalokasikan dari dalam. Pada blok kelapa 35.000 ha, tafsir ini berarti tambahan ±7.000 ha. Klarifikasi ke Ditjenbun **sebelum** akuisisi lahan.
+
+Kewajiban ini melekat pada rezim perkebunan (kelapa), tidak otomatis pada hortikultura (durian).
+
+### 0.3 Larangan absolut atas tanah hak ulayat
+
+UU 39/2014: **pejabat yang berwenang dilarang menerbitkan izin Usaha Perkebunan di atas Tanah Hak Ulayat Masyarakat Hukum Adat.**
+
+Larangan berada di sisi penerbit izin, sehingga izin yang terbit di atas ulayat cacat sejak awal dan rentan dibatalkan. Pada footprint 100.000 ha, tumpang tindih klaim ulayat di sebagian areal hampir merupakan kepastian. **Pemetaan tenurial partisipatif harus mendahului pengajuan izin**, bukan menyusul.
+
+### 0.4 Paradoks adisionalitas karbon
+
+Untuk lolos komite investasi, proyek harus dibuktikan layak secara komersial dari pendapatan buah saja. Uji adisionalitas karbon menuntut pembuktian sebaliknya: penanaman tidak akan terjadi tanpa pendapatan karbon.
+
+Kedua pernyataan tidak dapat berdiri bersamaan dan akan saling dikonfrontasi saat due diligence.
+
+**Jalan keluar yang kredibel:** ring-fence hanya sub-areal yang secara komersial marginal (kelas kesesuaian S3, lahan terdegradasi, lereng menengah, kesuburan rendah, jauh dari infrastruktur) sebagai proyek karbon, dengan analisis hambatan investasi yang berdiri sendiri. Sisanya dijalankan tanpa klaim karbon.
+
+**Tambahan:** blok yang dipakai memenuhi kewajiban rehab DAS atau komitmen CSR yang sudah dianggarkan **tidak dapat diklaim karbon** — baseline sudah mencakup penanaman itu. Pisahkan blok "kewajiban" dan blok "sukarela" secara spasial dan administratif sejak awal.
+
+### 0.5 Catatan luas
+
+100.000 ha bruto bukan 100.000 ha tertanam. Setelah HCV set-aside, sempadan riparian, jalan, dan fasilitas, area tanam realistis biasanya **80.000–85.000 ha**. Masukkan ke model finansial sejak awal.
+
+---
+
+## A. Perizinan & Legalitas Dasar (prasyarat, bukan sertifikat)
+
+| # | Dokumen | Penerbit | Kelapa | Durian | Status |
+|---|---|---|---|---|---|
+| A1 | NIB (OSS-RBA) | Lembaga OSS | ✔ | ✔ | ☐ |
+| A2 | KKPR / kesesuaian RTRW | Pemda / ATR-BPN | ✔ | ✔ | ☐ |
+| A3 | Persetujuan Lingkungan (AMDAL + RKL-RPL) | KLH / Pemda | ✔ | ✔ | ☐ |
+| A4 | HGU / alas hak atas tanah | ATR-BPN | ✔ | ✔ | ☐ |
+| A5 | **IUP-B** (budidaya ≥25 ha) atau **IUP** (terintegrasi) | Gubernur / Menteri | ✔ | – | ☐ |
+| A6 | **STD-B** (<25 ha, termasuk pekebun mitra) | Bupati/Walikota — aplikasi e-STDB | ✔ | – | ☐ |
+| A7 | Izin / Tanda Daftar Usaha Hortikultura | Ditjen Hortikultura / Pemda | – | ✔ | ☐ |
+| A8 | IUP-P (industri pengolahan hasil perkebunan) | Gubernur / Menteri | ✔ bila ada pabrik | – | ☐ |
+| A9 | Dokumen FPKM 20% + laporan pelaksanaan | Ditjenbun / Pemda | ✔ | – | ☐ |
+| A10 | Persetujuan masyarakat hukum adat (bila ada ulayat) | — | ✔ | ✔ | ☐ |
+| A11 | Kesepakatan batas wilayah kerja dengan masyarakat sekitar | — | ✔ | ✔ | ☐ |
+
+---
+
+## B. Sertifikasi Mutu & Keamanan Pangan di Tingkat Kebun
+
+| # | Sertifikat | Penerbit | Kelapa | Durian | Masa berlaku | Status |
+|---|---|---|---|---|---|---|
+| B1 | **Registrasi Kebun / Nomor Registrasi Kebun (NRK)** | Dinas Pertanian Provinsi | – | ✔ | 2 tahun, surveilen min. 1×/th | ☐ |
+| B2 | **Sertifikat Prima 3** (aman konsumsi) | OKKPD Provinsi | – | ✔ | — | ☐ |
+| B3 | **Sertifikat Prima 2** (aman + bermutu) | OKKPD Provinsi | – | ✔ | — | ☐ |
+| B4 | **Sertifikat Prima 1** (aman + bermutu + ramah lingkungan) | OKKPD Provinsi | – | ✔ | — | ☐ |
+| B5 | Penerapan indoGAP (GAP perkebunan) | Kementan / Ditjenbun | ✔ | – | — | ☐ |
+| B6 | Penerapan indoGAP (GAP hortikultura) + SOP + PHT + pembukuan | Kementan / Ditjen Hortikultura | – | ✔ | — | ☐ |
+| B7 | Registrasi PSAT-PDUK / Sertifikat PSAT-PD / izin edar PSAT-PL | Bapanas / OKKPD | ✔ | ✔ | — | ☐ |
+| B8 | Registrasi Rumah Kemas | OKKPD Provinsi | ✔ | ✔ | — | ☐ |
+| B9 | **Global G.A.P. IFA** (+ add-on GRASP untuk aspek sosial) | LS terakreditasi | ✔ | ✔ | 1 tahun | ☐ |
+| B10 | ASEAN GAP | — | ✔ | ✔ | — | ☐ |
+
+> **Catatan skala:** pada 80.000+ ha, Global G.A.P. dan organik **wajib** memakai skema kelompok (Option 2) dengan **Internal Control System (ICS)** yang berfungsi. Sertifikasi individual per blok tidak realistis secara biaya maupun administrasi.
+
+---
+
+## C. Sertifikasi & Registrasi Ekspor
+
+| # | Item | Penerbit | Catatan | Status |
+|---|---|---|---|---|
+| C1 | **Instalasi Karantina Tumbuhan (IKT)** | Barantin — Perbadan No. 15/2024 | Wajib untuk rumah pengemasan durian beku tujuan China | ☐ |
+| C2 | **Registrasi GACC / CIFER** (China Import Food Enterprise Registration) | GACC, via rekomendasi Barantin | Tanpa ini, ekspor ke China nihil | ☐ |
+| C3 | Phytosanitary Certificate | Barantin | Per pengiriman | ☐ |
+| C4 | Health Certificate (HC) | OKKPD / Bapanas | PSAT | ☐ |
+| C5 | **Sertifikat Halal** | BPJPH | Wajib untuk produk olahan | ☐ |
+| C6 | Izin Edar BPOM (MD) | BPOM | Olahan dalam kemasan | ☐ |
+| C7 | Sertifikat Organik untuk pasar tujuan (NOP / EU / JAS) | LSO terakreditasi + otoritas negara tujuan | Bila menyasar segmen organik | ☐ |
+
+### Status akses pasar durian ke China (per Juli 2026)
+
+| Produk | Status | Dasar |
+|---|---|---|
+| **Durian beku** — pulp, puree, buah utuh beku | **TERBUKA** | Protokol Barantin–GACC ditandatangani 25 Mei 2025; ekspor perdana 48 ton, 15 Des 2025 (Citeureup, Kab. Bogor) |
+| **Durian segar** | **BELUM TERBUKA** | Protokol masih dalam proses |
+
+**Persyaratan berlapis untuk durian beku ke China:**
+
+1. Memiliki kebun sendiri **atau** bermitra dengan petani/kelompok tani yang sudah mendapat **registrasi GAP dari Dinas Pertanian Provinsi**
+2. Rumah kemas teregistrasi di **OKKPD** (Bapanas)
+3. Ditetapkan sebagai **IKT** oleh Barantin
+4. Barantin merekomendasikan ke GACC → perusahaan **diregistrasi GACC**
+5. Spesifikasi teknis: pembekuan cepat pada −30 °C atau lebih rendah; suhu inti dipertahankan −18 °C atau lebih rendah; seleksi manual bebas buah busuk/rusak/benda asing; buah berasal dari tanaman di Indonesia
+6. Titik kritis audit: sanitasi higienis melalui SOP di IKT untuk memastikan bebas cemaran kimia (residu pestisida), biologi (bakteri), dan logam berat
+
+**Kapasitas nasional saat ini:** baru 8 rumah pengemasan durian beku yang memenuhi syarat sebagai IKT — 7 di Sulawesi Tengah, 1 di Kabupaten Bogor. Ini adalah kendala penyerapan yang harus masuk perencanaan hilirisasi Anda.
+
+---
+
+## D. Sertifikasi Tingkat Pabrik / Hilirisasi
+
+Pada skala ini hilirisasi bukan opsional — tanpa pabrik, tidak ada saluran ekspor.
+
+| # | Sertifikat | Ruang lingkup | Status |
+|---|---|---|---|
+| D1 | HACCP | Keamanan pangan dasar | ☐ |
+| D2 | **ISO 22000 / FSSC 22000** | Sistem manajemen keamanan pangan | ☐ |
+| D3 | BRCGS / IFS Food | Wajib de facto untuk ritel Eropa/UK | ☐ |
+| D4 | ISO 9001 | Manajemen mutu | ☐ |
+| D5 | ISO 14001 | Manajemen lingkungan | ☐ |
+| D6 | ISO 45001 | K3 | ☐ |
+| D7 | Kosher (opsional) | Segmen pasar tertentu | ☐ |
+
+---
+
+## E. Sertifikasi Keberlanjutan Sukarela
+
+| Skema | Kelapa | Durian | Catatan |
+|---|---|---|---|
+| **Organik** — SNI 6729, EU 2018/848, USDA NOP, JAS | ✔ sangat relevan | ✔ | **Satu-satunya skema yang unit auditnya adalah lahan, bukan komoditas** — paling cocok untuk sistem campuran |
+| **Rainforest Alliance 2020 SAS** | ✔ | ✘ tidak tersedia | RA aktif di sektor kelapa Indonesia & Filipina sejak 2015; >60.000 ton kelapa tersertifikasi |
+| **Fairtrade / Fair for Life** | ✔ | ✘ | Untuk koperasi/kelompok pekebun |
+| **Sustainable Coconut Charter (SCC)** | ✔ | ✘ | Verifikasi oleh Ecocert dll. |
+| Regenerative Organic Certified / RA Regenerative | ✔ | ✘ | Skema baru |
+| ISO 14001 / Carbon Neutral | ✔ | ✔ | Level organisasi |
+
+> **Kesenjangan struktural yang perlu diterima:** durian tidak memiliki skema keberlanjutan sektoral apa pun di dunia. Satu-satunya label yang dapat dipasang pada durian adalah **organik** atau **Global G.A.P.** Klaim "durian agroforestri berkelanjutan" tanpa salah satu dari keduanya tidak punya dasar yang diakui pasar.
+
+---
+
+## F. Legalitas Kayu (bila durian ditebang di akhir siklus)
+
+| # | Sertifikat | Penerbit | Status |
+|---|---|---|---|
+| F1 | SVLK / S-Legalitas (dikembangkan sebagai SVLK+) | LVLK terakreditasi KAN | ☐ |
+| F2 | DKP (Deklarasi Kesesuaian Pemasok) | Mandiri, untuk blok hutan rakyat | ☐ |
+| F3 | FSC FM + CoC | LS terakreditasi FSC | ☐ |
+| F4 | PEFC / IFCC | LS terakreditasi | ☐ |
+
+> **Konflik yang harus diputuskan:** panen kayu durian mengurangi stok karbon dan memicu *reversal* pada proyek karbon. Kayu dimonetisasi **atau** karbon dimonetisasi — sulit keduanya pada blok yang sama.
+
+---
+
+## G. Karbon & Jasa Lingkungan
+
+| # | Item | Keterangan | Status |
+|---|---|---|---|
+| G1 | **Pendaftaran SRN-PPI** | **Wajib mutlak** — Perpres 98/2021: proyek karbon hanya dapat didaftarkan melalui SRN PPI | ☐ |
+| G2 | **SPE-GRK / SPEI** | Skema sertifikasi domestik | ☐ |
+| G3 | Verra VCS (+ CCB) | Sudah ber-MRA dengan SPEI | ☐ |
+| G4 | Gold Standard for Global Goals (GS4GG) | Sudah ber-MRA; ada panduan nasional | ☐ |
+| G5 | Plan Vivo | Sudah ber-MRA; paling sesuai untuk agroforestri berbasis masyarakat | ☐ |
+| G6 | Global Carbon Council | Sudah ber-MRA | ☐ |
+| G7 | Validator/verifikator (VVB) terakreditasi KAN atau UNFCCC | Wajib | ☐ |
+| G8 | Otorisasi Menteri + corresponding adjustment | Untuk transfer internasional (ITMO) | ☐ |
+| G9 | Rujukan metodologi: ISO 14064-2, ISO 14065 | — | ☐ |
+
+**Dasar hukum:** Perpres 98/2021 tentang Penyelenggaraan Nilai Ekonomi Karbon; Permen LHK 21/2022 tentang Tata Laksana Penerapan NEK. Empat instrumen kendali: (1) wajib terdaftar SRN PPI; (2) MRV sesuai peraturan; (3) penerbitan SPE-GRK atau penetapan batas atas emisi; (4) otorisasi Menteri dan corresponding adjustment.
+
+**Bursa:** IDXCarbon.
+
+**Preseden agroforestri di Indonesia:** skema PES Plan Vivo di hutan lindung Bujang Raba, Kabupaten Bungo, Jambi (±14.000 ha, lima desa, pendampingan KKI Warsi), dengan agroforestri karet, kayu manis, durian, duku, dan rotan.
+
+---
+
+## H. Kerangka Pemberi Pinjaman (diaudit, meski bukan "sertifikat")
+
+Pada proyek lahan 100.000 ha, **ini yang paling menentukan apakah pembiayaan turun** — bukan Prima atau Global G.A.P.
+
+| # | Kerangka | Fokus | Status |
+|---|---|---|---|
+| H1 | IFC Performance Standards 1–8 | Standar induk | ☐ |
+| H2 | Equator Principles | Bagi bank penandatangan | ☐ |
+| H3 | ESIA (lebih dalam dari AMDAL, termasuk dampak kumulatif) | PS1 | ☐ |
+| H4 | Rencana pengadaan lahan & pemukiman kembali | PS5 | ☐ |
+| H5 | **HCV assessment oleh assessor berlisensi HCVRN** | PS6 | ☐ |
+| H6 | **HCS Approach assessment** | PS6 | ☐ |
+| H7 | **FPIC** masyarakat adat — sebagai syarat, bukan formalitas | PS7 | ☐ |
+| H8 | Mekanisme keluhan (grievance) yang berfungsi & terdokumentasi | PS1 | ☐ |
+| H9 | Standar ketenagakerjaan & K3 | PS2 | ☐ |
+
+---
+
+## I. Set Minimum untuk Fase 1 (20.000–30.000 ha)
+
+Dari ±40 item di atas, yang benar-benar dibutuhkan untuk memulai:
+
+1. NIB, KKPR, Persetujuan Lingkungan, HGU/alas hak
+2. IUP-B (kelapa) + izin usaha hortikultura (durian)
+3. **HCV assessment + analisis tutupan lahan historis 10–15 tahun**
+4. Registrasi kebun durian (GAP) dari Dinas Pertanian Provinsi
+5. Registrasi SRN-PPI, bila pilar karbon dipertahankan
+
+Sisanya menyusul mengikuti kesiapan pasar:
+
+| Kapan | Yang diurus |
+|---|---|
+| Saat produksi mulai (th 5–8) | Prima 3, registrasi PSAT |
+| Saat pabrik pembekuan berdiri | Rumah kemas OKKPD, IKT Barantin, registrasi GACC, HACCP/ISO 22000 |
+| Saat ada pembeli yang membayar premium | Organik, Global G.A.P., RA (kelapa) |
+| Akhir siklus (th 15+) | SVLK/FSC untuk kayu |
+
+### Dua item yang jendelanya tertutup permanen setelah tanam
+
+| Item | Kenapa tidak bisa ditunda |
+|---|---|
+| **HCV/HCS + analisis tutupan lahan historis** | Kondisi awal tidak dapat direkonstruksi setelah pohon tumbuh. Metodologi ARR mensyaratkan bukti lahan bukan hutan selama periode tertentu sebelum tanggal mulai proyek (Verra umumnya 10 tahun). Bukti yang harus dikumpulkan **sekarang**: citra Landsat/Sentinel time-series 10–15 tahun, peta tutupan lahan KLH/Kehutanan, foto lapangan bergeotag, dokumen alas hak |
+| **Registrasi SRN-PPI** | Menentukan tanggal mulai proyek dan mencegah sengketa klaim ganda |
+
+---
+
+## J. Urutan Pelaksanaan
+
+| Prioritas | Item | Alasan posisi |
+|---|---|---|
+| 1 | Klarifikasi plafon: kelapa 35.000 ha, ada/tidaknya plafon hortikultura, tafsir 20% FPKM | Menentukan komposisi tanam dan kebutuhan lahan total |
+| 2 | Pemetaan tenurial & klaim ulayat seluruh footprint | Larangan IUP di atas ulayat bersifat absolut |
+| 3 | HCV/HCS + analisis tutupan lahan historis | Sekaligus baseline karbon dan syarat PS6 |
+| 4 | KKPR / kesesuaian RTRW lintas kabupaten | Dapat memaksa relokasi blok |
+| 5 | AMDAL & Persetujuan Lingkungan | Wajib mutlak pada skala ini |
+| 6 | FPIC & desain skema kemitraan/FPKM | Penyebab kegagalan nomor satu proyek lahan skala besar di Indonesia |
+| 7 | Perjanjian offtake / rencana hilirisasi | **Sebelum** tanam, bukan sesudah |
+| 8 | IUP-B/HGU, STD-B, registrasi kebun, sertifikasi kelompok + ICS | Sertifikasi baru masuk di sini |
+| 9 | Karbon — hanya pada sub-areal marginal yang lolos adisionalitas | Setelah ring-fencing blok kewajiban vs sukarela |
+
+---
+
+## K. Risiko Komersial yang Tidak Diselesaikan oleh Sertifikat
+
+| Risiko | Uraian |
+|---|---|
+| **Penyerapan pasar** | Produksi durian nasional Indonesia ±1,5–1,8 juta ton. Bila separuh dari area tanam ditanami durian, pada umur produktif dengan hasil 8–10 ton/ha, itu ±400.000–500.000 ton dari satu proyek — porsi sangat besar terhadap output nasional. Saluran ekspor yang terbuka baru durian beku ke China dengan 8 rumah pengemasan ber-IKT di seluruh Indonesia |
+| **Arus kas** | Durian berbuah pertama th 5–8, komersial th 8–12; kelapa th 4–8 tergantung varietas. Artinya 8–12 tahun arus kas negatif. Pendapatan karbon ARR juga baru berarti setelah th 5–7 |
+| **Perolehan lahan** | Tanpa status kepentingan umum, tidak ada mekanisme UU 2/2012 — setiap hektare harus *willing seller–willing buyer*. Footprint hampir pasti bertambal-sulam karena enklave (pemilik menolak, sengketa waris, tanah tanpa alas hak, klaim ulayat), yang menaikkan biaya jalan, pengawasan, panen, dan logistik per hektare |
+| **Tanpa fasilitas PSN** | Tidak ada percepatan perizinan, pencadangan lahan negara, tax allowance/holiday jalur PSN, atau jaminan pemerintah. Seluruh J-curve ditanggung neraca korporasi atau pinjaman komersial dengan pricing risiko penuh |
+| **Desain agronomi** | Kelapa dan durian keduanya tajuk atas (15–30 m dan 25–40 m) yang butuh cahaya penuh saat produktif — kompetisi cahaya, bukan stratifikasi fungsional. Optimum curah hujan juga berbeda (kelapa S1 2.000–3.000 mm; durian S1 1.000–2.000 atau 1.500–2.500 mm tergantung versi kriteria). **Pemisahan spasial lewat zonasi agroklimat lebih baik daripada pencampuran** |
+| **Tanpa preseden** | Belum ada preseden komersial durian pada skala puluhan ribu hektare di mana pun di dunia |
+
+**Rekomendasi:** jangan perlakukan 100.000 ha sebagai satu keputusan. Bagi menjadi 3–5 fase 20.000–30.000 ha. Fase pertama membuktikan model agronomi, rantai pasok, dan hubungan sosial sebelum modal terbesar dikunci.
+
+Dan susun urutannya dari arah sebaliknya: mulai dari **komitmen offtake dan kapasitas hilirisasi yang bisa dikontrak**, lalu hitung ke belakang berapa hektare yang dibutuhkan.
+
+---
+
+## L. Daftar Peraturan & Rujukan
+
+### Perizinan & perkebunan
+- UU No. 39 Tahun 2014 tentang Perkebunan — Pasal 42 (larangan IUP di atas tanah ulayat), Pasal 45, Pasal 58–60 (FPKM 20%)
+- UU No. 13 Tahun 2010 tentang Hortikultura
+- UU No. 11 Tahun 2020 tentang Cipta Kerja
+- UU No. 18 Tahun 2012 tentang Pangan
+- PP No. 5 Tahun 2021 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko
+- PP No. 6 Tahun 2021 tentang Penyelenggaraan Perizinan Berusaha di Daerah
+- PP No. 28 Tahun 2025 tentang Penyelenggaraan Perizinan Berusaha Berbasis Risiko
+- PP No. 86 Tahun 2019 tentang Keamanan Pangan
+- Permentan No. 98/Permentan/OT.140/9/2013 tentang Pedoman Perizinan Usaha Perkebunan — Pasal 17 (batas luas maksimum)
+- Permentan No. 21 Tahun 2017 (perubahan Pasal 11 & 12 Permentan 98/2013)
+- Permentan No. 48/Permentan/OT.140/10/2009 tentang Pedoman Budidaya Buah yang Baik (GAP)
+- Permentan No. 44/Permentan/OT.140/10/2009 tentang Penanganan Pascapanen Produk Asal Tanaman yang Baik
+
+### Karantina & ekspor
+- Peraturan Badan Karantina Indonesia No. 15 Tahun 2024 tentang Instalasi Karantina Tumbuhan dan Sarana Pendukungnya
+- Protokol Ekspor Durian Beku Indonesia–GACC, ditandatangani 25 Mei 2025
+
+### Karbon & lingkungan
+- Perpres No. 98 Tahun 2021 tentang Penyelenggaraan Nilai Ekonomi Karbon untuk Pencapaian Target NDC
+- Permen LHK No. 21 Tahun 2022 tentang Tata Laksana Penerapan Nilai Ekonomi Karbon
+- Permen LHK No. 7 Tahun 2023 tentang Tata Cara Perdagangan Karbon Sektor Kehutanan
+- SK.168/MENLHK/PKTL/PLA.1/2/2022 tentang Indonesia FOLU Net Sink 2030
+
+### Kehutanan (bila ada komponen kawasan hutan atau kayu)
+- Permenhut No. 6 Tahun 2026
+- Permenhut No. 8 Tahun 2026 (SVLK)
+- Perpres No. 28 Tahun 2023 tentang Perencanaan Terpadu Percepatan Pengelolaan Perhutanan Sosial
+- Permenhut No. P.87/Menhut-II/2014 tentang Pedoman Penanaman bagi Pemegang IPPKH dalam Rangka Rehabilitasi DAS
+
+### Standar internasional
+- IFC Performance Standards 1–8 (2012)
+- Equator Principles EP4
+- HCV Network — Common Guidance for HCV Identification
+- High Carbon Stock Approach Toolkit
+- Global G.A.P. IFA v6 + GRASP
+- Rainforest Alliance Sustainable Agriculture Standard 2020
+- EU Regulation 2018/848 (organik), USDA NOP 7 CFR Part 205, JAS Organic
+- ISO 14064-2, ISO 14065, ISO 22000, FSSC 22000, BRCGS Food Safety
+
+### Instansi & portal
+| Instansi | Fungsi | Portal |
+|---|---|---|
+| Lembaga OSS | NIB, perizinan berusaha | oss.go.id |
+| Ditjen Perkebunan, Kementan | IUP-B, STD-B | stdb.ditjenbun.pertanian.go.id |
+| Ditjen Hortikultura, Kementan | GAP hortikultura, registrasi kebun | hortikultura.pertanian.go.id |
+| Dinas Pertanian Provinsi | Registrasi kebun / NRK | — |
+| OKKPD Provinsi | Prima 1/2/3, PSAT, rumah kemas | — |
+| Badan Karantina Indonesia (Barantin) | IKT, phytosanitary, rekomendasi GACC | karantinaindonesia.go.id |
+| BPJPH | Sertifikat halal | — |
+| KLH/BPLH | SRN-PPI, SPE-GRK | — |
+| ATR-BPN | HGU, alas hak | — |
+| KAN | Akreditasi LS, LSO, VVB | kan.or.id |

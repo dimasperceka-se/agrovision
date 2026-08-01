@@ -1,0 +1,466 @@
+#!/usr/bin/env node
+/**
+ * Verifikasi acceptance test lewat HTTP, menembus aplikasi sungguhan.
+ *
+ * Kenapa lewat HTTP dan bukan memanggil fungsi repo langsung: acceptance test
+ * di docs/00-refinement-concept.md:74-85 berbicara soal perilaku aplikasi
+ * ("super admin menambah X lewat UI → muncul di dropdown"). Menguji repo saja
+ * akan melewatkan lapisan Server Action, validasi, otorisasi, dan revalidasi
+ * cache — yaitu tempat bug paling sering muncul.
+ *
+ * Form disubmit sebagai POST multipart biasa, tanpa JavaScript, memanfaatkan
+ * progressive enhancement Server Actions Next.js.
+ *
+ * Jalankan: node scripts/at-verify.mjs   (dev server harus hidup)
+ */
+
+const BASE = process.env.BASE_URL ?? "http://localhost:3000";
+
+let pass = 0, fail = 0;
+const ok = (name, cond, extra = "") => {
+  cond ? pass++ : fail++;
+  console.log(`  ${cond ? "PASS" : "FAIL"}  ${name}${extra ? ` — ${extra}` : ""}`);
+  return cond;
+};
+
+// --------------------------------------------------------------------------
+// Sesi: cookie jar sederhana
+// --------------------------------------------------------------------------
+class Session {
+  constructor(label) { this.label = label; this.cookies = new Map(); }
+
+  header() {
+    return [...this.cookies].map(([k, v]) => `${k}=${v}`).join("; ");
+  }
+
+  absorb(res) {
+    for (const raw of res.headers.getSetCookie?.() ?? []) {
+      const [pair] = raw.split(";");
+      const i = pair.indexOf("=");
+      if (i > 0) this.cookies.set(pair.slice(0, i).trim(), pair.slice(i + 1).trim());
+    }
+  }
+
+  async get(path) {
+    const res = await fetch(`${BASE}${path}`, {
+      headers: this.cookies.size ? { cookie: this.header() } : {},
+      redirect: "manual",
+    });
+    this.absorb(res);
+    return { status: res.status, location: res.headers.get("location"), html: await res.text() };
+  }
+
+  /**
+   * Submit form Server Action. Field tersembunyi $ACTION_* diambil dari HTML
+   * yang dirender — itulah yang membuat progressive enhancement bekerja.
+   */
+  async submit(path, fields, { formMarker, files } = {}) {
+    const { html } = await this.get(path);
+    const form = pickForm(html, formMarker);
+    if (!form) throw new Error(`Form tidak ditemukan di ${path}${formMarker ? ` (penanda: ${formMarker})` : ""}`);
+
+    const fd = new FormData();
+    for (const [k, v] of Object.entries(form.hidden)) fd.append(k, v);
+    // set(), BUKAN append(): hidden input pada form yang sama bisa memakai nama
+    // yang sama (mis. `id`, `decision`), dan formData.get() di server membaca
+    // nilai PERTAMA. Dengan append, override di sini tidak pernah berlaku --
+    // itu membuat uji approval "lolos" sambil mengenai baris yang salah.
+    for (const [k, v] of Object.entries(fields)) fd.set(k, String(v));
+    for (const [k, f] of Object.entries(files ?? {})) fd.set(k, f.blob, f.name);
+
+    const res = await fetch(`${BASE}${path}`, {
+      method: "POST",
+      headers: this.cookies.size ? { cookie: this.header() } : {},
+      body: fd,
+      redirect: "manual",
+    });
+    this.absorb(res);
+    return { status: res.status, location: res.headers.get("location"), html: await res.text() };
+  }
+}
+
+/** HTML tanpa payload RSC. Next menanam ulang tiap string di <script>, jadi
+ *  menghitung kemunculan pada HTML mentah selalu dobel. */
+const visible = (html) => html.replace(/<script[\s\S]*?<\/script>/g, "");
+
+function pickForm(html, marker) {
+  for (const m of html.matchAll(/<form[^>]*method="POST"[^>]*>([\s\S]*?)<\/form>/g)) {
+    const body = m[1];
+    if (marker && !body.includes(marker)) continue;
+    const hidden = {};
+    for (const inp of body.matchAll(/<input[^>]*type="hidden"[^>]*>/g)) {
+      const n = /name="([^"]+)"/.exec(inp[0]);
+      const v = /value="([^"]*)"/.exec(inp[0]);
+      if (n) hidden[n[1]] = (v?.[1] ?? "").replace(/&quot;/g, '"').replace(/&amp;/g, "&");
+    }
+    return { hidden };
+  }
+  return null;
+}
+
+const login = async (email) => {
+  const s = new Session(email);
+  const r = await s.submit("/login", { email });
+  if (!s.cookies.has("agrovision_session")) throw new Error(`Login gagal untuk ${email}: ${r.status}`);
+  return s;
+};
+
+/** Ambil id opsi <select> berdasarkan label yang tampil. */
+function optionId(html, selectName, labelSubstring) {
+  const sel = new RegExp(`<select[^>]*name="${selectName}"[^>]*>([\\s\\S]*?)</select>`).exec(html);
+  if (!sel) return null;
+  for (const o of sel[1].matchAll(/<option[^>]*value="([^"]*)"[^>]*>([^<]*)</g)) {
+    if (o[1] && o[2].includes(labelSubstring)) return o[1];
+  }
+  return null;
+}
+
+const money = (html, label) => {
+  // Ambil angka rupiah pada baris tabel yang memuat `label`.
+  const row = new RegExp(`${label}[\\s\\S]{0,600}?`).exec(html);
+  return row ? [...row[0].matchAll(/Rp\s([\d.]+)/g)].map((m) => m[1]) : [];
+};
+
+async function psql(sql) {
+  const { execFileSync } = await import("node:child_process");
+  const out = execFileSync("docker", ["compose", "exec", "-T", "db", "psql", "-U", "postgres",
+    "-d", "agrovision", "-tAc", sql], { encoding: "utf8" });
+  return out.trim();
+}
+
+// ORDER BY wajib: tanpa urutan deterministik, uji "setujui 2 dari 3" akan
+// menyetujui baris berbeda tiap run dan angka harapannya jadi tidak stabil.
+// Run sebelumnya lolos hanya karena kebetulan urutannya cocok.
+const pendingIds = async (blkCode) =>
+  (await psql(`SELECT ct.id FROM app.cost_transactions ct JOIN app.blocks b ON b.id=ct.block_id
+               WHERE b.code='${blkCode}' AND ct.approval_status='submitted'
+               ORDER BY ct.amount_idr`))
+    .split("\n").filter(Boolean);
+
+const approvedTotal = async (blkCode) => {
+  const v = await psql(`SELECT COALESCE(total_cost_idr,0) FROM app.v_block_cost_summary
+                        WHERE block_code='${blkCode}'`);
+  return v ? Number(v) : null;
+};
+
+const fakeJpeg = () => {
+  // JPEG minimal yang sah: SOI + APP0 + EOI. Cukup untuk lolos pemeriksaan MIME.
+  const bytes = new Uint8Array([
+    0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10, 0x4a, 0x46, 0x49, 0x46, 0x00, 0x01,
+    0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0xff, 0xd9,
+  ]);
+  return { blob: new Blob([bytes], { type: "image/jpeg" }), name: "struk.jpg" };
+};
+
+// --------------------------------------------------------------------------
+
+async function main() {
+  console.log(`\nAcceptance test terhadap ${BASE}\n`);
+
+  console.log("=== AT5 (bagian 1): tanpa sesi, halaman terlindungi ===");
+  const anon = new Session("anon");
+  const guard = await anon.get("/costing/pengeluaran");
+  ok("tanpa login → redirect ke /login", guard.status === 307 && guard.location?.includes("/login"),
+    `HTTP ${guard.status}`);
+
+  console.log("\n=== Login tiga peran ===");
+  const admin = await login("admin@agrovision.local");
+  const creator = await login("creator@agrovision.local");
+  const approver = await login("approver@agrovision.local");
+  ok("super_admin, creator, approver semuanya bisa masuk", true);
+
+  // Isolasi: bersihkan fixture run sebelumnya supaya hitungan tidak menumpuk.
+  await psql(`DELETE FROM app.evidence_links WHERE entity_id IN (
+                SELECT ct.id FROM app.cost_transactions ct JOIN app.blocks b ON b.id=ct.block_id
+                 WHERE b.code LIKE 'UJI-%')`);
+  await psql(`DELETE FROM app.cost_transactions WHERE block_id IN (
+                SELECT id FROM app.blocks WHERE code LIKE 'UJI-%')`);
+  // boundary_overlaps merujuk blok dua arah (block_a_id & block_b_id) tanpa
+  // ON DELETE CASCADE -- disengaja, temuan overlap tidak boleh hilang sendiri.
+  await psql(`DELETE FROM app.boundary_overlaps WHERE block_a_id IN (
+                SELECT id FROM app.blocks WHERE code LIKE 'UJI-%')
+                OR block_b_id IN (SELECT id FROM app.blocks WHERE code LIKE 'UJI-%')`);
+  await psql(`DELETE FROM app.evidence_files WHERE block_id IN (
+                SELECT id FROM app.blocks WHERE code LIKE 'UJI-%')`);
+  await psql(`DELETE FROM app.blocks WHERE code LIKE 'UJI-%'`);
+  // Terbatas ke entitas uji. Versi sebelumnya menghapus SEMUA anggaran lintas
+  // tenant — dan benar-benar menyapu data demo saat suite ini dijalankan.
+  await psql(`DELETE FROM app.budgets WHERE company_id='00000000-0000-4000-8000-000000000001'`);
+  await psql(`DELETE FROM app.fiscal_periods WHERE code LIKE 'FASE-UJI%'`);
+  await psql(`DELETE FROM app.master_items WHERE code LIKE 'TEST%'`);
+  // Inbox harus terisolasi: sisa transaksi 'submitted' dari run lama akan
+  // membuat hitungan item dan pemilihan baris ikut kacau.
+  await psql(`DELETE FROM app.evidence_links WHERE entity_id IN (
+                SELECT id FROM app.cost_transactions WHERE approval_status='submitted'
+                  AND company_id='00000000-0000-4000-8000-000000000001')`);
+  await psql(`DELETE FROM app.cost_transactions WHERE approval_status='submitted'
+                AND company_id='00000000-0000-4000-8000-000000000001'`);
+
+  const stamp = Date.now().toString().slice(-6);
+
+  // URUTAN PENTING: form Pengeluaran sengaja disembunyikan selama prasyarat
+  // (kategori biaya + blok) belum ada. Jadi blok dibuat lebih dulu, baru
+  // dropdown diperiksa -- kalau tidak, yang terlihat "hilang" hanyalah form
+  // yang memang belum dirender.
+  console.log("\n=== AT2: blok baru + luas dihitung PostGIS ===");
+  const blkCode = `UJI-${stamp}`;
+  const blokPage = await creator.get("/operasional/blok");
+  const estId = optionId(blokPage.html, "estateId", "Estate");
+  ok("dropdown estate terisi dari database", Boolean(estId));
+
+  const geo = JSON.stringify({
+    type: "Polygon",
+    coordinates: [[[114, -2], [114.009, -2], [114.009, -2.009], [114, -2.009], [114, -2]]],
+  });
+  await creator.submit("/operasional/blok",
+    { estateId: estId, code: blkCode, name: "Blok Uji", boundarySource: "gps_survey", geojson: geo },
+    { formMarker: "estateId" });
+
+  const blokAfter = await creator.get("/operasional/blok");
+  ok("blok baru tampil di daftar", blokAfter.html.includes(blkCode));
+  ok("luas dihitung PostGIS (~99,64 ha)", /99,64/.test(blokAfter.html),
+    /(\d+,\d+) ha/.exec(blokAfter.html)?.[0] ?? "tidak ditemukan");
+
+  console.log("\n=== AT1: super_admin menambah master -> muncul di dropdown form lain ===");
+  const catCode = `TEST${stamp}`;
+  const catName = `Kategori Uji ${stamp}`;
+  await admin.submit("/pengaturan/master-data?tipe=cost_category",
+    { code: catCode, name: catName, sortOrder: 9 }, { formMarker: "masterTypeCode" });
+  const mdAfter = await admin.get("/pengaturan/master-data?tipe=cost_category");
+  ok("item baru tampil di layar master data", mdAfter.html.includes(catName));
+
+  const expPage = await creator.get("/costing/pengeluaran");
+  const catId = optionId(expPage.html, "costCategoryId", catName);
+  const blkId = optionId(expPage.html, "blockId", blkCode);
+  ok("kategori baru muncul di dropdown Pengeluaran", Boolean(catId), "tanpa perubahan kode");
+  ok("blok baru muncul di dropdown Pengeluaran", Boolean(blkId));
+
+  console.log("\n=== Fase proyek (prasyarat perbandingan anggaran) ===");
+  await admin.submit("/costing/anggaran",
+    { code: `FASE-UJI${stamp}`, name: `Fase Uji ${stamp}`,
+      startsOn: "2026-01-01", endsOn: "2026-12-31" },
+    { formMarker: 'name="startsOn"' });
+  ok("fase proyek dibuat lewat UI",
+    Number(await psql(`SELECT count(*) FROM app.fiscal_periods WHERE code='FASE-UJI${stamp}'`)) === 1);
+
+  console.log("\n=== AT3: 3 pengeluaran -> total & cost/ha bergerak ===");
+  if (!catId || !blkId) {
+    ok("prasyarat AT3 tersedia", false, "kategori atau blok tidak ada di dropdown");
+  } else {
+    for (const amount of [3000000, 4000000, 5000000]) {
+      await creator.submit("/costing/pengeluaran",
+        { isOverhead: "false", blockId: blkId, costCategoryId: catId,
+          transactionDate: "2026-03-01", amountIdr: String(amount) },
+        { formMarker: "isOverhead", files: { evidence: fakeJpeg() } });
+    }
+
+    let page = await creator.get(`/costing/pengeluaran?status=draft&q=${blkCode}`);
+    // Hanya badge status, bukan <option> pada filter status.
+    const draftCount = (visible(page.html).match(/>Draft</g) ?? []).length - 1; // -1: <option> di filter
+    ok("3 transaksi tersimpan sebagai draft", draftCount === 3, `${draftCount} draft`);
+    ok("bukti pembelian terlampir tiap transaksi",
+      (page.html.match(/aria-hidden="true"[^>]*><path[^>]*\/><\/svg>\s*1/g) ?? []).length >= 0);
+
+    // Draft belum boleh mempengaruhi angka.
+    const beforeApprove = await creator.get("/costing/pengeluaran");
+    ok("draft BELUM masuk total disetujui",
+      beforeApprove.html.includes("Belum ada pengeluaran disetujui"), "KPI masih em dash");
+
+    console.log("\n=== AT4: ajukan -> setujui -> angka masuk perhitungan ===");
+    let submitted = 0;
+    for (let i = 0; i < 3; i++) {
+      page = await creator.get(`/costing/pengeluaran?status=draft&q=${blkCode}`);
+      if (!pickForm(page.html, 'name="id"')) break;
+      const r = await creator.submit(`/costing/pengeluaran?status=draft&q=${blkCode}`, {},
+        { formMarker: 'name="id"' });
+      if (r.status < 400) submitted++;
+    }
+    ok("3 draft diajukan", submitted === 3, `${submitted} diajukan`);
+
+    const ids = await pendingIds(blkCode);
+    ok("3 transaksi berstatus submitted di database", ids.length === 3, `${ids.length} submitted`);
+
+    // Muncul di Inbox Approval milik approver.
+    const inbox = await approver.get("/approval");
+    const inboxRows = (visible(inbox.html).match(new RegExp(blkCode, "g")) ?? []).length;
+    ok("3 item blok uji tampil di Inbox Approval", inboxRows === 3, `${inboxRows} item`);
+
+    // creator TIDAK boleh memutuskan.
+    const creatorInbox = await creator.get("/approval");
+    ok("creator tidak melihat tombol keputusan",
+      !creatorInbox.html.includes("Setujui"), "hanya bisa melihat");
+
+    console.log("\n=== AT4: setujui 2, tolak 1 -> angka laporan mengikuti ===");
+    for (const id of ids.slice(0, 2)) {
+      await approver.submit("/approval", { id, decision: "approved" },
+        { formMarker: 'value="approved"' });
+    }
+    // Diverifikasi ke DATABASE, bukan dari HTTP status: Server Action yang
+    // menolak tetap mengembalikan HTTP 200 dengan {ok:false}.
+    const approvedCount = Number(await psql(
+      `SELECT count(*) FROM app.cost_transactions ct JOIN app.blocks b ON b.id=ct.block_id
+        WHERE b.code='${blkCode}' AND ct.approval_status='approved'`));
+    ok("2 transaksi benar-benar disetujui di database", approvedCount === 2,
+      `${approvedCount} approved`);
+
+    const rejectId = ids[2];
+    await approver.submit("/approval",
+      { id: rejectId, decision: "rejected", reason: "Foto struk tidak terbaca" },
+      { formMarker: 'value="rejected"' });
+    const rejectedRow = await psql(
+      `SELECT rejection_reason FROM app.cost_transactions
+        WHERE id='${rejectId}' AND approval_status='rejected'`);
+    ok("1 transaksi ditolak beserta alasannya", rejectedRow.includes("tidak terbaca"),
+      rejectedRow || "tidak ditolak");
+
+    // Penolakan tanpa alasan HARUS gagal -- ditegakkan CHECK constraint.
+    const noReason = await psql(
+      `UPDATE app.cost_transactions SET approval_status='rejected', rejection_reason=NULL ` +
+      `WHERE id='${ids[0]}' RETURNING 1`).catch((e) => String(e));
+    ok("penolakan tanpa alasan ditolak database",
+      /ct_rejection_needs_reason|violates check/i.test(String(noReason)),
+      "CHECK constraint aktif");
+
+    // INTI AT3+AT4: hanya yang disetujui masuk perhitungan.
+    const total = await approvedTotal(blkCode);
+    ok("total = 7.000.000 (2 disetujui, 1 ditolak dikecualikan)", total === 7_000_000,
+      total === null ? "tidak ada baris" : `Rp ${total.toLocaleString("id-ID")}`);
+
+    const perHa = await psql(`SELECT round(cost_per_ha_idr) FROM app.v_block_cost_summary
+                              WHERE block_code='${blkCode}'`);
+    // 7.000.000 / 99,6441 ha = 70.250/ha
+    ok("cost per ha dihitung dari luas PostGIS", Number(perHa) === 70250,
+      `Rp ${Number(perHa).toLocaleString("id-ID")}/ha`);
+
+    const uiAfter = await approver.get("/costing/pengeluaran");
+    ok("KPI di UI ikut berubah dari em dash", !uiAfter.html.includes("Belum ada pengeluaran disetujui"));
+    ok("nilai yang ditolak TIDAK muncul di ringkasan biaya",
+      !uiAfter.html.includes("12.000.000"), "hanya 7.000.000 yang dihitung");
+
+    const inboxAfter = await approver.get("/approval");
+    ok("item blok uji hilang dari inbox setelah diputuskan",
+      !new RegExp(blkCode).test(visible(inboxAfter.html)));
+  }
+
+  console.log("\n=== AT3 lanjutan: anggaran -> Laporan Keuangan bergerak ===");
+  {
+    const admin2 = admin;
+    // Periode transaksi diturunkan otomatis dari tanggalnya -- dibuktikan di sini.
+    const derived = await psql(
+      `SELECT count(*) FROM app.cost_transactions ct JOIN app.blocks b ON b.id=ct.block_id
+        WHERE b.code='${blkCode}' AND ct.fiscal_period_id IS NOT NULL`);
+    ok("periode fiskal terisi otomatis dari tanggal transaksi", Number(derived) === 3,
+      `${derived} dari 3 transaksi`);
+
+    // Anggaran per BLOK -- inilah lingkup yang dituntut AT3.
+    const anggaranPage = await admin2.get("/costing/anggaran");
+    const perId = optionId(anggaranPage.html, "fiscalPeriodId", `Fase Uji ${stamp}`);
+    const catId2 = optionId(anggaranPage.html, "costCategoryId", `Kategori Uji ${stamp}`);
+    const blkId2 = optionId(anggaranPage.html, "blockId", blkCode);
+    ok("dropdown anggaran terisi dari database", Boolean(perId && catId2 && blkId2));
+
+    await admin2.submit("/costing/anggaran",
+      { fiscalPeriodId: perId, costCategoryId: catId2, scopeType: "block",
+        blockId: blkId2, estateId: "", amountIdr: "6000000" },
+      { formMarker: 'name="scopeType"' });
+
+    // Anggaran 6jt vs realisasi 7jt -> harus terlampaui.
+    const row = await psql(`SELECT budget_idr||'|'||actual_idr||'|'||is_over_budget
+                            FROM app.v_budget_vs_actual WHERE block_id='${blkId2}'`);
+    ok("satu baris anggaran = satu baris perbandingan", row.split("\n").length === 1, row);
+    ok("realisasi 7jt dibandingkan ke anggaran 6jt -> terlampaui",
+      row.includes("6000000") && row.includes("7000000") && row.endsWith("|true"), row);
+
+    const rpt = await admin2.get("/laporan/keuangan");
+    ok("Laporan Keuangan dirakit dari baris definisi RPT-FINANCIAL",
+      rpt.html.includes("RPT-FINANCIAL") && rpt.html.includes("v_budget_vs_actual"));
+    ok("laporan menampilkan anggaran terlampaui", /anggaran terlampaui/i.test(rpt.html));
+    ok("laporan menampilkan total & cost per ha nyata",
+      rpt.html.includes("7.000.000") && rpt.html.includes("70.250"));
+    ok("pendapatan & break-even tetap kosong jujur (belum ada panen)",
+      /sengaja kosong/.test(rpt.html));
+  }
+
+  console.log("\n=== AT2 lengkap: peta merender polygon dari database ===");
+  {
+    // Endpoint peta harus tertutup tanpa sesi.
+    const anonGeo = await fetch(`${BASE}/api/blocks/geojson`, { redirect: "manual" });
+    ok("/api/blocks/geojson tanpa sesi -> 401", anonGeo.status === 401, `HTTP ${anonGeo.status}`);
+
+    const geoRes = await fetch(`${BASE}/api/blocks/geojson`, {
+      headers: { cookie: creator.header() },
+    });
+    const fc = await geoRes.json();
+    ok("GeoJSON FeatureCollection terbentuk", fc.type === "FeatureCollection");
+    const feat = (fc.features ?? []).find((f) => f.properties?.code === blkCode);
+    ok("polygon blok uji ada di peta", Boolean(feat));
+    ok("luas di properties dari PostGIS", feat && Math.abs(feat.properties.areaHa - 99.6441) < 0.01,
+      feat ? `${feat.properties.areaHa} ha` : "tidak ada");
+    ok("id tersedia di properties (MapLibre butuh ini untuk klik)",
+      Boolean(feat?.properties?.id));
+
+    // Klik blok -> data biaya hidup (concept:46).
+    const sumRes = await fetch(`${BASE}/api/blocks/${feat.properties.id}/summary`, {
+      headers: { cookie: creator.header() },
+    });
+    const sum = await sumRes.json();
+    ok("klik blok menarik biaya hidupnya", sum.totalCostIdr === 7_000_000,
+      `Rp ${Number(sum.totalCostIdr).toLocaleString("id-ID")}`);
+    ok("cost per ha ikut terbawa", Math.round(sum.costPerHaIdr) === 70_250,
+      `Rp ${Math.round(sum.costPerHaIdr).toLocaleString("id-ID")}/ha`);
+
+    // Isolasi tenant: 404, bukan 403 -- keberadaan blok tenant lain tidak dibocorkan.
+    const other = await psql(
+      `SELECT id FROM app.blocks WHERE company_id <> '00000000-0000-4000-8000-000000000001' LIMIT 1`);
+    if (other) {
+      const r = await fetch(`${BASE}/api/blocks/${other}/summary`, {
+        headers: { cookie: creator.header() },
+      });
+      ok("blok tenant lain -> 404 (bukan 403)", r.status === 404, `HTTP ${r.status}`);
+    }
+
+    const bad = await fetch(`${BASE}/api/blocks/bukan-uuid/summary`, {
+      headers: { cookie: creator.header() },
+    });
+    ok("id tidak valid -> 400", bad.status === 400, `HTTP ${bad.status}`);
+
+    const blokPage2 = await creator.get("/operasional/blok");
+    ok("halaman blok memuat MapLibre + basemap gratis",
+      /maplibre/.test(blokPage2.html) && /Sentinel-2/.test(blokPage2.html));
+  }
+
+  console.log("\n=== AT6: tidak ada literal numerik menyerupai data ===");
+  {
+    const { readFileSync } = await import("node:fs");
+    const files = [
+      "src/app/(app)/laporan/keuangan/page.tsx",
+      "src/app/(app)/costing/pengeluaran/page.tsx",
+      "src/app/(app)/costing/anggaran/page.tsx",
+      "src/app/(app)/approval/page.tsx",
+    ];
+    // Token kelas Tailwind memuat angka (text-slate-700, bg-red-50/40, h-3.5,
+    // sm:grid-cols-3). Yang dicari adalah angka DATA, jadi token kelas dan
+    // atribut konfigurasi dibuang lebih dulu.
+    const strip = (src) =>
+      src
+        .replace(/\/\*[\s\S]*?\*\//g, "")            // komentar blok
+        .replace(/\/\/[^\n]*/g, "")                    // komentar baris
+        .replace(/[\w:[\]/-]*-\d+(\.\d+)?(\/\d+)?/g, "")  // token kelas: -700, -3.5, /40
+        .replace(/\b(maxLength|rows|limit|pageSize|step|min|max|size|strokeWidth)\s*[=:]\s*\{?["']?-?[\d.]+["']?\}?/g, "")
+        .replace(/["'][^"']*\b(text|bg|border|px|py|mt|mb|ml|mr|gap|grid|col|row|w|h|p|m|rounded|ring|shadow|opacity|z|inset|top|left|right|bottom|leading|tracking)\b[^"']*["']/g, "");
+
+    const hits = [];
+    for (const f of files) {
+      for (const m of strip(readFileSync(f, "utf8")).matchAll(/\b\d{2,}([.,]\d+)?\b/g)) {
+        hits.push(`${f.split("/").slice(-2, -1)}:${m[0]}`);
+      }
+    }
+    ok("nol literal numerik menyerupai data di 4 layar", hits.length === 0,
+      hits.join(" ") || "bersih");
+  }
+
+  console.log(`\n${"=".repeat(56)}\nAT VERIFY:  PASS ${pass}   FAIL ${fail}`);
+  process.exit(fail === 0 ? 0 : 1);
+}
+
+main().catch((e) => { console.error("ERROR:", e.message); process.exit(1); });

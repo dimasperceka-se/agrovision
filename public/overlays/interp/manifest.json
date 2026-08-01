@@ -1,0 +1,98 @@
+{
+  "tanah_ph_h2o": {
+    "url": "/overlays/interp/tanah_ph_h2o.png",
+    "label": "pH Tanah (H\u2082O)",
+    "unit": "pH",
+    "min": 5.096,
+    "max": 6.601,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "carbon_emisi_tco2e": {
+    "url": "/overlays/interp/carbon_emisi_tco2e.png",
+    "label": "Emisi Karbon",
+    "unit": "tCO\u2082e",
+    "min": 0.006,
+    "max": 0.012,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "carbon_net_tco2e": {
+    "url": "/overlays/interp/carbon_net_tco2e.png",
+    "label": "Net Karbon",
+    "unit": "tCO\u2082e",
+    "min": 0.225,
+    "max": 0.726,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  }
+}

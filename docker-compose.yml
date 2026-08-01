@@ -1,0 +1,21 @@
+# Postgres + PostGIS untuk development lokal.
+# Versi disamakan dengan target Cloud SQL: PostgreSQL 16 + PostGIS 3.4.
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: agrovision-db
+    environment:
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: agrovision
+    ports:
+      - "55433:5432"
+    volumes:
+      - agrovision-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d agrovision"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  agrovision-pgdata:

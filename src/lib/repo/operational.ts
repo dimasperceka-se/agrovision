@@ -1,0 +1,464 @@
+import { rlsQuery, withRls, type RlsContext } from "@/lib/db";
+import type { Page } from "./blocks";
+
+/**
+ * Modul operasional lapangan: pemupukan, persiapan lahan, kesesuaian lahan,
+ * pruning, inspeksi bibit.
+ *
+ * Semua tabelnya berbagi bentuk: milik satu blok (atau batch), punya
+ * approval_status, dan dicatat creator lalu disetujui approver. Jadi
+ * pembacaannya diseragamkan lewat satu helper daripada mengulang lima kali.
+ */
+
+export type OpRecord = {
+  id: string;
+  blockCode: string | null;
+  approvalStatus: string;
+  rejectionReason: string | null;
+  eventDate: string | null;
+  detail: string;
+  createdByName: string | null;
+};
+
+type OpTable = {
+  table: string;
+  dateCol: string;
+  ownerCol: string;
+  /** ekspresi SQL untuk kolom "detail" yang ditampilkan */
+  detailExpr: string;
+  /** join tambahan (mis. ke fertilizer_types) */
+  join?: string;
+};
+
+const TABLES: Record<string, OpTable> = {
+  fertilizer_applications: {
+    table: "fertilizer_applications",
+    dateCol: "applied_on",
+    ownerCol: "created_by",
+    detailExpr: "ft.name || ' — ' || t.total_quantity || ' ' || COALESCE(uom.name,'')",
+    join: `JOIN app.fertilizer_types ft ON ft.id = t.fertilizer_type_id
+           LEFT JOIN app.master_items uom ON uom.id = t.uom_item_id`,
+  },
+  land_preparations: {
+    table: "land_preparations",
+    dateCol: "checked_at",
+    ownerCol: "created_by",
+    detailExpr:
+      "'pH ' || COALESCE(t.soil_ph::text,'—') || ' · ' || COALESCE(t.planting_hole_count::text,'?') || ' lubang · ' || t.status",
+  },
+  land_suitability_assessments: {
+    table: "land_suitability_assessments",
+    dateCol: "assessed_at",
+    ownerCol: "created_by",
+    detailExpr:
+      "'Durian ' || COALESCE(t.score_durian::text,'—') || ' · Kelapa ' || COALESCE(t.score_coconut::text,'—')",
+  },
+  pruning_records: {
+    table: "pruning_records",
+    dateCol: "pruned_on",
+    ownerCol: "created_by",
+    detailExpr: "COALESCE(t.tree_count::text || ' pohon','Pruning')",
+  },
+  weeding_records: {
+    table: "weeding_records",
+    dateCol: "weeded_on",
+    ownerCol: "created_by",
+    detailExpr: "t.method || COALESCE(' · ' || t.area_ha::text || ' ha','')",
+  },
+  spraying_records: {
+    table: "spraying_records",
+    dateCol: "sprayed_on",
+    ownerCol: "created_by",
+    detailExpr: "COALESCE(ch.name,'Semprot') || COALESCE(' · ' || t.target,'')",
+    join: "LEFT JOIN app.agri_input_chemicals ch ON ch.id = t.chemical_id",
+  },
+  harvest_records: {
+    table: "harvest_records",
+    dateCol: "harvested_on",
+    ownerCol: "created_by",
+    detailExpr: "t.crop_code || ' · ' || t.quantity_ton || ' ton' || COALESCE(' · ' || t.grade,'')",
+  },
+};
+
+export async function listOpRecords(
+  ctx: RlsContext,
+  key: keyof typeof TABLES,
+  opts: { page?: number; pageSize?: number } = {},
+): Promise<Page<OpRecord>> {
+  const t = TABLES[key];
+  const page = Math.max(1, opts.page ?? 1);
+  const pageSize = Math.min(100, Math.max(5, opts.pageSize ?? 25));
+  const offset = (page - 1) * pageSize;
+
+  return withRls(ctx, async (client) => {
+    const total = await client.query<{ n: string }>(
+      `SELECT count(*) AS n FROM app.${t.table} t`,
+    );
+    const rows = await client.query(
+      `SELECT t.id, b.code AS block_code, t.approval_status, t.rejection_reason,
+              t.${t.dateCol}::date AS event_date, (${t.detailExpr}) AS detail,
+              u.full_name AS created_by_name
+         FROM app.${t.table} t
+         JOIN app.blocks b ON b.id = t.block_id
+         LEFT JOIN app.users u ON u.id = t.${t.ownerCol}
+         ${t.join ?? ""}
+        ORDER BY t.${t.dateCol} DESC, t.id DESC
+        LIMIT $1 OFFSET $2`,
+      [pageSize, offset],
+    );
+    return {
+      rows: rows.rows.map((r) => ({
+        id: String(r.id),
+        blockCode: (r.block_code as string) ?? null,
+        approvalStatus: String(r.approval_status),
+        rejectionReason: (r.rejection_reason as string) ?? null,
+        eventDate: r.event_date ? new Date(r.event_date as string).toISOString().slice(0, 10) : null,
+        detail: String(r.detail ?? ""),
+        createdByName: (r.created_by_name as string) ?? null,
+      })),
+      total: Number(total.rows[0].n),
+      page,
+      pageSize,
+    };
+  });
+}
+
+/** submit draft/rejected -> submitted, untuk modul mana pun. */
+export async function submitOpRecord(
+  ctx: RlsContext,
+  key: keyof typeof TABLES,
+  id: string,
+): Promise<number> {
+  const t = TABLES[key];
+  return withRls(ctx, async (client) => {
+    const res = await client.query(
+      `UPDATE app.${t.table}
+          SET approval_status = 'submitted', rejection_reason = NULL
+        WHERE id = $1 AND approval_status IN ('draft','rejected')`,
+      [id],
+    );
+    return res.rowCount ?? 0;
+  });
+}
+
+// --- Insert per modul (bentuk kolom berbeda, jadi tidak digeneralisasi) ---
+
+export async function createFertilizerApplication(
+  ctx: RlsContext,
+  input: {
+    blockId: string; fertilizerTypeId: string; cropCode?: string | null; growthPhase: string; appliedOn: string;
+    totalQuantity: number; uomItemId?: string | null; treeCount?: number | null; note?: string | null;
+  },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.fertilizer_applications
+       (block_id, fertilizer_type_id, crop_code, growth_phase, applied_on, total_quantity, uom_item_id,
+        tree_count, note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4::app.growth_phase,$5,$6,$7,$8,$9,'draft',$10) RETURNING id`,
+    [input.blockId, input.fertilizerTypeId, input.cropCode ?? null, input.growthPhase, input.appliedOn,
+     input.totalQuantity, input.uomItemId ?? null, input.treeCount ?? null, input.note ?? null,
+     ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function createLandPreparation(
+  ctx: RlsContext,
+  input: {
+    blockId: string; checkedAt: string; soilPh?: number | null; holeCount?: number | null;
+    effectiveAreaHa?: number | null; status: string; note?: string | null;
+  },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.land_preparations
+       (block_id, checked_at, soil_ph, planting_hole_count, effective_area_ha, status,
+        note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4,$5,$6::app.prep_status,$7,'draft',$8) RETURNING id`,
+    [input.blockId, input.checkedAt, input.soilPh ?? null, input.holeCount ?? null,
+     input.effectiveAreaHa ?? null, input.status, input.note ?? null, ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function createPruningRecord(
+  ctx: RlsContext,
+  input: { blockId: string; prunedOn: string; treeCount?: number | null; note?: string | null },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.pruning_records
+       (block_id, pruned_on, tree_count, note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4,'draft',$5) RETURNING id`,
+    [input.blockId, input.prunedOn, input.treeCount ?? null, input.note ?? null, ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function createWeedingRecord(
+  ctx: RlsContext,
+  input: { blockId: string; weededOn: string; method: string; areaHa?: number | null; laborCount?: number | null; note?: string | null },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.weeding_records
+       (block_id, weeded_on, method, area_ha, labor_count, note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4,$5,$6,'draft',$7) RETURNING id`,
+    [input.blockId, input.weededOn, input.method, input.areaHa ?? null, input.laborCount ?? null, input.note ?? null, ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function createSprayingRecord(
+  ctx: RlsContext,
+  input: { blockId: string; sprayedOn: string; chemicalId?: string | null; target?: string | null; dosePerHa?: number | null; totalVolume?: number | null; unit?: string | null; note?: string | null },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.spraying_records
+       (block_id, sprayed_on, chemical_id, target, dose_per_ha, total_volume, unit, note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'draft',$9) RETURNING id`,
+    [input.blockId, input.sprayedOn, input.chemicalId ?? null, input.target ?? null,
+     input.dosePerHa ?? null, input.totalVolume ?? null, input.unit ?? null, input.note ?? null, ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function createHarvestRecord(
+  ctx: RlsContext,
+  input: { blockId: string; harvestedOn: string; cropCode: string; quantityTon: number; grade?: string | null; note?: string | null },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.harvest_records
+       (block_id, harvested_on, crop_code, quantity_ton, grade, note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4,$5,$6,'draft',$7) RETURNING id`,
+    [input.blockId, input.harvestedOn, input.cropCode, input.quantityTon, input.grade ?? null, input.note ?? null, ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function createLandSuitability(
+  ctx: RlsContext,
+  input: {
+    blockId: string; assessedAt: string; slopePct?: number | null; elevationM?: number | null;
+    rainfallMmYear?: number | null; scoreDurian?: number | null; scoreCoconut?: number | null;
+    note?: string | null;
+  },
+): Promise<string> {
+  const rows = await rlsQuery<{ id: string }>(
+    ctx,
+    `INSERT INTO app.land_suitability_assessments
+       (block_id, assessed_at, slope_pct, elevation_m, rainfall_mm_year, score_durian,
+        score_coconut, note, approval_status, created_by)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'draft',$9) RETURNING id`,
+    [input.blockId, input.assessedAt, input.slopePct ?? null, input.elevationM ?? null,
+     input.rainfallMmYear ?? null, input.scoreDurian ?? null, input.scoreCoconut ?? null,
+     input.note ?? null, ctx.userId],
+  );
+  return rows[0].id;
+}
+
+export async function listFertilizerTypeOptions(
+  ctx: RlsContext,
+): Promise<{ value: string; label: string }[]> {
+  const rows = await rlsQuery<{ id: string; name: string; kind: string }>(
+    ctx,
+    `SELECT id, name, kind FROM app.fertilizer_types WHERE is_active ORDER BY name`,
+  );
+  const kindLabel: Record<string, string> = { single: "tunggal", compound: "majemuk", organic: "organik" };
+  return rows.map((r) => ({ value: r.id, label: `${r.name} (${kindLabel[r.kind] ?? r.kind})` }));
+}
+
+// --- Nursery: batch bibit + stok dari view v_seedling_stock ---
+
+export type SeedStock = {
+  batchCode: string;
+  cropName: string;
+  qtyInitial: number;
+  qtyAlive: number | null;
+  qtyDead: number | null;
+  qtyDamaged: number | null;
+  survivalPct: number | null;
+  lastInspectedAt: string | null;
+};
+
+export async function listSeedStock(ctx: RlsContext): Promise<SeedStock[]> {
+  const rows = await rlsQuery<{
+    batch_code: string; crop_name: string; qty_initial: number;
+    qty_alive: number | null; qty_dead: number | null; qty_damaged: number | null;
+    survival_pct: string | null; last_inspected_at: string | null;
+  }>(
+    ctx,
+    `SELECT s.batch_code, c.name AS crop_name, s.qty_initial,
+            s.qty_alive, s.qty_dead, s.qty_damaged,
+            CASE WHEN s.qty_initial = 0 OR s.qty_alive IS NULL THEN NULL
+                 ELSE round(s.qty_alive * 100.0 / s.qty_initial, 1) END AS survival_pct,
+            s.last_inspected_at
+       FROM app.v_seedling_stock s
+       JOIN app.crops c ON c.id = s.crop_id
+      ORDER BY s.batch_code`,
+  );
+  return rows.map((r) => ({
+    batchCode: r.batch_code,
+    cropName: r.crop_name,
+    qtyInitial: Number(r.qty_initial),
+    qtyAlive: r.qty_alive === null ? null : Number(r.qty_alive),
+    qtyDead: r.qty_dead === null ? null : Number(r.qty_dead),
+    qtyDamaged: r.qty_damaged === null ? null : Number(r.qty_damaged),
+    survivalPct: r.survival_pct === null ? null : Number(r.survival_pct),
+    lastInspectedAt: r.last_inspected_at
+      ? new Date(r.last_inspected_at).toISOString().slice(0, 10)
+      : null,
+  }));
+}
+
+// ---------------------------------------------------------------------------
+// Survei: submission dari form berversi (renderer schema-driven)
+// ---------------------------------------------------------------------------
+
+export type SurveySubmissionRow = {
+  id: string;
+  formName: string;
+  blockCode: string | null;
+  approvalStatus: string;
+  submittedAt: string | null;
+  submittedByName: string | null;
+};
+
+export async function listSurveySubmissions(
+  ctx: RlsContext,
+  opts: { page?: number; pageSize?: number } = {},
+): Promise<Page<SurveySubmissionRow>> {
+  const page = Math.max(1, opts.page ?? 1);
+  const pageSize = Math.min(100, Math.max(5, opts.pageSize ?? 25));
+  const offset = (page - 1) * pageSize;
+  return withRls(ctx, async (client) => {
+    const total = await client.query<{ n: string }>(`SELECT count(*) AS n FROM app.survey_submissions`);
+    const rows = await client.query(
+      `SELECT ss.id, f.name AS form_name, b.code AS block_code, ss.approval_status,
+              ss.submitted_at, u.full_name AS submitted_by_name
+         FROM app.survey_submissions ss
+         JOIN app.form_versions fv ON fv.id = ss.form_version_id
+         JOIN app.forms f ON f.id = fv.form_id
+         LEFT JOIN app.blocks b ON b.id = ss.block_id
+         LEFT JOIN app.users u ON u.id = ss.submitted_by
+        ORDER BY ss.submitted_at DESC NULLS LAST, ss.id
+        LIMIT $1 OFFSET $2`,
+      [pageSize, offset],
+    );
+    return {
+      rows: rows.rows.map((r) => ({
+        id: String(r.id),
+        formName: String(r.form_name),
+        blockCode: (r.block_code as string) ?? null,
+        approvalStatus: String(r.approval_status),
+        submittedAt: r.submitted_at ? new Date(r.submitted_at as string).toISOString().slice(0, 10) : null,
+        submittedByName: (r.submitted_by_name as string) ?? null,
+      })),
+      total: Number(total.rows[0].n),
+      page,
+      pageSize,
+    };
+  });
+}
+
+/** Form published + fields — untuk daftar form builder (read-only fase ini). */
+export async function listPublishedForms(
+  ctx: RlsContext,
+): Promise<{ id: string; name: string; module: string; version: number; fieldCount: number }[]> {
+  const rows = await rlsQuery<{
+    id: string; name: string; module: string; version: number; field_count: string;
+  }>(
+    ctx,
+    `SELECT f.id, f.name, f.module, fv.version,
+            (SELECT count(*) FROM app.form_fields ff WHERE ff.form_version_id = fv.id) AS field_count
+       FROM app.forms f
+       JOIN app.form_versions fv ON fv.form_id = f.id AND fv.status = 'published'
+      ORDER BY f.name`,
+  );
+  return rows.map((r) => ({
+    id: r.id, name: r.name, module: r.module, version: r.version, fieldCount: Number(r.field_count),
+  }));
+}
+
+export type SurveyField = {
+  id: string;
+  section: string | null;
+  code: string;
+  label: string;
+  fieldType: string;
+  required: boolean;
+  choices: string[];
+};
+export type SurveyForm = {
+  formId: string;
+  formVersionId: string;
+  name: string;
+  fields: SurveyField[];
+};
+
+/** Skema form terpublikasi + field terurut, untuk dirender & diisi. */
+export async function getSurveyForm(ctx: RlsContext, formId: string): Promise<SurveyForm | null> {
+  const head = await rlsQuery<{ form_id: string; fv_id: string; name: string }>(
+    ctx,
+    `SELECT f.id AS form_id, fv.id AS fv_id, f.name
+       FROM app.forms f JOIN app.form_versions fv ON fv.form_id = f.id AND fv.status = 'published'
+      WHERE f.id = $1 LIMIT 1`,
+    [formId],
+  );
+  if (!head[0]) return null;
+  const fields = await rlsQuery<{
+    id: string; section_name: string | null; code: string; label: string;
+    field_type: string; is_required: boolean; options: { choices?: string[] } | null;
+  }>(
+    ctx,
+    `SELECT id, section_name, code, label, field_type, is_required, options
+       FROM app.form_fields WHERE form_version_id = $1 ORDER BY sort_order, code`,
+    [head[0].fv_id],
+  );
+  return {
+    formId: head[0].form_id,
+    formVersionId: head[0].fv_id,
+    name: head[0].name,
+    fields: fields.map((f) => ({
+      id: f.id, section: f.section_name, code: f.code, label: f.label,
+      fieldType: f.field_type, required: f.is_required, choices: f.options?.choices ?? [],
+    })),
+  };
+}
+
+/** Simpan submission survei + nilai per field (langsung berstatus submitted). */
+export async function submitSurvey(
+  ctx: RlsContext,
+  input: {
+    formVersionId: string;
+    blockId: string | null;
+    values: { fieldId: string; fieldType: string; value: string }[];
+  },
+): Promise<string> {
+  return withRls(ctx, async (client) => {
+    const sub = await client.query<{ id: string }>(
+      `INSERT INTO app.survey_submissions
+         (client_uuid, form_version_id, block_id, submitted_by, submitted_at, synced_at, approval_status)
+       VALUES (gen_random_uuid(), $1, $2, $3, now(), now(), 'submitted') RETURNING id`,
+      [input.formVersionId, input.blockId, ctx.userId],
+    );
+    const subId = sub.rows[0].id;
+    for (const v of input.values) {
+      if (v.value === "" || v.value == null) continue;
+      const cols = { text: "value_text", num: "value_num", bool: "value_bool", date: "value_date" };
+      let col = cols.text;
+      let val: string | number | boolean = v.value;
+      if (v.fieldType === "number") { col = cols.num; val = Number(v.value); if (Number.isNaN(val)) continue; }
+      else if (v.fieldType === "date") { col = cols.date; }
+      else if (v.fieldType === "yes_no") { col = cols.bool; val = v.value === "true" || v.value === "Ya"; }
+      await client.query(
+        `INSERT INTO app.submission_values (submission_id, field_id, ${col}) VALUES ($1,$2,$3)`,
+        [subId, v.fieldId, val],
+      );
+    }
+    return subId;
+  });
+}

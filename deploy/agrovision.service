@@ -1,0 +1,24 @@
+# Systemd unit untuk AgroVision (Next.js standalone).
+# Pasang: sudo cp deploy/agrovision.service /etc/systemd/system/
+#         sudo systemctl daemon-reload && sudo systemctl enable --now agrovision
+
+[Unit]
+Description=AgroVision (agrof.sustainit.id)
+After=network.target docker.service
+Wants=docker.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/var/www/agrovision
+# .env.local dipakai juga oleh script db:* (node --env-file=.env.local ...)
+EnvironmentFile=/var/www/agrovision/.env.local
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+ExecStart=/usr/bin/node .next/standalone/server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,302 @@
+# Parameter Kesesuaian Lahan Kelapa dan Durian
+
+Acuan baku di Indonesia: *Petunjuk Teknis Evaluasi Lahan untuk Komoditas Pertanian* (BBSDLP), disusun mengacu pada "Kriteria Kesesuaian Lahan untuk Komoditas Pertanian Versi 3.0", dirancang untuk pemetaan tingkat semi detil (skala 1:50.000) dan mencakup 112 komoditas.
+
+> **Catatan penting sebelum dipakai.** Angka pada tabel di bawah dihimpun dari jurnal yang mengutip buku BBSDLP, bukan dari buku aslinya. Antar-jurnal terdapat inkonsistensi, terutama pada parameter iklim durian. Untuk laporan resmi, skripsi, atau dokumen perencanaan, kutip langsung dari Lampiran buku Ritung dkk. (2011) atau pedoman BBSDLP 2019, dan sebutkan secara eksplisit versi kriteria yang dipakai.
+
+---
+
+## 1. Struktur Parameter
+
+Kriteria BBSDLP mengelompokkan parameter ke dalam 10–11 **kualitas lahan**, masing-masing diwakili beberapa **karakteristik lahan** yang terukur.
+
+| Kualitas lahan | Simbol | Karakteristik lahan penyusun |
+|---|---|---|
+| Temperatur | `tc` | Temperatur rerata (°C) |
+| Ketersediaan air | `wa` | Curah hujan, kelembaban, lama masa kering |
+| Ketersediaan oksigen | `oa` | Drainase |
+| Media perakaran | `rc` | Tekstur, bahan kasar, kedalaman tanah |
+| Gambut | — | Ketebalan, kematangan |
+| Retensi hara | `nr` | KTK liat, kejenuhan basa, pH H₂O, C-organik |
+| Hara tersedia | `na` | N-total, P₂O₅, K₂O |
+| Toksisitas | `xc` | Salinitas |
+| Sodisitas | `xn` | Alkalinitas / ESP |
+| Bahaya sulfidik | `xs` | Kedalaman sulfidik (pirit, FeS₂) |
+| Bahaya erosi | `eh` | Lereng, tingkat bahaya erosi |
+| Bahaya banjir | `fh` | Genangan |
+| Penyiapan lahan | `lp` | Batuan di permukaan, singkapan batuan |
+
+### Kelas kesesuaian lahan
+
+| Kelas | Arti | Implikasi |
+|---|---|---|
+| **S1** | Sangat sesuai | Tanpa pembatas berarti, atau pembatas tidak nyata |
+| **S2** | Cukup sesuai | Ada pembatas yang mengurangi produktivitas; perlu tambahan masukan |
+| **S3** | Sesuai marginal | Pembatas berat; perlu masukan tinggi, biasanya butuh modal luar |
+| **N** | Tidak sesuai | Pembatas sangat berat / sulit diatasi |
+
+### Set simbol pembatas
+
+Perhatikan bahwa dua sistem yang beredar memakai simbol berbeda:
+
+- **BBSDLP / Djaenudin–Ritung:** `tc`, `wa`, `oa`, `rc`, `nr`, `na`, `xc`, `xn`, `xs`, `eh`, `fh`, `lp`
+- **CSR/FAO (1983):** `t` (temperatur), `w` (air), `r` (perakaran), `s` (tekstur), `f` (retensi hara), `n` (hara tersedia), `x` (toksisitas), `b`/`e` (terrain/erosi)
+
+Contoh notasi subkelas: **S3wrfn** = sesuai marginal dengan pembatas ketersediaan air, kondisi perakaran, retensi hara, dan hara tersedia.
+
+---
+
+## 2. Kriteria Kesesuaian Lahan Kelapa (*Cocos nucifera*)
+
+| Karakteristik lahan | S1 | S2 | S3 | N |
+|---|---|---|---|---|
+| Temperatur rerata (°C) | 25–28 | 23–25; 28–32 | 20–23; 32–35 | < 20; > 35 |
+| Curah hujan (mm/tahun) | 2000–3000 | 1300–2000; 3000–4000 | 1000–1300; 4000–5000 | < 1000; > 5000 |
+| Drainase | baik, sedang | agak terhambat | terhambat, agak cepat | sangat terhambat, cepat |
+| Tekstur | halus, agak halus, sedang | agak kasar | sangat halus | kasar |
+| Bahan kasar (%) | < 15 | 15–35 | 35–55 | > 55 |
+| Kedalaman tanah (cm) | > 100 | 75–100 | 50–75 | < 50 |
+| KTK liat (cmol/kg) | > 25 | 17–25 | 5–17 | < 5 |
+| pH H₂O | 5,2–7,5 | 4,8–5,2; 7,5–8,0 | > 8,0 | — |
+| C-organik (%) | > 0,8 | ≤ 0,8 | — | — |
+| Lereng (%) | < 8 | 8–16 | 16–30 | > 30 |
+| Batuan permukaan (%) | < 5 | 5–15 | 15–40 | > 40 |
+
+*Sumber: Jawang dkk. (2018), Tabel 8 — modifikasi Djaenudin dkk. (2003).*
+
+> Dua nilai pada tabel asli tampaknya salah cetak (tertulis "7,45–8,0" dan "16.30"); di sini dibaca sebagai 7,5–8,0 dan 16–30. Verifikasi ke sumber primer.
+
+### Pembanding agroklimat (Djaenudin dkk.)
+
+| Aspek | Kisaran |
+|---|---|
+| Suhu rerata tahunan | 20–35 °C |
+| Curah hujan | minimum ±1.000 mm/th; optimum 1.000–5.000 mm/th |
+| Bulan kering | < 3 bulan |
+| Kelembaban | minimal 60% |
+| Kedalaman tanah | minimum 50 cm |
+| Drainase | baik; permeabilitas sedang; konsistensi gembur (lembab) |
+| pH | 4,5–8,5 (optimum 5,5–7,0) |
+
+---
+
+## 3. Kriteria Kesesuaian Lahan Durian (*Durio zibethinus*)
+
+### Versi A — Djaenudin dkk. (2011) / Atlas Format Prosedur
+
+| Karakteristik lahan | S1 | S2 | S3 | N |
+|---|---|---|---|---|
+| Temperatur rerata (°C) | 22–28 | 18–22; 28–34 | 15–18; 34–40 | < 15; > 40 |
+| Curah hujan (mm/tahun) | 1000–2000 | 500–1000; 2000–3000 | 250–500; 3000–4000 | < 250; > 4000 |
+| Drainase | baik, sedang | agak terhambat | terhambat, agak cepat | cepat, sangat cepat |
+| Tekstur lapisan atas | halus, sedang | — | — | kasar |
+| KTK (cmol/kg) | > 16 | ≤ 16 | — | — |
+| pH tanah | 5,0–6,0 | 4,5–5,0; 6,0–7,5 | < 4,5; > 7,5 | — |
+| Kejenuhan basa (%) | > 35 | 20–35 | < 20 | — |
+| Salinitas lapisan bawah (mmhos/cm) | < 4 | 4–6 | 6–8 | > 8 |
+| Lereng (%) | < 8 | 8–15 | 16–30 | > 30 |
+| Batuan permukaan (%) | < 5 | 5–15 | 16–40 | > 40 |
+| Singkapan batuan (%) | < 5 | 5–15 | 16–40 | > 40 |
+
+*Sumber: Taiyeb (2023), Tabel 1, mengacu Atlas Format Prosedur FAO dalam Djaenudin dkk. (2011). Nilai N untuk singkapan batuan pada tabel asli tertulis "> 25" — kemungkinan salah cetak.*
+
+### Versi B — CSR/FAO (1983)
+
+| Karakteristik lahan | S1 | S2 | S3 |
+|---|---|---|---|
+| Temperatur rata-rata tahunan (°C) | 25–28 | > 28–32; 20–< 25 | 32–< 35 |
+| Bulan kering (< 75 mm) | 2–3 | > 3–4 | > 4–5 |
+| Curah hujan (mm/tahun) | 1500–2500 | > 2500–3000 | > 3000–4000; 1250–< 1500 |
+| Drainase tanah | baik | sedang | agak terhambat |
+| Tekstur | SL, L, SCL, SiL, Si, CL, SiCL | LS, SC | SiC, Str C |
+| Kedalaman efektif (cm) | > 100 | 75–100 | 50–< 75 |
+| KTK tanah | ≥ tinggi | sedang | rendah |
+| pH tanah | 5,5–7,0; > 7–7,5 | 5,0–5,5; 7,5–8,5 | 4,5–< 5,5 |
+| Salinitas (mmhos/cm) | < 1 | 1–3 | > 3–4 |
+| N total | ≥ sedang | rendah | sangat rendah |
+| P₂O₅ | ≥ sedang | sedang | — |
+| K₂O | ≥ rendah | sangat rendah | sangat rendah |
+| Lereng (%) | < 8 | 8–15 | > 15–25 |
+| Batu di permukaan (%) | < 5 | 5–10 | > 10–15 |
+| Singkapan batuan (%) | < 5 | 5–10 | > 10–15 |
+| Tingkat bahaya erosi | sangat ringan | ringan | sedang |
+| Tingkat bahaya banjir | F0 | F1 | F2 |
+
+*Sumber: Ramadhan H. dkk. (2023), Tabel 1 — CSR/FAO (1983).*
+
+**Keterangan tekstur:** C = liat; L = lempung; S = pasir; Si = debu; Str C = liat berstruktur. Kombinasi: SL = lempung berpasir, SCL = lempung liat berpasir, SiL = lempung berdebu, CL = lempung berliat, SiCL = lempung liat berdebu, LS = pasir berlempung, SC = liat berpasir, SiC = liat berdebu.
+
+**Perbedaan utama Versi A vs Versi B:** rentang S1 temperatur (22–28 vs 25–28 °C) dan curah hujan (1000–2000 vs 1500–2500 mm/th) berbeda cukup jauh. Konsekuensinya, lahan yang sama bisa dinilai S1 pada satu versi dan S2 pada versi lain. Pilih satu dan konsisten.
+
+---
+
+## 4. Metode Perhitungan
+
+### 4.1 Metode *matching* (hukum minimum) — paling umum di Indonesia
+
+Ada beberapa cara menilai kesesuaian lahan: perkalian parameter, penjumlahan, atau hukum minimum, yaitu mencocokkan kualitas dan karakteristik lahan dengan kriteria kelas kesesuaian lahan yang disusun berdasarkan persyaratan tumbuh tanaman.
+
+**Langkah kerja:**
+
+1. **Delineasi Satuan Peta Lahan (SPL)** — overlay peta lereng, jenis tanah, penggunaan lahan, geologi, dan bentuk lahan.
+2. **Pengumpulan data**
+   - *Primer lapangan:* kedalaman efektif, lereng, batuan permukaan, singkapan batuan, drainase, genangan, bahaya erosi.
+   - *Laboratorium:* tekstur, bahan kasar, KTK, pH H₂O, kejenuhan basa, C-organik, N-total, P₂O₅, K₂O, salinitas.
+   - *Sekunder iklim:* curah hujan dan temperatur rerata, minimal seri 10 tahun (BMKG); temperatur dapat diduga dari elevasi dengan persamaan Braak.
+3. **Matching** — cocokkan tiap karakteristik dengan tabel kriteria, catat kelas per karakteristik.
+4. **Terapkan hukum minimum Liebig** — kelas SPL = kelas terendah di antara seluruh karakteristik.
+5. **Tulis subkelas** = kelas + simbol semua karakteristik yang berada pada kelas terendah tersebut.
+6. **Susun kesesuaian lahan potensial** — naikkan kelas untuk pembatas yang dapat diperbaiki; biarkan yang tidak dapat diperbaiki.
+
+**Pembatas yang dapat vs tidak dapat diperbaiki:**
+
+| Dapat diperbaiki | Cara | Tidak dapat diperbaiki |
+|---|---|---|
+| pH, kejenuhan basa | pengapuran | Temperatur rerata |
+| N, P, K | pemupukan | Curah hujan (hanya dapat dimitigasi lewat irigasi/drainase) |
+| C-organik, KTK | penambahan bahan organik | Tekstur tanah |
+| Drainase | saluran drainase, guludan, parit | Kedalaman tanah (kecuali padas lunak dan tipis) |
+| Bahaya erosi, lereng | terasering, tanam sejajar kontur, tanaman penutup tanah | Lereng > 30% (secara ekonomi tidak layak) |
+| Ketersediaan air | irigasi | Batuan/singkapan batuan (biaya sangat tinggi) |
+
+**Tingkat usaha perbaikan** biasanya dinotasikan: `+` ringan, `++` sedang, `+++` berat.
+
+### 4.2 Contoh perhitungan (durian)
+
+Data satu satuan lahan:
+
+| Karakteristik | Nilai | Kelas |
+|---|---|---|
+| Temperatur rerata | 27 °C | S1 |
+| Jumlah bulan kering | 1 | S2 |
+| Curah hujan | 2.752 mm/th | S2 |
+| Drainase | agak terhambat | S2 |
+| Tekstur | lempung berdebu | S1 |
+| KTK | 23,75 cmol(+)/kg | S1 |
+| Kejenuhan basa | 43,11% | S1 |
+| pH tanah | 6,10 | S2 |
+| N-total | 0,25% | S2 |
+| P tersedia | 24,29 ppm | S2 |
+| K tersedia | 0,26 mg/100 g | S2 |
+| Lereng | 5% | S1 |
+| Batuan permukaan | rendah | S1 |
+
+**Hasil:** kelas terendah = S2 → **kesesuaian lahan aktual = S2 w,d,a,n** (cukup sesuai, dibatasi ketersediaan air, drainase, pH, dan ketersediaan hara).
+
+**Kesesuaian lahan potensial:** perbaikan drainase (saluran/guludan), pengapuran untuk pH, serta pemupukan NPK dan bahan organik → berpotensi naik ke **S1**. Curah hujan tetap menjadi pembatas karena tidak dapat dimanipulasi.
+
+### 4.3 Metode parametrik (Sys dkk.)
+
+Bila diperlukan **nilai indeks numerik** alih-alih kelas, tiap karakteristik diberi *rating* 0–100, lalu digabung:
+
+**Metode Storie (perkalian):**
+
+```
+IS = A × (B/100) × (C/100) × ... × (n/100)
+```
+
+**Metode akar pangkat dua (Khiddir):**
+
+```
+IS = R_min × √( (A/100) × (B/100) × ... × (n/100) )
+```
+
+dengan `R_min` = rating terendah, dan A, B, … C = rating karakteristik lainnya.
+
+**Konversi indeks ke kelas:**
+
+| Indeks (IS) | Kelas |
+|---|---|
+| 75–100 | S1 |
+| 50–< 75 | S2 |
+| 25–< 50 | S3 |
+| 12,5–< 25 | N1 |
+| < 12,5 | N2 |
+
+Kelebihan: tidak membuang informasi dari karakteristik non-pembatas. Kekurangan: memerlukan tabel rating yang konsisten, yang tidak selalu tersedia untuk semua komoditas.
+
+### 4.4 Pendekatan pembobotan dan GIS
+
+Untuk pemetaan skala luas:
+
+- **Skoring berbobot / model builder** — misalnya proporsi iklim 50% dan tanah 50%, dipetakan dengan ArcView 3.2 / ArcGIS / QGIS.
+- **Simple Additive Weighting (SAW) + GIS** — beberapa faktor penentu dengan bobot sama atau ditentukan lewat AHP.
+- **SPKL (Sistem Penilaian Kesesuaian Lahan) versi 2.0** — perangkat lunak resmi Balai Penelitian Tanah untuk evaluasi terkomputerisasi.
+
+### 4.5 Peringatan metodologis
+
+Jangan mencampur metode dalam satu analisis. Pilih satu sistem, sebutkan sumber kriteria, dan konsisten. Dua sistem berbeda pada lahan yang sama dapat memberi kesimpulan bertolak belakang — contohnya Simple Limitation Method LPT Bogor menghasilkan kelas N (tidak sesuai saat ini) sementara Kriteria Sys menghasilkan S3 (sesuai marginal) pada satuan lahan yang identik.
+
+Beberapa keterbatasan lain yang perlu dinyatakan terbuka dalam laporan:
+
+- Hukum minimum bersifat konservatif dan mengabaikan interaksi antar-faktor; satu pembatas tunggal menurunkan seluruh kelas.
+- Kriteria BBSDLP bersifat generik nasional; kalibrasi lokal (misalnya lewat *boundary line method* terhadap data produksi aktual) dapat mengubah batas kelas secara substansial.
+- Kesesuaian lahan fisik tidak sama dengan kelayakan ekonomi. Tambahkan analisis usaha tani (R/C, B/C, NPV, IRR) bila hasilnya dipakai untuk keputusan investasi.
+
+---
+
+## 5. Lembar Kerja Matching (Template)
+
+Salin tabel berikut untuk setiap satuan lahan.
+
+| Kualitas lahan | Karakteristik | Nilai data | Kelas aktual | Usaha perbaikan | Kelas potensial |
+|---|---|---|---|---|---|
+| Temperatur (tc) | Temperatur rerata (°C) | | | | |
+| Ketersediaan air (wa) | Curah hujan (mm/th) | | | | |
+| | Kelembaban (%) | | | | |
+| | Lama bulan kering | | | | |
+| Ketersediaan oksigen (oa) | Drainase | | | | |
+| Media perakaran (rc) | Tekstur | | | | |
+| | Bahan kasar (%) | | | | |
+| | Kedalaman tanah (cm) | | | | |
+| Gambut | Ketebalan (cm) | | | | |
+| | Kematangan | | | | |
+| Retensi hara (nr) | KTK liat (cmol(+)/kg) | | | | |
+| | Kejenuhan basa (%) | | | | |
+| | pH H₂O | | | | |
+| | C-organik (%) | | | | |
+| Hara tersedia (na) | N-total (%) | | | | |
+| | P₂O₅ | | | | |
+| | K₂O | | | | |
+| Toksisitas (xc) | Salinitas (dS/m) | | | | |
+| Sodisitas (xn) | Alkalinitas / ESP (%) | | | | |
+| Bahaya sulfidik (xs) | Kedalaman sulfidik (cm) | | | | |
+| Bahaya erosi (eh) | Lereng (%) | | | | |
+| | Bahaya erosi | | | | |
+| Bahaya banjir (fh) | Genangan | | | | |
+| Penyiapan lahan (lp) | Batuan di permukaan (%) | | | | |
+| | Singkapan batuan (%) | | | | |
+| **Kelas kesesuaian lahan** | | | | | |
+
+---
+
+## 6. Daftar Rujukan
+
+### Acuan primer (wajib dikutip)
+
+- Djaenudin, D., Marwan, H., Subagjo, H., & Hidayat, A. (2011). *Petunjuk Teknis Evaluasi Lahan untuk Komoditas Pertanian* (Edisi Revisi). Bogor: Balai Besar Litbang Sumberdaya Lahan Pertanian, Badan Litbang Pertanian. → Lampiran 2 (tanaman buah-buahan: durian), Lampiran 3 (tanaman industri/perkebunan: kelapa).
+- Ritung, S., Nugroho, K., Mulyani, A., & Suryani, E. (2011). *Petunjuk Teknis Evaluasi Lahan untuk Komoditas Pertanian* (Edisi Revisi 2011). Bogor: Balai Besar Penelitian dan Pengembangan Sumberdaya Lahan Pertanian. ISBN 978-602-8977-31-9.
+- Djaenudin, D., Marwan, Subagjo, & Hidayat, A. (2003). *Petunjuk Teknis Evaluasi Lahan untuk Komoditas Pertanian*. Bogor: Balai Penelitian Tanah, Puslitbangtanak, Badan Litbang Pertanian. 154 hlm.
+- BBSDLP. (2019). *Petunjuk Teknis Pedoman Penilaian Kesesuaian Lahan untuk Komoditas Pertanian Strategis Tingkat Semi Detail Skala 1:50.000*. Bogor: Balai Besar Litbang Sumberdaya Lahan Pertanian. → Mengacu kriteria versi revisi 2013; gunakan versi ini bila tersedia.
+- Pusat Penelitian Tanah dan Agroklimat. (1993). *Petunjuk Teknis Evaluasi Lahan*. Jakarta: Departemen Pertanian.
+
+### Kerangka konseptual
+
+- FAO. (1976). *A Framework for Land Evaluation*. FAO Soils Bulletin 32. Rome: FAO.
+- FAO. (1983). *Guidelines: Land Evaluation for Rainfed Agriculture*. FAO Soils Bulletin 52. Rome: FAO.
+- CSR/FAO Staff. (1983). *Reconnaissance Land Resource Survey, Atlas Format Procedures*. Bogor: Centre for Soil Research.
+- Sys, C., Van Ranst, E., Debaveye, J., & Beernaert, F. (1993). *Land Evaluation, Part III: Crop Requirements*. Agricultural Publication No. 7. Brussels: General Administration for Development Cooperation.
+- Rossiter, D. G. (1994). *Land Evaluation*. Lecture Notes, SCAS Teaching Series T 94-1. Ithaca: Cornell University.
+- Hardjowigeno, S., & Widiatmaka. (2015). *Evaluasi Kesesuaian Lahan dan Perencanaan Tata Guna Lahan* (Cet. ke-3). Yogyakarta: Gadjah Mada University Press.
+- Sitorus, S. R. P. (1985). *Evaluasi Sumber Daya Lahan*. Bandung: Tarsito.
+- Bachri, S., dkk. (2015). *Sistem Penilaian Kesesuaian Lahan (SPKL) versi 2.0*. Bogor: Balai Penelitian Tanah.
+
+### Contoh penerapan (model penulisan metode dan tabel)
+
+- Jawang, U. P., Simanjuntak, B. H., & Prihtanti, T. M. (2018). Evaluasi kesesuaian lahan komoditas unggulan perkebunan Kecamatan Katiku Tana Selatan Kabupaten Sumba Tengah. *Jurnal Pengelolaan Sumberdaya Alam dan Lingkungan*, 8(3), 396–405. — Tabel kriteria kelapa, kopi, kakao, pinang.
+- Taiyeb, A. (2023). Kesesuaian lahan bagi pertumbuhan durian (*Durio zibethinus* Murr.) di Desa Parisan Agung Kecamatan Dampelas Kabupaten Donggala. *Agroland: Jurnal Ilmu-ilmu Pertanian*, 30(2), 136–146. — Tabel kriteria durian + contoh matching lengkap.
+- Ramadhan H., S., Nugroho, Y., & Susilawati. (2023). Evaluasi kesesuaian lahan tanaman durian (*Durio zibethinus*) di DAS Desa Artain Kecamatan Aranio Kabupaten Banjar. *Jurnal Sylva Scienteae*, 6(2), 324–329. — Versi kriteria CSR/FAO + tabel upaya perbaikan.
+- Nurwahyuningsih, Holik, A., Bachtiar, R. R., & Budianto, R. (2022). Evaluasi lahan dan analisis kelayakan usaha gula merah Desa Rejoagung Kecamatan Srono Kabupaten Banyuwangi. *Jurnal Keteknikan Pertanian Tropis dan Biosistem*, 10(1), 10–20. — Matching kelapa dengan kriteria Kementan 2011 + analisis kelayakan usaha.
+- Hartati, T. M., Sunarminto, B. H., & Nurudin, M. (2018). Evaluasi kesesuaian lahan untuk tanaman perkebunan di wilayah Galela, Kabupaten Halmahera Utara, Propinsi Maluku Utara. *Caraka Tani: Journal of Sustainable Agriculture*, 33(1), 68–77. — Perbandingan Simple Limitation Method vs Kriteria Sys untuk kelapa, cengkeh, kakao.
+- Sidabukke, dkk. (2024). Evaluasi kesesuaian lahan untuk tanaman durian di Kecamatan Sigumpar. *Jurnal Agroplasma*, 11(1), 161–167. — Penerapan hukum minimum Liebig berbasis Ritung dkk. (2011).
+- Bana'mah, dkk. (2021). Evaluasi kesesuaian lahan untuk tanaman durian menggunakan metode matching. *Jambura Geoscience Review*, 3(1), 18–31.

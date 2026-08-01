@@ -1,0 +1,214 @@
+// Verifikasi SEBAGAI app_rw -- bukan superuser.
+// Uji sebagai postgres hanya membuktikan sintaks DDL, bukan perilaku keamanan.
+import pg from 'pg'
+
+const SUPER = 'postgres://postgres:dev@localhost:55433/agrovision'
+const APP = 'postgres://app_user:apppass@localhost:55433/agrovision'
+
+const C1 = '11111111-1111-1111-1111-111111111111' // company A
+const C2 = '11111111-1111-1111-1111-111111111112' // company B
+const E1 = '22222222-2222-2222-2222-222222222221'
+const E2 = '22222222-2222-2222-2222-222222222222'
+const U_CREATOR = '33333333-3333-3333-3333-333333333331'
+const U_APPROVER = '33333333-3333-3333-3333-333333333332'
+
+let pass = 0, fail = 0
+const ok = (n, c, extra = '') => { c ? (pass++, console.log(`  PASS  ${n}${extra && ' — ' + extra}`)) : (fail++, console.log(`  FAIL  ${n}${extra && ' — ' + extra}`)) }
+
+async function setup() {
+  const c = new pg.Client({ connectionString: SUPER })
+  await c.connect()
+  // Role app_user dibuat `npm run db:bootstrap`, BUKAN di sini. Versi sebelumnya
+  // melakukan DROP/CREATE ROLE dan menghapus pencabutan hak dari ledger 0019 --
+  // tepat kelas bug yang ledger itu ada untuk mencegah.
+
+  // Idempoten: suite ini berbagi database dengan db/verify-adversarial.mjs,
+  // jadi fixture run sebelumnya dibersihkan lebih dulu, dalam urutan FK.
+  for (const sql of [
+    `DELETE FROM app.cost_transactions WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.budgets WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.land_suitability_assessments WHERE block_id IN (SELECT id FROM app.blocks WHERE company_id IN ($1,$2))`,
+    `DELETE FROM app.evidence_verifications WHERE evidence_id IN (SELECT id FROM app.evidence_files WHERE company_id IN ($1,$2))`,
+    `DELETE FROM app.evidence_files WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.emission_factors WHERE code = 'EF-N2O'`,
+    `DELETE FROM app.master_items WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.fiscal_periods WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.boundary_overlaps WHERE block_a_id IN (SELECT id FROM app.blocks WHERE company_id IN ($1,$2))`,
+    `DELETE FROM app.blocks WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.user_estate_access WHERE user_id IN (SELECT id FROM app.users WHERE company_id IN ($1,$2))`,
+    `DELETE FROM app.user_company_access WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.audit_log WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.users WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.estates WHERE company_id IN ($1,$2)`,
+    `DELETE FROM app.companies WHERE id IN ($1,$2)`,
+  ]) await c.query(sql, sql.includes('$1') ? [C1, C2] : [])
+
+  await c.query(`INSERT INTO app.companies (id,code,name) VALUES ($1,'A','PT A'),($2,'B','PT B')`, [C1, C2])
+  await c.query(`INSERT INTO app.estates (id,company_id,code,name) VALUES ($1,$3,'E1','Estate 1'),($2,$4,'E2','Estate 2')`, [E1, E2, C1, C1])
+  await c.query(`INSERT INTO app.users (id,company_id,external_id,email,full_name,role,app_role)
+                 VALUES ($1,$3,'idp|c','c@x.co','Creator','surveyor','creator'),
+                        ($2,$3,'idp|a','a@x.co','Approver','approver','approver')`, [U_CREATOR, U_APPROVER, C1])
+  // creator hanya boleh Estate 1
+  await c.query(`INSERT INTO app.user_estate_access VALUES ($1,$2)`, [U_CREATOR, E1])
+  // kedua user punya akses company A; approver JUGA company B (uji multi-tenant)
+  await c.query(`INSERT INTO app.user_company_access (user_id,company_id) VALUES ($1,$3),($2,$3),($2,$4)
+                 ON CONFLICT DO NOTHING`, [U_CREATOR, U_APPROVER, C1, C2])
+
+  const g = (lon, lat) => `ST_Multi(ST_GeomFromText('POLYGON((${lon} ${lat},${lon + 0.009} ${lat},${lon + 0.009} ${lat - 0.009},${lon} ${lat - 0.009},${lon} ${lat}))',4326))`
+  await c.query(`INSERT INTO app.blocks (company_id,estate_id,code,geom,boundary_source)
+                 VALUES ($1,$2,'BLK-E1',${g(114, -2)},'gps_survey'),
+                        ($1,$3,'BLK-E2',${g(115, -3)},'gps_survey')`, [C1, E1, E2])
+  // blok tanpa geom -- uji geom nullable
+  await c.query(`INSERT INTO app.blocks (company_id,estate_id,code,boundary_source)
+                 VALUES ($1,$2,'BLK-NOGEO','shapefile_import')`, [C1, E1])
+  await c.query(`INSERT INTO app.evidence_files (company_id,evidence_type,file_name,storage_path,sha256)
+                 VALUES ($1,'photo','r.jpg','gs://x/r.jpg','abc')`, [C1])
+  await c.end()
+}
+
+async function run() {
+  await setup()
+  const c = new pg.Client({ connectionString: APP })
+  await c.connect()
+
+  const asUser = async (uid, role, companyId = null) => {
+    await c.query(`SELECT set_config('app.current_user_id',$1,false)`, [uid])
+    await c.query(`SELECT set_config('app.current_role',$1,false)`, [role])
+    await c.query(`SELECT set_config('app.current_company_id',$1,false)`, [companyId ?? ''])
+  }
+
+  // Konteks WAJIB diset sebelum menyentuh tabel ber-RLS. Tanpa ini
+  // company_in_scope() mengembalikan false dan semua query mengembalikan 0 baris --
+  // yang justru bukti RLS aktif.
+  await asUser(U_APPROVER, 'approver', C1)
+
+  console.log('\n=== RLS aktif tanpa konteks? ===')
+  await c.query(`SELECT set_config('app.current_user_id','',false)`)
+  let r0 = await c.query(`SELECT count(*)::int n FROM app.blocks`)
+  ok('tanpa konteks user, 0 baris terlihat', r0.rows[0].n === 0, `${r0.rows[0].n} baris`)
+  await asUser(U_APPROVER, 'approver', C1)
+
+  console.log('\n=== CACAT 1: emission_factor bisa di-supersede? ===')
+  try {
+    await c.query(`SELECT app.publish_emission_factor('EF-N2O','N2O pupuk',0.01,'kg','IPCC 2019 Vol.4 Ch.11','2024-01-01')`)
+    await c.query(`SELECT app.publish_emission_factor('EF-N2O','N2O pupuk rev',0.012,'kg','IPCC 2019 Vol.4 Ch.11','2026-01-01')`)
+    const r = await c.query(`SELECT version, valid_from, valid_to FROM app.emission_factors WHERE code='EF-N2O' ORDER BY version`)
+    ok('versi 2 terbit lewat SECURITY DEFINER', r.rows.length === 2 && r.rows[0].valid_to !== null && r.rows[1].valid_to === null,
+      `v1 ditutup ${r.rows[0]?.valid_to?.toISOString?.().slice(0, 10)}, v2 aktif`)
+  } catch (e) { ok('versi 2 terbit', false, e.message) }
+
+  try {
+    await c.query(`UPDATE app.emission_factors SET value=9 WHERE code='EF-N2O'`)
+    ok('UPDATE langsung tetap DITOLAK', false, 'seharusnya gagal tapi berhasil')
+  } catch (e) { ok('UPDATE langsung tetap DITOLAK', /permission denied/i.test(e.message), 'append-only utuh') }
+
+  console.log('\n=== CACAT 2: evidence bisa diverifikasi? ===')
+  try {
+    const ev = await c.query(`SELECT id FROM app.evidence_files LIMIT 1`)
+    await c.query(`INSERT INTO app.evidence_verifications (evidence_id,outcome,verified_by) VALUES ($1,'verified',$2)`, [ev.rows[0].id, U_APPROVER])
+    ok('verifikasi tercatat', true)
+  } catch (e) { ok('verifikasi tercatat', false, e.message) }
+  try {
+    await c.query(`INSERT INTO app.evidence_verifications (evidence_id,outcome)
+                   SELECT id,'rejected' FROM app.evidence_files LIMIT 1`)
+    ok('reject tanpa alasan DITOLAK', false, 'seharusnya gagal')
+  } catch (e) { ok('reject tanpa alasan DITOLAK', /ev_rejected_needs_note/.test(e.message)) }
+
+  console.log('\n=== CACAT 3: RLS creator dibatasi per estate? ===')
+  await asUser(U_CREATOR, 'creator', C1)
+  let r = await c.query(`SELECT code FROM app.blocks ORDER BY code`)
+  const seen = r.rows.map(x => x.code)
+  ok('creator HANYA lihat blok Estate 1', seen.length === 2 && !seen.includes('BLK-E2'), `lihat: ${seen.join(',') || '(kosong)'}`)
+
+  await asUser(U_APPROVER, 'approver', C1)
+  r = await c.query(`SELECT code FROM app.blocks ORDER BY code`)
+  ok('approver lihat semua blok company A', r.rows.length === 3, `lihat ${r.rows.length} blok`)
+
+  console.log('\n=== MULTI-TENANCY ===')
+  await asUser(U_APPROVER, 'approver', null)
+  r = await c.query(`SELECT count(*)::int n FROM app.companies WHERE app.company_in_scope(id)`)
+  ok('approver akses 2 entitas (mode semua)', r.rows[0].n === 2, `${r.rows[0].n} entitas`)
+  await asUser(U_CREATOR, 'creator', null)
+  r = await c.query(`SELECT count(*)::int n FROM app.companies WHERE app.company_in_scope(id)`)
+  ok('creator akses 1 entitas', r.rows[0].n === 1, `${r.rows[0].n} entitas`)
+  await asUser(U_CREATOR, 'creator', C2)
+  r = await c.query(`SELECT count(*)::int n FROM app.blocks`)
+  ok('creator TIDAK bisa pinjam company B', r.rows[0].n === 0, `${r.rows[0].n} blok`)
+
+  console.log('\n=== geom NULLABLE + area_ha generated ===')
+  await asUser(U_APPROVER, 'approver', C1)
+  r = await c.query(`SELECT code, area_ha FROM app.blocks ORDER BY code`)
+  const nogeo = r.rows.find(x => x.code === 'BLK-NOGEO')
+  const withgeo = r.rows.find(x => x.code === 'BLK-E1')
+  ok('blok tanpa geom terdaftar, area_ha NULL', nogeo && nogeo.area_ha === null)
+  ok('blok bergeom, area_ha terhitung', withgeo && Math.abs(Number(withgeo.area_ha) - 99.64) < 0.5, `${withgeo?.area_ha} ha`)
+
+  console.log('\n=== ENUM sudah Inggris ===')
+  r = await c.query(`SELECT enumlabel FROM pg_enum e JOIN pg_type t ON t.oid=e.enumtypid
+                     WHERE t.typname IN ('tree_condition','growth_phase','field_type','priority','evidence_type')
+                       AND enumlabel ~ '^(baik|sedang|buruk|mati|bibit|vegetatif|produktif|teks|angka|tanggal|foto|dokumen|rendah|tinggi|tanda_tangan)$'`)
+  ok('tidak ada sisa label Indonesia', r.rows.length === 0, r.rows.map(x => x.enumlabel).join(',') || 'bersih')
+
+  console.log('\n=== AT3: cost per ha & budget vs actual dari view ===')
+  const blk = (await c.query(`SELECT id, area_ha FROM app.blocks WHERE code='BLK-E1'`)).rows[0]
+  await c.query(`INSERT INTO app.master_items (master_type_id,company_id,code,name)
+                 SELECT id,$1,'SEEDLING','Pengadaan Bibit' FROM app.master_types WHERE code='cost_category'`, [C1])
+  const cat = (await c.query(`SELECT id FROM app.master_items WHERE code='SEEDLING'`)).rows[0]
+  await c.query(`INSERT INTO app.fiscal_periods (company_id,code,name,starts_on,ends_on)
+                 VALUES ($1,'PHASE-1','Fase 1','2026-01-01','2026-12-31')`, [C1])
+  const per = (await c.query(`SELECT id FROM app.fiscal_periods WHERE code='PHASE-1'`)).rows[0]
+  const cc = (await c.query(
+    `INSERT INTO app.cost_centers (code,name) VALUES ('PLT-HP','Plantation')
+     ON CONFLICT (code) DO UPDATE SET name=EXCLUDED.name RETURNING id`)).rows[0]
+  await c.query(`INSERT INTO app.budgets (company_id,fiscal_period_id,cost_category_id,scope_type,block_id,amount_idr)
+                 VALUES ($1,$2,$3,'block',$4,10000000)`, [C1, per.id, cat.id, blk.id])
+  for (const amt of [3000000, 4000000, 5000000]) {
+    await c.query(`INSERT INTO app.cost_transactions
+      (company_id,cost_center_id,block_id,cost_category_id,fiscal_period_id,transaction_date,amount_idr,approval_status,created_by)
+      VALUES ($1,$2,$3,$4,$5,'2026-03-01',$6,'approved',$7)`, [C1, cc.id, blk.id, cat.id, per.id, amt, U_APPROVER])
+  }
+  r = await c.query(`SELECT total_cost_idr, cost_per_ha_idr FROM app.v_block_cost_summary WHERE block_id=$1`, [blk.id])
+  const total = Number(r.rows[0].total_cost_idr), cph = Number(r.rows[0].cost_per_ha_idr)
+  ok('total 3 pengeluaran = 12.000.000', total === 12000000, total.toLocaleString('id-ID'))
+  ok('cost per ha dihitung dari area_ha', Math.abs(cph - total / Number(blk.area_ha)) < 1, `Rp ${Math.round(cph).toLocaleString('id-ID')}/ha`)
+  r = await c.query(`SELECT budget_idr,actual_idr,remaining_idr,is_over_budget FROM app.v_budget_vs_actual WHERE block_id=$1`, [blk.id])
+  ok('budget vs actual bergerak', Number(r.rows[0].actual_idr) === 12000000 && r.rows[0].is_over_budget === true,
+    `anggaran 10jt, aktual 12jt, over=${r.rows[0].is_over_budget}`)
+
+  console.log('\n=== AT4: record rejected dikecualikan dari laporan ===')
+  await c.query(`INSERT INTO app.cost_transactions
+    (company_id,cost_center_id,block_id,cost_category_id,fiscal_period_id,transaction_date,amount_idr,approval_status,rejection_reason)
+    VALUES ($1,$2,$3,$4,$5,'2026-03-02',9999999,'rejected','Foto struk tidak terbaca')`, [C1, cc.id, blk.id, cat.id, per.id])
+  r = await c.query(`SELECT total_cost_idr FROM app.v_block_cost_summary WHERE block_id=$1`, [blk.id])
+  ok('rejected TIDAK masuk total', Number(r.rows[0].total_cost_idr) === 12000000, `tetap ${Number(r.rows[0].total_cost_idr).toLocaleString('id-ID')}`)
+  try {
+    await c.query(`INSERT INTO app.cost_transactions
+      (company_id,cost_center_id,block_id,cost_category_id,fiscal_period_id,transaction_date,amount_idr,approval_status)
+      VALUES ($1,$2,$3,$4,$5,'2026-03-03',100,'rejected')`, [C1, cc.id, blk.id, cat.id, per.id])
+    ok('reject tanpa alasan DITOLAK', false, 'seharusnya gagal')
+  } catch (e) { ok('reject tanpa alasan DITOLAK', /ct_rejection_needs_reason/.test(e.message)) }
+
+  console.log('\n=== Constraint overhead vs per-blok ===')
+  try {
+    await c.query(`INSERT INTO app.cost_transactions
+      (company_id,cost_center_id,block_id,cost_category_id,transaction_date,amount_idr,is_overhead)
+      VALUES ($1,$2,$3,$4,'2026-03-04',500,true)`, [C1, cc.id, blk.id, cat.id])
+    ok('overhead + block_id DITOLAK', false, 'seharusnya gagal')
+  } catch (e) { ok('overhead + block_id DITOLAK', /ct_overhead_scope/.test(e.message)) }
+
+  console.log('\n=== Laporan sebagai BARIS definisi ===')
+  r = await c.query(`SELECT code,is_stub FROM app.report_definitions WHERE is_builtin ORDER BY code`)
+  ok('3 laporan built-in sebagai baris', r.rows.length === 3, r.rows.map(x => `${x.code}${x.is_stub ? '(stub)' : ''}`).join(' '))
+
+  console.log('\n=== A3 sekali per blok ===')
+  await c.query(`INSERT INTO app.land_suitability_assessments (block_id,assessed_at) VALUES ($1,now())`, [blk.id])
+  try {
+    await c.query(`INSERT INTO app.land_suitability_assessments (block_id,assessed_at) VALUES ($1,now())`, [blk.id])
+    ok('assessment kedua DITOLAK', false, 'seharusnya gagal')
+  } catch (e) { ok('assessment kedua DITOLAK', /lsa_one_per_block/.test(e.message)) }
+
+  await c.end()
+  console.log(`\n${'='.repeat(52)}\nPASS ${pass}   FAIL ${fail}`)
+  process.exit(fail === 0 ? 0 : 1)
+}
+run().catch(e => { console.error('ERROR:', e.message); process.exit(1) })
