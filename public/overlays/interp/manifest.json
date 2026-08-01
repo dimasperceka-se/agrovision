@@ -94,5 +94,1829 @@
       "#fdae61",
       "#d7191c"
     ]
+  },
+  "carbon_sekuestrasi_tco2e": {
+    "url": "/overlays/interp/carbon_sekuestrasi_tco2e.png",
+    "label": "Sekuestrasi Karbon",
+    "unit": "tCO\u2082e",
+    "min": 0.232,
+    "max": 0.737,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "carbon_biomassa_kg": {
+    "url": "/overlays/interp/carbon_biomassa_kg.png",
+    "label": "Biomassa",
+    "unit": "kg/pohon",
+    "min": 134.755,
+    "max": 427.425,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "carbon_dbh_cm": {
+    "url": "/overlays/interp/carbon_dbh_cm.png",
+    "label": "DBH",
+    "unit": "cm",
+    "min": 21.18,
+    "max": 35.52,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_ph_kcl": {
+    "url": "/overlays/interp/tanah_ph_kcl.png",
+    "label": "pH Tanah (KCl)",
+    "unit": "pH",
+    "min": 4.251,
+    "max": 5.95,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_c_organik": {
+    "url": "/overlays/interp/tanah_c_organik.png",
+    "label": "C-Organik Tanah",
+    "unit": "%",
+    "min": 1.69,
+    "max": 2.875,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_n_total": {
+    "url": "/overlays/interp/tanah_n_total.png",
+    "label": "N Total Tanah",
+    "unit": "%",
+    "min": 0.158,
+    "max": 0.278,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_p_tersedia": {
+    "url": "/overlays/interp/tanah_p_tersedia.png",
+    "label": "P Tersedia",
+    "unit": "ppm",
+    "min": 12.844,
+    "max": 23.539,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_k_dd": {
+    "url": "/overlays/interp/tanah_k_dd.png",
+    "label": "K dapat ditukar",
+    "unit": "cmol(+)/kg",
+    "min": 0.373,
+    "max": 0.699,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_ca_dd": {
+    "url": "/overlays/interp/tanah_ca_dd.png",
+    "label": "Ca dapat ditukar",
+    "unit": "cmol(+)/kg",
+    "min": 6.424,
+    "max": 11.765,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_mg_dd": {
+    "url": "/overlays/interp/tanah_mg_dd.png",
+    "label": "Mg dapat ditukar",
+    "unit": "cmol(+)/kg",
+    "min": 1.454,
+    "max": 2.723,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_na_dd": {
+    "url": "/overlays/interp/tanah_na_dd.png",
+    "label": "Na dapat ditukar",
+    "unit": "cmol(+)/kg",
+    "min": 0.183,
+    "max": 0.526,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_al_dd": {
+    "url": "/overlays/interp/tanah_al_dd.png",
+    "label": "Al dapat ditukar",
+    "unit": "cmol(+)/kg",
+    "min": 0.569,
+    "max": 2.576,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_ktk": {
+    "url": "/overlays/interp/tanah_ktk.png",
+    "label": "KTK Tanah",
+    "unit": "cmol(+)/kg",
+    "min": 18.219,
+    "max": 30.576,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_kb": {
+    "url": "/overlays/interp/tanah_kb.png",
+    "label": "Kejenuhan Basa",
+    "unit": "%",
+    "min": 42.442,
+    "max": 67.034,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_dhl_ec": {
+    "url": "/overlays/interp/tanah_dhl_ec.png",
+    "label": "DHL / EC",
+    "unit": "dS/m",
+    "min": 0.525,
+    "max": 1.625,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_kedalaman": {
+    "url": "/overlays/interp/tanah_kedalaman.png",
+    "label": "Kedalaman Tanah",
+    "unit": "cm",
+    "min": 72.928,
+    "max": 119.937,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_cl": {
+    "url": "/overlays/interp/tanah_cl.png",
+    "label": "Cl Tanah",
+    "unit": "ppm",
+    "min": 104.337,
+    "max": 201.658,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tanah_bobot_isi": {
+    "url": "/overlays/interp/tanah_bobot_isi.png",
+    "label": "Bobot Isi Tanah",
+    "unit": "g/cm\u00b3",
+    "min": 1.133,
+    "max": 1.29,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_temperatur": {
+    "url": "/overlays/interp/ls_temperatur.png",
+    "label": "Kesesuaian: Temperatur",
+    "unit": "\u00b0C",
+    "min": 26.182,
+    "max": 27.277,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_curah_hujan": {
+    "url": "/overlays/interp/ls_curah_hujan.png",
+    "label": "Kesesuaian: Curah Hujan",
+    "unit": "mm/th",
+    "min": 2513.136,
+    "max": 2733.67,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_bahan_kasar": {
+    "url": "/overlays/interp/ls_bahan_kasar.png",
+    "label": "Kesesuaian: Bahan Kasar",
+    "unit": "%",
+    "min": 7.207,
+    "max": 18.133,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_kedalaman_tanah": {
+    "url": "/overlays/interp/ls_kedalaman_tanah.png",
+    "label": "Kesesuaian: Kedalaman Tanah",
+    "unit": "cm",
+    "min": 72.735,
+    "max": 119.942,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_ktk": {
+    "url": "/overlays/interp/ls_ktk.png",
+    "label": "Kesesuaian: KTK",
+    "unit": "cmol(+)/kg",
+    "min": 18.125,
+    "max": 30.523,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_ph": {
+    "url": "/overlays/interp/ls_ph.png",
+    "label": "Kesesuaian: pH",
+    "unit": "pH",
+    "min": 5.098,
+    "max": 6.608,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_c_organik": {
+    "url": "/overlays/interp/ls_c_organik.png",
+    "label": "Kesesuaian: C-Organik",
+    "unit": "%",
+    "min": 1.685,
+    "max": 2.877,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_kejenuhan_basa": {
+    "url": "/overlays/interp/ls_kejenuhan_basa.png",
+    "label": "Kesesuaian: Kejenuhan Basa",
+    "unit": "%",
+    "min": 42.465,
+    "max": 67.018,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_salinitas": {
+    "url": "/overlays/interp/ls_salinitas.png",
+    "label": "Kesesuaian: Salinitas",
+    "unit": "dS/m",
+    "min": 0.653,
+    "max": 2.07,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_lereng": {
+    "url": "/overlays/interp/ls_lereng.png",
+    "label": "Kesesuaian: Lereng",
+    "unit": "%",
+    "min": 7.066,
+    "max": 19.802,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_batuan_permukaan": {
+    "url": "/overlays/interp/ls_batuan_permukaan.png",
+    "label": "Kesesuaian: Batuan Permukaan",
+    "unit": "%",
+    "min": 4.335,
+    "max": 13.401,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "ls_singkapan_batuan": {
+    "url": "/overlays/interp/ls_singkapan_batuan.png",
+    "label": "Kesesuaian: Singkapan Batuan",
+    "unit": "%",
+    "min": 2.6,
+    "max": 8.029,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_n": {
+    "url": "/overlays/interp/daun_n.png",
+    "label": "Daun: N",
+    "unit": "%",
+    "min": 1.904,
+    "max": 2.399,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_p": {
+    "url": "/overlays/interp/daun_p.png",
+    "label": "Daun: P",
+    "unit": "%",
+    "min": 0.135,
+    "max": 0.182,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_k": {
+    "url": "/overlays/interp/daun_k.png",
+    "label": "Daun: K",
+    "unit": "%",
+    "min": 1.154,
+    "max": 1.622,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_ca": {
+    "url": "/overlays/interp/daun_ca.png",
+    "label": "Daun: Ca",
+    "unit": "%",
+    "min": 0.672,
+    "max": 1.001,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_mg": {
+    "url": "/overlays/interp/daun_mg.png",
+    "label": "Daun: Mg",
+    "unit": "%",
+    "min": 0.272,
+    "max": 0.383,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_s": {
+    "url": "/overlays/interp/daun_s.png",
+    "label": "Daun: S",
+    "unit": "%",
+    "min": 0.19,
+    "max": 0.252,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_cl": {
+    "url": "/overlays/interp/daun_cl.png",
+    "label": "Daun: Cl",
+    "unit": "%",
+    "min": 0.159,
+    "max": 0.294,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_b": {
+    "url": "/overlays/interp/daun_b.png",
+    "label": "Daun: B",
+    "unit": "ppm",
+    "min": 18.126,
+    "max": 25.506,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_cu": {
+    "url": "/overlays/interp/daun_cu.png",
+    "label": "Daun: Cu",
+    "unit": "ppm",
+    "min": 6.688,
+    "max": 11.188,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_zn": {
+    "url": "/overlays/interp/daun_zn.png",
+    "label": "Daun: Zn",
+    "unit": "ppm",
+    "min": 21.465,
+    "max": 37.109,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_mn": {
+    "url": "/overlays/interp/daun_mn.png",
+    "label": "Daun: Mn",
+    "unit": "ppm",
+    "min": 61.203,
+    "max": 142.436,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "daun_fe": {
+    "url": "/overlays/interp/daun_fe.png",
+    "label": "Daun: Fe",
+    "unit": "ppm",
+    "min": 95.17,
+    "max": 153.87,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tan_umur": {
+    "url": "/overlays/interp/tan_umur.png",
+    "label": "Umur Tanaman",
+    "unit": "tahun",
+    "min": 6.509,
+    "max": 10.12,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tan_populasi_ha": {
+    "url": "/overlays/interp/tan_populasi_ha.png",
+    "label": "Populasi",
+    "unit": "pohon/ha",
+    "min": 124.962,
+    "max": 130.868,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tan_populasi_hidup_pct": {
+    "url": "/overlays/interp/tan_populasi_hidup_pct.png",
+    "label": "Populasi Hidup",
+    "unit": "%",
+    "min": 87.726,
+    "max": 97.283,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tan_hasil_aktual": {
+    "url": "/overlays/interp/tan_hasil_aktual.png",
+    "label": "Hasil Aktual",
+    "unit": "ton/ha",
+    "min": 3.107,
+    "max": 5.925,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tan_pelepah": {
+    "url": "/overlays/interp/tan_pelepah.png",
+    "label": "Jumlah Pelepah",
+    "unit": "pelepah",
+    "min": 28.13,
+    "max": 38.151,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "tan_lingkar": {
+    "url": "/overlays/interp/tan_lingkar.png",
+    "label": "Lingkar Batang",
+    "unit": "cm",
+    "min": 59.46,
+    "max": 90.698,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "pruning_pohon": {
+    "url": "/overlays/interp/pruning_pohon.png",
+    "label": "Pruning: Pohon",
+    "unit": "pohon",
+    "min": 1.386,
+    "max": 3.057,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "pruning_intensitas_pct": {
+    "url": "/overlays/interp/pruning_intensitas_pct.png",
+    "label": "Pruning: Intensitas",
+    "unit": "%",
+    "min": 19.947,
+    "max": 31.104,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "spray_dosis_ha": {
+    "url": "/overlays/interp/spray_dosis_ha.png",
+    "label": "Semprot: Dosis",
+    "unit": "l/ha",
+    "min": 2.077,
+    "max": 3.498,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "spray_volume_l": {
+    "url": "/overlays/interp/spray_volume_l.png",
+    "label": "Semprot: Volume",
+    "unit": "liter",
+    "min": 18.775,
+    "max": 36.328,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "harvest_ton": {
+    "url": "/overlays/interp/harvest_ton.png",
+    "label": "Panen",
+    "unit": "ton",
+    "min": 0.106,
+    "max": 0.202,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "seed_awal": {
+    "url": "/overlays/interp/seed_awal.png",
+    "label": "Bibit: Awal",
+    "unit": "batang",
+    "min": 11.727,
+    "max": 12.847,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "seed_hidup": {
+    "url": "/overlays/interp/seed_hidup.png",
+    "label": "Bibit: Hidup",
+    "unit": "batang",
+    "min": 9.818,
+    "max": 12.501,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "seed_mati": {
+    "url": "/overlays/interp/seed_mati.png",
+    "label": "Bibit: Mati",
+    "unit": "batang",
+    "min": 0.163,
+    "max": 1.286,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
+  },
+  "seed_rusak": {
+    "url": "/overlays/interp/seed_rusak.png",
+    "label": "Bibit: Rusak",
+    "unit": "batang",
+    "min": 0.0,
+    "max": 1.0,
+    "coordinates": [
+      [
+        102.4091535,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.0476532
+      ],
+      [
+        102.4101717,
+        -4.049158
+      ],
+      [
+        102.4091535,
+        -4.049158
+      ]
+    ],
+    "ramp": [
+      "#2b83ba",
+      "#abdda4",
+      "#ffffbf",
+      "#fdae61",
+      "#d7191c"
+    ]
   }
 }

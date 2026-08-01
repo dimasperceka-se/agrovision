@@ -464,22 +464,10 @@ export function BlockMap({ blockCount }: { blockCount: number }) {
             {interp && Object.keys(interp).length > 0 && (
               <div className="space-y-1">
                 <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">Interpolasi (pilot)</p>
-                {Object.entries(interp).map(([k, meta]) => (
-                  <button
-                    key={k}
-                    type="button"
-                    onClick={() => setActiveInterp((cur) => (cur === k ? null : k))}
-                    className={cn(
-                      "flex w-full items-center justify-between rounded px-2 py-1 text-left",
-                      activeInterp === k ? "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200" : "text-slate-600 hover:bg-slate-50",
-                    )}
-                  >
-                    <span>{meta.label}</span>
-                    <span className="text-[10px] text-slate-400">{meta.unit}</span>
-                  </button>
-                ))}
+                {/* Legend di ATAS daftar — dengan 60 layer, daftar discroll dan
+                    legend di bawah tidak akan pernah terlihat. */}
                 {activeMeta && (
-                  <div className="pt-0.5">
+                  <div className="pb-1">
                     <div className="h-2 w-full rounded" style={{ background: `linear-gradient(to right, ${activeMeta.ramp.join(",")})` }} />
                     <div className="flex justify-between pt-0.5 text-[10px] tabular-nums text-slate-400">
                       <span>{activeMeta.min}</span>
@@ -488,6 +476,22 @@ export function BlockMap({ blockCount }: { blockCount: number }) {
                     </div>
                   </div>
                 )}
+                <div className="max-h-48 space-y-1 overflow-y-auto pr-0.5">
+                  {Object.entries(interp).map(([k, meta]) => (
+                    <button
+                      key={k}
+                      type="button"
+                      onClick={() => setActiveInterp((cur) => (cur === k ? null : k))}
+                      className={cn(
+                        "flex w-full items-center justify-between rounded px-2 py-1 text-left",
+                        activeInterp === k ? "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200" : "text-slate-600 hover:bg-slate-50",
+                      )}
+                    >
+                      <span>{meta.label}</span>
+                      <span className="text-[10px] text-slate-400">{meta.unit}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
