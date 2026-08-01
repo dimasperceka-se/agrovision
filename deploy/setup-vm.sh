@@ -50,8 +50,10 @@ done
 
 echo "==> Install dependencies + migrasi + build"
 npm ci
-npm run db:bootstrap || true   # buat role app_rw kalau belum ada
+# Urutan penting: migrasi dulu (membuat role app_rw + tabel yang dibaca
+# bootstrap), baru bootstrap membuat login app_user.
 npm run db:migrate
+npm run db:bootstrap
 npm run build
 cp -r public .next/standalone/
 cp -r .next/static .next/standalone/.next/

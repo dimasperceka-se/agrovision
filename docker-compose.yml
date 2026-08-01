@@ -8,7 +8,9 @@ services:
       POSTGRES_PASSWORD: dev
       POSTGRES_DB: agrovision
     ports:
-      - "55433:5432"
+      # Bind ke loopback saja -- di VM publik, "55433:5432" berarti DB
+      # terekspos ke internet dengan password superuser dari file ini.
+      - "127.0.0.1:55433:5432"
     volumes:
       - agrovision-pgdata:/var/lib/postgresql/data
     healthcheck:
