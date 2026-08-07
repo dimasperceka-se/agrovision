@@ -139,6 +139,7 @@ async function purge() {
     `DELETE FROM app.blocks WHERE company_id = $1`,
     `DELETE FROM app.price_list WHERE company_id = $1`,
     `DELETE FROM app.user_company_access WHERE company_id = $1`,
+    `DELETE FROM app.user_estate_access WHERE estate_id IN (SELECT id FROM app.estates WHERE company_id = $1)`,
     `DELETE FROM app.estates WHERE company_id = $1`,
     `DELETE FROM app.audit_log WHERE company_id = $1`,
     `DELETE FROM app.companies WHERE id = $1`,
@@ -182,6 +183,14 @@ async function main() {
      VALUES ($1,$2,'EST-PILOT','Estate Pilot Bengkulu',
              ST_Multi(ST_MakeValid(ST_SetSRID(ST_GeomFromGeoJSON($3),4326))))
      ON CONFLICT (id) DO NOTHING`, [ESTATE, CO, blockGeomJson])
+
+  // RLS membatasi role creator hanya pada estate di user_estate_access —
+  // tanpa baris ini creator tidak melihat blok pilot sama sekali.
+  for (const u of users.filter((x) => x.app_role === 'creator')) {
+    await c.query(
+      `INSERT INTO app.user_estate_access (user_id, estate_id) VALUES ($1,$2) ON CONFLICT DO NOTHING`,
+      [u.id, ESTATE])
+  }
 
   const plantingYear = 2026 - Math.round(median(P.map((p) => p.tan_umur)))
   await c.query(
