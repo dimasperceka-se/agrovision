@@ -8,7 +8,7 @@
 export type Cell = string | number | null;
 export type Section = {
   title: string;
-  columns: { label: string; align?: "left" | "right" }[];
+  columns: { label: string; align?: "left" | "right"; blue?: boolean }[];
   rows: Cell[][];
   note?: string;
 };
@@ -32,7 +32,7 @@ export function buildExcelHtml(meta: { title: string; company: string; generated
   })();
 
   const body = sections.map((s) => {
-    const head = s.columns.map((c) => `<th style="background:#047857;color:#fff;text-align:${c.align ?? "left"}">${esc(c.label)}</th>`).join("");
+    const head = s.columns.map((c) => `<th style="background:${c.blue ? "#2563eb" : "#047857"};color:#fff;text-align:${c.align ?? "left"}">${esc(c.label)}</th>`).join("");
     const rows = s.rows.map((r) => `<tr>${r.map((cell, i) => cellHtml(cell, s.columns[i]?.align)).join("")}</tr>`).join("");
     const note = s.note ? `<tr><td colspan="${s.columns.length}" style="color:#64748b;font-size:9pt">${esc(s.note)}</td></tr>` : "";
     return `<h2 style="color:#065f46">${esc(s.title)}</h2>

@@ -81,9 +81,10 @@ const GROUPS: Group[] = [
   {
     key: "nav.group.report",
     items: [
-      { href: "/laporan/keuangan", key: "nav.report.financial", icon: FileBarChart2, ready: true },
       { href: "/laporan/operasional", key: "nav.report.operational", icon: FileBarChart2, ready: true },
+      { href: "/laporan/keuangan", key: "nav.report.financial", icon: FileBarChart2, ready: true },
       { href: "/laporan/keberlanjutan", key: "nav.report.sustainability", icon: FileBarChart2, ready: true },
+      { href: "/laporan", key: "nav.report.all", icon: FileBarChart2, ready: true },
     ],
   },
   {

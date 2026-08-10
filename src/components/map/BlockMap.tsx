@@ -124,7 +124,7 @@ function boundsOf(features: GeoJSON.Feature[]): LngLatBounds {
   return b;
 }
 
-export function BlockMap({ blockCount }: { blockCount: number }) {
+export function BlockMap({ blockCount, heightClass = "h-[520px]" }: { blockCount: number; heightClass?: string }) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const blocksData = useRef<FC | null>(null);
@@ -413,7 +413,7 @@ export function BlockMap({ blockCount }: { blockCount: number }) {
 
   return (
     <div className="relative overflow-hidden rounded-xl border border-slate-200">
-      <div ref={container} className="h-[520px] w-full bg-slate-900" />
+      <div ref={container} className={cn(heightClass, "w-full bg-slate-900")} />
 
       {/* ── Panel kontrol layer (pojok kiri-bawah) ── */}
       <div className="absolute bottom-3 left-3 w-56 overflow-hidden rounded-lg border border-slate-200 bg-white/95 text-xs shadow-lg backdrop-blur">
