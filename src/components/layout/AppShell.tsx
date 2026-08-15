@@ -64,7 +64,7 @@ export function AppShell({
     <div className="flex h-[100dvh] bg-slate-50">
       {open && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          className="agv-fade fixed inset-0 z-40 bg-black/40 md:hidden"
           aria-hidden="true"
           onClick={() => setOpen(false)}
         />

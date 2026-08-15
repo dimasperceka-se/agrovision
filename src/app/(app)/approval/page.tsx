@@ -76,7 +76,7 @@ export default async function ApprovalPage({
         )}
       </div>
 
-      <p className="mt-3 text-xs leading-relaxed text-slate-400">
+      <p className="mt-3 text-xs leading-relaxed text-slate-500">
         <strong>Klik satu baris</strong> untuk melihat nilai tiap parameter. Kolom <strong>Nilai</strong>{" "}
         adalah rupiah ter-refleksi (volume × tarif price list; panen = pendapatan, ditandai hijau) —
         modul murni observasi tetap &quot;—&quot; karena tidak menjadi biaya. Penolakan wajib

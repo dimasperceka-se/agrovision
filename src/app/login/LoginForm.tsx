@@ -16,7 +16,7 @@ export function LoginForm() {
           Email
         </label>
         <div className="flex min-h-11 items-center gap-2 rounded-md border border-slate-200 px-3 py-2.5 focus-within:ring-2 focus-within:ring-emerald-500/30">
-          <Mail className="h-4 w-4 text-slate-400" />
+          <Mail className="h-4 w-4 text-slate-500" />
           <input
             id="email"
             name="email"

@@ -70,7 +70,7 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
                   )}
                   title="Klik untuk melihat parameter yang terisi"
                 >
-                  <td data-action className="px-2 py-2.5 text-slate-400">
+                  <td data-action className="px-2 py-2.5 text-slate-500">
                     {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                   </td>
                   <td data-label="Blok" className="px-4 py-2.5 font-mono text-xs text-slate-600">
@@ -120,7 +120,7 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
                                 >
                                   <td data-label="Karakteristik" className="px-3 py-1.5 text-slate-700">
                                     {p.charLabel}
-                                    <span className="ml-1.5 font-mono text-xs text-slate-400">{p.symbol}</span>
+                                    <span className="ml-1.5 font-mono text-xs text-slate-500">{p.symbol}</span>
                                   </td>
                                   <td data-label="Nilai" className="px-3 py-1.5 text-slate-600">
                                     {p.value}{p.unit ? ` ${p.unit}` : ""}
@@ -132,7 +132,7 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
                               ))}
                             </tbody>
                           </table>
-                          <p className="border-t border-slate-100 px-3 py-2 text-xs text-slate-400">
+                          <p className="border-t border-slate-100 px-3 py-2 text-xs text-slate-500">
                             Baris bersorot kuning adalah faktor pembatas (kelas terendah, hukum minimum Liebig).
                           </p>
                         </div>

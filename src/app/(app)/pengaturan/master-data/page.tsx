@@ -62,7 +62,7 @@ export default async function MasterDataPage({
                 {types.map((t) => (
                   <tr key={t.id} className="border-b border-slate-50 last:border-0">
                     <td data-label="Tipe" className="px-4 py-2.5 text-slate-700">{t.name}</td>
-                    <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-400">{t.code}</td>
+                    <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-500">{t.code}</td>
                     <td data-label="Item aktif" className="px-4 py-2.5 text-right tabular-nums text-slate-700">
                       {t.itemCount}
                     </td>

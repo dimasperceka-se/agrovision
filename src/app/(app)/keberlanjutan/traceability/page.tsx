@@ -36,7 +36,7 @@ export default async function TraceabilityPage() {
         <h2 className="flex items-center gap-2 border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
           Aktor rantai pasok
           <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium uppercase text-amber-700">demo</span>
-          <span className="ml-auto text-xs font-normal text-slate-400">{ACTORS.length} aktor · sama dengan peta</span>
+          <span className="ml-auto text-xs font-normal text-slate-500">{ACTORS.length} aktor · sama dengan peta</span>
         </h2>
         <ResponsiveTable>
           <table className="w-full text-sm">
@@ -76,7 +76,7 @@ export default async function TraceabilityPage() {
         <h2 className="flex items-center gap-2 border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
           Transaksi
           <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-medium uppercase text-amber-700">demo</span>
-          <span className="ml-auto text-xs font-normal text-slate-400">{FLOWS.length} arus · sama dengan peta</span>
+          <span className="ml-auto text-xs font-normal text-slate-500">{FLOWS.length} arus · sama dengan peta</span>
         </h2>
         <ResponsiveTable>
           <table className="w-full text-sm">
@@ -99,8 +99,8 @@ export default async function TraceabilityPage() {
                     <td data-label="ID" className="px-4 py-2.5 font-mono text-xs text-slate-500">{f.id}</td>
                     <td data-label="Tanggal" className="px-4 py-2.5 text-slate-600">{formatDate(f.date)}</td>
                     <td data-label="Komoditas" className="px-4 py-2.5 text-slate-600">{f.commodity}</td>
-                    <td data-label="Dari" className="px-4 py-2.5 text-slate-700">{from?.name}<span className="ml-1 font-mono text-[11px] text-slate-400">{from?.displayId}</span></td>
-                    <td data-label="Ke" className="px-4 py-2.5 text-slate-700">{to?.name}<span className="ml-1 font-mono text-[11px] text-slate-400">{to?.displayId}</span></td>
+                    <td data-label="Dari" className="px-4 py-2.5 text-slate-700">{from?.name}<span className="ml-1 font-mono text-[11px] text-slate-500">{from?.displayId}</span></td>
+                    <td data-label="Ke" className="px-4 py-2.5 text-slate-700">{to?.name}<span className="ml-1 font-mono text-[11px] text-slate-500">{to?.displayId}</span></td>
                     <td data-label="Volume (kg)" className="px-4 py-2.5 text-right tabular-nums text-slate-700">{formatNumber(f.grossKg)}</td>
                   </tr>
                 );

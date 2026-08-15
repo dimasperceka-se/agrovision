@@ -38,7 +38,7 @@ const TONE: Record<Tone, { fg: string; bg: string; ring: string }> = {
   ok: { fg: "text-emerald-700", bg: "bg-emerald-50", ring: "text-emerald-600" },
   perhatian: { fg: "text-amber-700", bg: "bg-amber-50", ring: "text-amber-600" },
   kritis: { fg: "text-red-700", bg: "bg-red-50", ring: "text-red-600" },
-  belum: { fg: "text-slate-500", bg: "bg-slate-50", ring: "text-slate-400" },
+  belum: { fg: "text-slate-500", bg: "bg-slate-50", ring: "text-slate-500" },
   info: { fg: "text-sky-700", bg: "bg-sky-50", ring: "text-sky-600" },
   default: { fg: "text-slate-800", bg: "bg-slate-50", ring: "text-emerald-600" },
 };
@@ -124,7 +124,7 @@ function KpiCard({ kpi }: { kpi: ScreenKpi }) {
       </div>
       <p className="mt-3 text-xs text-slate-500">{kpi.label}</p>
       <p className={"text-2xl font-bold leading-tight " + (kpi.tone && kpi.tone !== "default" ? tone.fg : "text-slate-800")}>
-        {kpi.value}{kpi.unit && <span className="ml-1 text-sm font-medium text-slate-400">{kpi.unit}</span>}
+        {kpi.value}{kpi.unit && <span className="ml-1 text-sm font-medium text-slate-500">{kpi.unit}</span>}
       </p>
     </div>
   );
@@ -149,7 +149,7 @@ function PanelBox({ panel }: { panel: ScreenPanel }) {
     case "statCards": return <Panel title={panel.title}><StatCards cards={panel.cards} cols={panel.cols} /></Panel>;
     case "journey": return <Panel title={panel.title}><Journey columns={panel.columns} /></Panel>;
     case "stepper": return <Panel title={panel.title}><Stepper steps={panel.steps} note={panel.note} /></Panel>;
-    case "map": return <Panel title={panel.title}><EstateMap status={panel.status} heightClass="h-[240px]" />{panel.note && <p className="mt-2 text-[11px] text-slate-400">{panel.note}</p>}</Panel>;
+    case "map": return <Panel title={panel.title}><EstateMap status={panel.status} heightClass="h-[240px]" />{panel.note && <p className="mt-2 text-[11px] text-slate-500">{panel.note}</p>}</Panel>;
     case "empty": return <Panel title={panel.title}><EmptyBox icon={panel.icon} message={panel.message} desc={panel.desc} /></Panel>;
   }
 }
@@ -177,7 +177,7 @@ function RadarPanel({ panel }: { panel: Extract<ScreenPanel, { kind: "radar" }> 
           ))}
         </ul>
       )}
-      {panel.note && <p className="mt-2 text-[11px] text-slate-400">{panel.note}</p>}
+      {panel.note && <p className="mt-2 text-[11px] text-slate-500">{panel.note}</p>}
     </>
   );
 }
@@ -223,7 +223,7 @@ function PiePanel({ panel }: { panel: Extract<ScreenPanel, { kind: "pie" }> }) {
         {(panel.centerValue || panel.centerLabel) && (
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
             {panel.centerValue && <span className="text-sm font-bold text-slate-700">{panel.centerValue}</span>}
-            {panel.centerLabel && <span className="text-[10px] text-slate-400">{panel.centerLabel}</span>}
+            {panel.centerLabel && <span className="text-[10px] text-slate-500">{panel.centerLabel}</span>}
           </div>
         )}
       </div>
@@ -260,7 +260,7 @@ function ProgressList({ items, scroll }: { items: ProgressItem[]; scroll?: boole
                 <div className={"h-1.5 rounded-full " + (it.tone === "kritis" ? "bg-red-500" : it.tone === "perhatian" ? "bg-amber-500" : "bg-emerald-500")} style={{ width: `${Math.max(0, Math.min(100, it.pct))}%` }} />
               </div>
             )}
-            {it.sub && <p className="mt-0.5 text-[11px] text-slate-400">{it.sub}</p>}
+            {it.sub && <p className="mt-0.5 text-[11px] text-slate-500">{it.sub}</p>}
           </li>
         );
       })}
@@ -287,7 +287,7 @@ function StatCards({ cards, cols = 2 }: { cards: ProgressItem[]; cols?: 2 | 3 | 
               </div>
             )}
             {c.badge && <span className={"mt-1.5 inline-block rounded border px-1.5 py-0.5 text-[10px] font-medium " + PILL[c.badge.tone]}>{c.badge.text}</span>}
-            {c.sub && <p className="mt-0.5 text-[11px] text-slate-400">{c.sub}</p>}
+            {c.sub && <p className="mt-0.5 text-[11px] text-slate-500">{c.sub}</p>}
           </div>
         );
       })}
@@ -308,12 +308,12 @@ function Journey({ columns }: { columns: Extract<ScreenPanel, { kind: "journey" 
             </div>
             <div className="space-y-2 p-3">
               {col.items.length === 0 ? (
-                <div className="py-6 text-center text-[11px] text-slate-400"><ClipboardList className="mx-auto mb-1 h-6 w-6 text-slate-300" />Tidak ada tugas</div>
+                <div className="py-6 text-center text-[11px] text-slate-500"><ClipboardList className="mx-auto mb-1 h-6 w-6 text-slate-300" />Tidak ada tugas</div>
               ) : col.items.map((it, j) => (
                 <div key={j} className="rounded-md border border-slate-100 bg-white p-2 text-[11px]">
                   <div className="flex items-center justify-between"><span className="font-semibold text-slate-700">{it.title}</span>{it.tag && <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-500">{it.tag}</span>}</div>
                   {it.sub && <p className="mt-0.5 text-slate-500">{it.sub}</p>}
-                  {it.target && <p className="mt-1 flex items-center gap-1 text-slate-400"><CalendarDays className="h-3 w-3" />{it.target}</p>}
+                  {it.target && <p className="mt-1 flex items-center gap-1 text-slate-500"><CalendarDays className="h-3 w-3" />{it.target}</p>}
                 </div>
               ))}
             </div>
@@ -335,7 +335,7 @@ function Stepper({ steps, note }: { steps: Extract<ScreenPanel, { kind: "stepper
               <div className="flex flex-1 flex-col items-center gap-1 text-center">
                 <span className={"inline-flex h-9 w-9 items-center justify-center rounded-full " + tone.bg}><Icon name={s.icon} className={"h-4 w-4 " + tone.ring} /></span>
                 <span className="text-[11px] font-medium text-slate-600">{s.label}</span>
-                {s.sub && <span className="text-[9px] text-slate-400">{s.sub}</span>}
+                {s.sub && <span className="text-[9px] text-slate-500">{s.sub}</span>}
               </div>
               {i < steps.length - 1 && <ChevronRight className="h-4 w-4 shrink-0 text-slate-300" />}
             </div>
@@ -352,7 +352,7 @@ function EmptyBox({ icon, message, desc }: { icon: string; message: string; desc
     <div className="flex h-[200px] flex-col items-center justify-center gap-1.5 text-center">
       <Icon name={icon} className="h-9 w-9 text-slate-300" />
       <p className="text-sm font-medium text-slate-500">{message}</p>
-      {desc && <p className="max-w-[80%] text-[11px] text-slate-400">{desc}</p>}
+      {desc && <p className="max-w-[80%] text-[11px] text-slate-500">{desc}</p>}
     </div>
   );
 }
@@ -384,7 +384,7 @@ function DetailTable({ screen, base }: { screen: ReportScreen; base: string }) {
           </thead>
           <tbody>
             {rows.length === 0 ? (
-              <tr><td colSpan={columns.length} className="px-4 py-8 text-center text-sm text-slate-400">Belum ada data.</td></tr>
+              <tr><td colSpan={columns.length} className="px-4 py-8 text-center text-sm text-slate-500">Belum ada data.</td></tr>
             ) : rows.map((row, ri) => (
               <tr key={ri} className="border-t border-slate-50 hover:bg-slate-50/40">
                 {row.map((cell, ci) => <Td key={ci} cell={cell} label={columns[ci]?.label} align={columns[ci]?.align} isNew={columns[ci]?.kind === "new"} />)}
@@ -393,7 +393,7 @@ function DetailTable({ screen, base }: { screen: ReportScreen; base: string }) {
           </tbody>
         </table>
       </ResponsiveTable>
-      {footNote && <p className="border-t border-slate-100 px-4 py-2 text-[11px] text-slate-400">{footNote}</p>}
+      {footNote && <p className="border-t border-slate-100 px-4 py-2 text-[11px] text-slate-500">{footNote}</p>}
     </section>
   );
 }
@@ -420,7 +420,7 @@ function Rail({ rail }: { rail: RecoRail }) {
       {rail.tabs && (
         <div className="flex gap-1 border-b border-slate-100 px-3 pt-2 text-xs">
           {rail.tabs.map((t, i) => (
-            <button key={i} onClick={() => setTab(i)} className={"rounded-t-md px-2.5 py-1.5 font-medium " + (i === tab ? "border-b-2 border-emerald-600 text-emerald-700" : "text-slate-400 hover:text-slate-600")}>{t}</button>
+            <button key={i} onClick={() => setTab(i)} className={"rounded-t-md px-2.5 py-1.5 font-medium " + (i === tab ? "border-b-2 border-emerald-600 text-emerald-700" : "text-slate-500 hover:text-slate-600")}>{t}</button>
           ))}
         </div>
       )}
@@ -455,7 +455,7 @@ function Rail({ rail }: { rail: RecoRail }) {
         {rail.target && (
           <div className="flex items-center gap-2 rounded-lg border border-emerald-100 bg-emerald-50/60 p-3 text-xs">
             <Target className="h-4 w-4 shrink-0 text-emerald-600" />
-            <span className="text-slate-600">{rail.target.label} <span className="font-bold text-emerald-700">{rail.target.value}</span> {rail.target.sub && <span className="text-slate-400">{rail.target.sub}</span>}</span>
+            <span className="text-slate-600">{rail.target.label} <span className="font-bold text-emerald-700">{rail.target.value}</span> {rail.target.sub && <span className="text-slate-500">{rail.target.sub}</span>}</span>
           </div>
         )}
         {rail.action && (

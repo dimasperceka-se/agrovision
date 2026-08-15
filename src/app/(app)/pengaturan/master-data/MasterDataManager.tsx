@@ -135,7 +135,7 @@ export function MasterDataManager({
           </div>
 
           {isHierarchical && (
-            <p className="mt-2 text-xs text-slate-400">
+            <p className="mt-2 text-xs text-slate-500">
               Tipe ini berjenjang. Sub-kategori dibuat dengan memilih induk &mdash; belum tersedia di
               layar ini.
             </p>
@@ -216,7 +216,7 @@ export function MasterDataManager({
           )}
         </div>
 
-        <p className="text-xs leading-relaxed text-slate-400">
+        <p className="text-xs leading-relaxed text-slate-500">
           Item dinonaktifkan, bukan dihapus &mdash; transaksi lama yang merujuknya harus tetap bisa
           dibaca.
         </p>
@@ -258,7 +258,7 @@ function Field({
           {error}
         </p>
       ) : hint ? (
-        <p id={`${name}-hint`} className="mt-1 text-xs text-slate-400">
+        <p id={`${name}-hint`} className="mt-1 text-xs text-slate-500">
           {hint}
         </p>
       ) : null}

@@ -12,7 +12,7 @@ export const ORGANIC_STATUS: Record<string, { label: string; cls: string }> = {
   dalam_proses:   { label: "Dalam proses",  cls: "bg-sky-50 text-sky-700" },
   in_conversion:  { label: "Masa konversi", cls: "bg-amber-50 text-amber-700" },
   tersertifikasi: { label: "Tersertifikasi", cls: "bg-emerald-50 text-emerald-700" },
-  tidak_relevan:  { label: "Tidak relevan", cls: "bg-slate-50 text-slate-400" },
+  tidak_relevan:  { label: "Tidak relevan", cls: "bg-slate-50 text-slate-500" },
 };
 const STATUS_ORDER = ["belum_mulai", "dalam_proses", "in_conversion", "tersertifikasi", "tidak_relevan"];
 const initial: OrganicState = { ok: false, message: "" };
@@ -53,11 +53,11 @@ function Row({ item, variant, canEdit }: { item: OrganicItem; variant: "standard
       <tr className="border-b border-slate-50 last:border-0 align-top">
         <td data-label={variant === "standard" ? "Standar" : "Bukti"} className="px-4 py-2">
           <div className="flex items-start gap-1.5">
-            <span className="font-mono text-xs text-slate-400">{item.code}</span>
+            <span className="font-mono text-xs text-slate-500">{item.code}</span>
           </div>
           <div className="text-slate-700">{item.name}</div>
           {variant === "standard" && item.detail && (
-            <div className="mt-0.5 text-[11px] text-slate-400">{item.detail}</div>
+            <div className="mt-0.5 text-[11px] text-slate-500">{item.detail}</div>
           )}
         </td>
         <td data-label={variant === "standard" ? "Pasar / penerbit" : "Catatan"} className="px-3 py-2 text-xs text-slate-500">
@@ -72,8 +72,8 @@ function Row({ item, variant, canEdit }: { item: OrganicItem; variant: "standard
         </td>
         <td data-label="Status" className="px-3 py-2">
           <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", meta.cls)}>{meta.label}</span>
-          {item.referenceNo && <div className="mt-0.5 font-mono text-[11px] text-slate-400">{item.referenceNo}</div>}
-          {item.expiresOn && <div className="mt-0.5 text-[11px] text-slate-400">exp. {item.expiresOn}</div>}
+          {item.referenceNo && <div className="mt-0.5 font-mono text-[11px] text-slate-500">{item.referenceNo}</div>}
+          {item.expiresOn && <div className="mt-0.5 text-[11px] text-slate-500">exp. {item.expiresOn}</div>}
         </td>
         {canEdit && (
           <td data-action className="px-3 py-2 text-right">

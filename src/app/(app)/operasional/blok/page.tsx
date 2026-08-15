@@ -140,14 +140,14 @@ export default async function BlokPage({
       </div>
 
       {withoutGeom > 0 && (
-        <p className="mt-3 text-xs leading-relaxed text-slate-400">
+        <p className="mt-3 text-xs leading-relaxed text-slate-500">
           {withoutGeom} blok di halaman ini belum punya polygon. Blok tetap bisa dipakai untuk
           pencatatan biaya, tetapi <strong>luas dan cost per hektar belum bisa dihitung</strong>{" "}
           sampai batasnya didigitasi.
         </p>
       )}
 
-      <p className="mt-2 text-xs leading-relaxed text-slate-400">
+      <p className="mt-2 text-xs leading-relaxed text-slate-500">
         Klik baris blok untuk menyorotnya di peta. Basemap satelit Sentinel-2 (~10 m/px) dan OpenStreetMap — keduanya gratis dan berlisensi
         terbuka, tanpa API key. Cukup untuk memverifikasi batas blok; detail per pohon nanti
         memakai orthophoto drone.

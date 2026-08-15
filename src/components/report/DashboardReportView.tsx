@@ -28,7 +28,7 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
           <Meta label="Komoditas" value={meta.commodity} />
           <Meta label="Diketahui" value="________________" />
         </dl>
-        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">Sumber: {meta.source}</p>
+        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">Sumber: {meta.source}</p>
       </section>
 
       {/* Tabel indikator */}
@@ -52,21 +52,21 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
                 const newGroup = !!ind.group;
                 return (
                   <tr key={i} className={"border-b border-slate-50 last:border-0 align-top " + (newGroup ? "border-t border-slate-200" : "")}>
-                    <td data-label="No" className="px-3 py-2 tabular-nums text-slate-400">{i + 1}</td>
+                    <td data-label="No" className="px-3 py-2 tabular-nums text-slate-500">{i + 1}</td>
                     <td data-label="Tahap / Kelompok" data-empty={!ind.group} className="px-3 py-2 font-medium text-slate-700">{ind.group ?? ""}</td>
                     <td data-label="Indikator" className="px-3 py-2 text-slate-700">{ind.indicator}</td>
                     <td data-label="Nilai" className="px-3 py-2 text-right font-semibold tabular-nums text-slate-800">{ind.value}</td>
                     <td data-label="Satuan" data-empty={!ind.unit} className="px-3 py-2 text-slate-500">{ind.unit}</td>
                     <td data-label="Status" className="px-3 py-2"><StatusBadge status={ind.status} /></td>
                     <td data-label="Tindak lanjut" className="max-w-[260px] px-3 py-2 text-xs text-slate-500">{ind.followUp}</td>
-                    <td data-label="Detail / modul" className="whitespace-nowrap px-3 py-2 text-xs text-slate-400">{ind.detail}</td>
+                    <td data-label="Detail / modul" className="whitespace-nowrap px-3 py-2 text-xs text-slate-500">{ind.detail}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </ResponsiveTable>
-        {meta.note && <p className="border-t border-slate-100 px-4 py-2 text-xs leading-relaxed text-slate-400">Catatan: {meta.note}</p>}
+        {meta.note && <p className="border-t border-slate-100 px-4 py-2 text-xs leading-relaxed text-slate-500">Catatan: {meta.note}</p>}
       </section>
 
       {/* Insight & Rekomendasi */}
@@ -88,12 +88,12 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
               <tbody>
                 {insights.map((ins, i) => (
                   <tr key={i} className="border-b border-slate-50 last:border-0 align-top">
-                    <td data-label="No" className="px-3 py-2 tabular-nums text-slate-400">{i + 1}</td>
+                    <td data-label="No" className="px-3 py-2 tabular-nums text-slate-500">{i + 1}</td>
                     <td data-label="Temuan (kesimpulan)" className="max-w-[340px] px-3 py-2 text-slate-700">{ins.finding}</td>
                     <td data-label="Rekomendasi tindak lanjut" className="max-w-[340px] px-3 py-2 text-slate-600">{ins.recommendation}</td>
                     <td data-label="Prioritas · PIC" className="whitespace-nowrap px-3 py-2 text-xs">
                       <span className={"font-medium " + (ins.priority === "Tinggi" ? "text-red-700" : ins.priority === "Sedang" ? "text-amber-700" : "text-slate-600")}>{ins.priority}</span>
-                      <span className="text-slate-400"> · {ins.pic}</span>
+                      <span className="text-slate-500"> · {ins.pic}</span>
                     </td>
                   </tr>
                 ))}
@@ -109,7 +109,7 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline gap-2">
-      <dt className="w-32 shrink-0 text-slate-400">{label}</dt>
+      <dt className="w-32 shrink-0 text-slate-500">{label}</dt>
       <dd className="font-medium text-slate-700">{value}</dd>
     </div>
   );

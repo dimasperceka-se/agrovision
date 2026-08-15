@@ -175,7 +175,7 @@ export default async function AnggaranPage() {
         )}
       </section>
 
-      <p className="mt-3 text-xs leading-relaxed text-slate-400">
+      <p className="mt-3 text-xs leading-relaxed text-slate-500">
         Realisasi dihitung pada tingkat lingkup masing-masing anggaran — anggaran per blok hanya
         dibebani pengeluaran blok itu, anggaran estate hanya blok di dalamnya. Satu baris anggaran
         selalu menghasilkan tepat satu baris perbandingan.

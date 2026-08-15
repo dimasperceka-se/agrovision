@@ -36,7 +36,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             )}
             <span className="text-sm text-slate-700">{t.message}</span>
             <button
-              className="ml-2 text-slate-400 hover:text-slate-600"
+              className="ml-2 text-slate-500 hover:text-slate-600"
               onClick={() => setToasts((prev) => prev.filter((x) => x.id !== t.id))}
             >
               <X className="h-3.5 w-3.5" />

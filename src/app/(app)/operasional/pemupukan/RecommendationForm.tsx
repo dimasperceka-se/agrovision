@@ -43,7 +43,7 @@ export function RecommendationForm({ blocks, today }: { blocks: Block[]; today: 
 
         {/* Pendekatan — menentukan set parameter di bawah */}
         <div className="mt-4">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Pendekatan penilaian</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Pendekatan penilaian</p>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             {APPROACHES.map((a) => (
               <label
@@ -70,8 +70,8 @@ export function RecommendationForm({ blocks, today }: { blocks: Block[]; today: 
 
         {/* Parameter kondisional sesuai pendekatan */}
         <div className="mt-4">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
-            {meta.paramTitle} <span className="normal-case text-slate-400">— isi yang tersedia, dipakai untuk generate</span>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            {meta.paramTitle} <span className="normal-case text-slate-500">— isi yang tersedia, dipakai untuk generate</span>
           </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {fields.map((f) =>
@@ -132,7 +132,7 @@ function GeneratedCard({ generated }: { generated: NonNullable<RecoState["genera
       </div>
 
       <div className="p-4">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Dosis (g/pohon/tahun)</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Dosis (g/pohon/tahun)</p>
         <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {doses.map(([label, v]) => (
             <div key={label} className="rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-center">
@@ -175,7 +175,7 @@ function GeneratedCard({ generated }: { generated: NonNullable<RecoState["genera
         {saveState.message && (
           <p className={cn("mt-2 text-sm", saveState.ok ? "text-emerald-700" : "text-red-600")}>{saveState.message}</p>
         )}
-        <p className="mt-2 text-xs leading-relaxed text-slate-400">
+        <p className="mt-2 text-xs leading-relaxed text-slate-500">
           Angka ini <strong>provisional</strong> (titik awal literatur) dan wajib dikalibrasi omission plot
           3–5 tahun sebelum jadi dosis final — docs/09 §11. Jangan sajikan sebagai angka final ke auditor.
         </p>
@@ -201,7 +201,7 @@ function Field({
         )}
         {...rest}
       />
-      {hint && !error && <p className="mt-1 text-[11px] leading-tight text-slate-400">{hint}</p>}
+      {hint && !error && <p className="mt-1 text-[11px] leading-tight text-slate-500">{hint}</p>}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );
@@ -231,7 +231,7 @@ function Select({
         <option value="" disabled={!allowEmpty}>{allowEmpty ? "— belum diisi —" : "Pilih..."}</option>
         {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
-      {hint && !error && <p className="mt-1 text-[11px] leading-tight text-slate-400">{hint}</p>}
+      {hint && !error && <p className="mt-1 text-[11px] leading-tight text-slate-500">{hint}</p>}
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
     </div>
   );

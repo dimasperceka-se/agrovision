@@ -39,7 +39,7 @@ export function OpRecordForm({
           <Plus className="h-4 w-4 text-emerald-600" />
           {title}
         </span>
-        <ChevronDown className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 text-slate-500 transition-transform group-open:rotate-180" />
       </summary>
 
       {state.message && (
@@ -101,7 +101,7 @@ function FieldControl({ field: f, error }: { field: Field; error?: string }) {
   const err = error ? (
     <p className="mt-1 text-xs text-red-600">{error}</p>
   ) : "hint" in f && f.hint ? (
-    <p className="mt-1 text-xs text-slate-400">{f.hint}</p>
+    <p className="mt-1 text-xs text-slate-500">{f.hint}</p>
   ) : null;
 
   if (f.kind === "select") {

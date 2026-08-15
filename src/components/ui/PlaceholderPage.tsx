@@ -42,12 +42,12 @@ export function PlaceholderPage({
 
       <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-slate-300 bg-white py-20 text-center">
         <div className="rounded-full bg-slate-100 p-3">
-          <Icon className="h-7 w-7 text-slate-400" />
+          <Icon className="h-7 w-7 text-slate-500" />
         </div>
         <p className="max-w-md px-6 text-sm leading-relaxed text-slate-500">{note}</p>
 
         {schemaReady && (
-          <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-400">
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-slate-500">
             <Database className="h-3.5 w-3.5" />
             Struktur datanya sudah ada di database — yang belum dibangun tampilannya.
           </p>
@@ -61,7 +61,7 @@ export function PlaceholderPage({
         </Link>
       </div>
 
-      <p className="mt-3 text-center text-xs text-slate-400">
+      <p className="mt-3 text-center text-xs text-slate-500">
         Layar ini tidak menampilkan data contoh. Angka apa pun di AgroVision selalu berasal dari
         database.
       </p>

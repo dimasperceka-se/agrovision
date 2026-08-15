@@ -17,13 +17,13 @@ export function PriceRateEditor({
   const [state, action, pending] = useActionState(setPriceRateAction, initial);
 
   if (!canEdit || (state.ok && !editing)) {
-    return <span className="tabular-nums text-slate-700">{formatIdr(rateIdr)}<span className="text-xs text-slate-400"> /{unit}</span></span>;
+    return <span className="tabular-nums text-slate-700">{formatIdr(rateIdr)}<span className="text-xs text-slate-500"> /{unit}</span></span>;
   }
 
   if (!editing) {
     return (
       <button type="button" onClick={() => setEditing(true)} className="group inline-flex items-center gap-1.5">
-        <span className="tabular-nums text-slate-700">{formatIdr(rateIdr)}<span className="text-xs text-slate-400"> /{unit}</span></span>
+        <span className="tabular-nums text-slate-700">{formatIdr(rateIdr)}<span className="text-xs text-slate-500"> /{unit}</span></span>
         <Pencil className="h-3 w-3 text-slate-300 group-hover:text-slate-500" />
       </button>
     );
@@ -41,7 +41,7 @@ export function PriceRateEditor({
         className="w-32 rounded-md border border-slate-200 px-2 py-1 text-sm tabular-nums text-slate-700"
         autoFocus
       />
-      <span className="text-xs text-slate-400">/{unit}</span>
+      <span className="text-xs text-slate-500">/{unit}</span>
       <button type="submit" disabled={pending} className="rounded bg-emerald-700 p-1 text-white hover:bg-emerald-800 disabled:opacity-60">
         {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
       </button>

@@ -73,13 +73,13 @@ export function SustainabilityDashboardView({ data, company }: { data: SustDashb
             </div>
             <p className="mt-0.5 text-[11px] text-red-700">Bukti riwayat lahan belum lengkap · {data.landHistoryDone}/{data.landHistoryTotal}</p>
           </div>
-          <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-400">Progress 9 Standar</p>
+          <p className="mb-1.5 text-[10px] font-medium uppercase tracking-wide text-slate-500">Progress 9 Standar</p>
           <ul className="max-h-[180px] space-y-1.5 overflow-y-auto pr-1">
             {data.certReady.map((s, i) => (
               <li key={s.name} className="text-[11px]">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-600">{i + 1}. {s.name}</span>
-                  <span className="tabular-nums text-slate-400">{s.pct}%</span>
+                  <span className="tabular-nums text-slate-500">{s.pct}%</span>
                 </div>
                 <div className="mt-0.5 h-1.5 w-full rounded-full bg-slate-100">
                   <div className="h-1.5 rounded-full bg-emerald-500" style={{ width: `${Math.max(0, Math.min(100, s.pct))}%` }} />
@@ -98,13 +98,13 @@ export function SustainabilityDashboardView({ data, company }: { data: SustDashb
                 <div className="flex flex-col items-center gap-1 text-center">
                   <span className="rounded-lg bg-emerald-50 p-2 text-emerald-600"><n.i className="h-4 w-4" /></span>
                   <span className="text-[11px] font-medium text-slate-600">{n.l}</span>
-                  <span className="text-[9px] text-slate-400">{n.s}</span>
+                  <span className="text-[9px] text-slate-500">{n.s}</span>
                 </div>
                 {idx < 3 && <ArrowRight className="h-4 w-4 shrink-0 text-slate-300" />}
               </div>
             ))}
           </div>
-          <p className="border-t border-slate-100 pt-2 text-[11px] text-slate-400">Rantai terpetakan. Status per lot panen: aktif saat ada panen disetujui.</p>
+          <p className="border-t border-slate-100 pt-2 text-[11px] text-slate-500">Rantai terpetakan. Status per lot panen: aktif saat ada panen disetujui.</p>
         </Panel>
 
         <Panel title="Input: Organik vs Sintetik">
@@ -122,7 +122,7 @@ export function SustainabilityDashboardView({ data, company }: { data: SustDashb
               </ResponsiveContainer>
               <div className="text-xs">
                 <p className="text-2xl font-bold text-emerald-700">{num(organicPct, 0)}%</p>
-                <p className="text-slate-400">Organik</p>
+                <p className="text-slate-500">Organik</p>
                 <ul className="mt-2 space-y-1">
                   <li className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-emerald-600" /> Organik {num(data.organic.organic, 1)} ton</li>
                   <li className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-slate-300" /> Sintetik {num(data.organic.synthetic, 1)} ton</li>

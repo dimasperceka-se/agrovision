@@ -26,7 +26,7 @@ export function BlockCreateForm({ estates }: { estates: { value: string; label: 
           <Plus className="h-4 w-4 text-emerald-600" />
           Tambah blok
         </span>
-        <ChevronDown className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 text-slate-500 transition-transform group-open:rotate-180" />
       </summary>
 
       {state.message && (
@@ -88,7 +88,7 @@ export function BlockCreateForm({ estates }: { estates: { value: string; label: 
               {state.fieldErrors?.geojson ? (
                 <p className="mt-1 text-xs text-red-600">{state.fieldErrors.geojson}</p>
               ) : (
-                <p className="mt-1 text-xs leading-relaxed text-slate-400">
+                <p className="mt-1 text-xs leading-relaxed text-slate-500">
                   Boleh dikosongkan — blok bisa didaftarkan lebih dulu, batasnya didigitasi
                   kemudian. Tanpa polygon, luas dan cost per hektar belum bisa dihitung.
                 </p>

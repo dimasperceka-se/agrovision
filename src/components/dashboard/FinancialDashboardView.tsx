@@ -76,8 +76,8 @@ export function FinancialDashboardView({ data, company }: { data: FinDashboard; 
                 </BarChart>
               </ResponsiveContainer>
               <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-2 text-xs">
-                <div><span className="text-slate-400">Total Revenue</span><p className="font-semibold text-emerald-700">{data.totalRevenue === null ? "—" : formatIdr(data.totalRevenue)}</p></div>
-                <div><span className="text-slate-400">Total Volume</span><p className="font-semibold text-slate-700">{data.totalVolume === null ? "—" : `${num(data.totalVolume, 2)} ton`}</p></div>
+                <div><span className="text-slate-500">Total Revenue</span><p className="font-semibold text-emerald-700">{data.totalRevenue === null ? "—" : formatIdr(data.totalRevenue)}</p></div>
+                <div><span className="text-slate-500">Total Volume</span><p className="font-semibold text-slate-700">{data.totalVolume === null ? "—" : `${num(data.totalVolume, 2)} ton`}</p></div>
               </div>
             </>
           )}

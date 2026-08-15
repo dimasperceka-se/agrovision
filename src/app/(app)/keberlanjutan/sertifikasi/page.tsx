@@ -139,7 +139,7 @@ export default async function SertifikasiPage() {
 
       {/* Audit lapangan (RA) — pendukung */}
       <h2 className="mt-8 mb-3 text-sm font-semibold text-slate-800">
-        Assessment &amp; audit lapangan <span className="font-normal text-slate-400">— inspeksi tahunan memakai mesin temuan → CAPA yang sama</span>
+        Assessment &amp; audit lapangan <span className="font-normal text-slate-500">— inspeksi tahunan memakai mesin temuan → CAPA yang sama</span>
       </h2>
 
       <Section title="Program & Assessment">
@@ -154,7 +154,7 @@ export default async function SertifikasiPage() {
                 <Td label="Status"><Badge cls="bg-slate-100 text-slate-600">{ASSESS_LABEL[a.status] ?? a.status}</Badge></Td>
                 <Td label="Skor" right>{formatPct(a.scorePct)}</Td>
                 <Td label="Temuan" right>{a.findingCount}</Td>
-                <Td label="Kritis?">{a.hasCriticalFailure ? <Badge cls="bg-red-50 text-red-700">Ya</Badge> : <span className="text-slate-400">—</span>}</Td>
+                <Td label="Kritis?">{a.hasCriticalFailure ? <Badge cls="bg-red-50 text-red-700">Ya</Badge> : <span className="text-slate-500">—</span>}</Td>
               </tr>
             ))}
           </Table>

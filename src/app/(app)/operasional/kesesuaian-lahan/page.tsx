@@ -98,7 +98,7 @@ export default async function KesesuaianLahanPage() {
 
       <section className="mt-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
-          Riwayat Penilaian <span className="font-normal text-slate-400">— klik baris untuk melihat parameter</span>
+          Riwayat Penilaian <span className="font-normal text-slate-500">— klik baris untuk melihat parameter</span>
         </h2>
         <AssessmentHistory rows={historyRows} />
       </section>

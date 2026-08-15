@@ -95,7 +95,7 @@ export default async function RevenuePage() {
       {/* Tarif komoditas (price list) */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
-          Tarif komoditas <span className="font-normal text-slate-400">— diubah di Refleksi Biaya (approver/super admin)</span>
+          Tarif komoditas <span className="font-normal text-slate-500">— diubah di Refleksi Biaya (approver/super admin)</span>
         </h2>
         <ResponsiveTable>
           <table className="w-full text-sm">
@@ -110,8 +110,8 @@ export default async function RevenuePage() {
               {reflection.revenueRates.map((p) => (
                 <tr key={p.id} className="border-b border-slate-50 last:border-0">
                   <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-500">{p.code}</td>
-                  <td data-label="Komoditas" className="px-4 py-2.5 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-400">· {p.note}</span> : null}</td>
-                  <td data-label="Tarif" className="px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(p.rateIdr)}<span className="text-xs text-slate-400"> / {p.unit}</span></td>
+                  <td data-label="Komoditas" className="px-4 py-2.5 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-500">· {p.note}</span> : null}</td>
+                  <td data-label="Tarif" className="px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(p.rateIdr)}<span className="text-xs text-slate-500"> / {p.unit}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -153,7 +153,7 @@ function Kpi({
       >
         {value}
       </p>
-      {hint && <p className="mt-0.5 text-xs text-slate-400">{hint}</p>}
+      {hint && <p className="mt-0.5 text-xs text-slate-500">{hint}</p>}
     </div>
   );
 }

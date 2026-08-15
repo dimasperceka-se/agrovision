@@ -65,11 +65,11 @@ export function InstallPrompt({ locale }: { locale: Locale }) {
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-sm rounded-xl bg-white p-4 shadow-xl" onClick={(e) => e.stopPropagation()}>
+          <div className="agv-pop w-full max-w-sm rounded-xl bg-white p-4 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="mb-2 flex items-start justify-between">
               <h3 className="text-sm font-semibold text-slate-800">{d("pwa.install.iosTitle", "Pasang di iPhone / iPad")}</h3>
               <button onClick={() => setShowIOS(false)} aria-label={d("common.close", "Tutup")} className="rounded p-1 hover:bg-slate-100">
-                <X className="h-4 w-4 text-slate-400" />
+                <X className="h-4 w-4 text-slate-500" />
               </button>
             </div>
             <ol className="space-y-2 text-xs text-slate-600">

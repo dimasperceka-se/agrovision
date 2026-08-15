@@ -100,7 +100,7 @@ export default async function PengeluaranPage({
               </tbody>
             </table>
           </ResponsiveTable>
-          <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">
+          <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">
             Hanya transaksi berstatus <strong>disetujui</strong> yang dihitung. Luas berasal dari PostGIS, bukan input manual.
           </p>
         </div>
@@ -209,7 +209,7 @@ function Kpi({ label, value, title, hint }: { label: string; value: string; titl
       <p className={cn("mt-1 text-xl font-bold tabular-nums", value === EMPTY ? "text-slate-300" : "text-slate-800")} title={title}>
         {value}
       </p>
-      {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-slate-500">{hint}</p>}
     </div>
   );
 }

@@ -49,13 +49,13 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
                 >
                   <td data-label="Modul" className="px-4 py-3">
                     <span className="inline-flex items-center gap-1">
-                      {open ? <ChevronDown className="h-3.5 w-3.5 text-emerald-600" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-400" />}
+                      {open ? <ChevronDown className="h-3.5 w-3.5 text-emerald-600" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-500" />}
                       <span className="rounded bg-slate-100 px-1.5 py-0.5 text-xs font-medium text-slate-600">{r.moduleLabel}</span>
                     </span>
                   </td>
                   <td data-label="Tanggal" className="whitespace-nowrap px-4 py-3 text-slate-600">{formatDate(r.eventDate)}</td>
                   <td data-label="Blok" data-empty={!r.blockCode} className="px-4 py-3 font-mono text-xs text-slate-600">
-                    {r.blockCode ?? <span className="font-sans text-slate-400">—</span>}
+                    {r.blockCode ?? <span className="font-sans text-slate-500">—</span>}
                   </td>
                   <td data-label="Detail" data-empty={!r.detail} className="max-w-[240px] px-4 py-3 text-slate-700">{r.detail ?? EMPTY}</td>
                   <td data-label="Nilai" data-empty={r.amountIdr === null} className={cn("whitespace-nowrap px-4 py-3 text-right font-medium tabular-nums", isRevenue ? "text-emerald-700" : "text-slate-800")}>
@@ -77,11 +77,11 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
                 {open && (
                   <tr className="border-b border-slate-100 bg-slate-50/50">
                     <td colSpan={colSpan} className="px-4 py-3">
-                      <p className="mb-2 text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                      <p className="mb-2 text-[10px] font-medium uppercase tracking-wide text-slate-500">
                         Nilai tiap parameter — {r.moduleLabel}
                       </p>
                       {paramEntries.length === 0 ? (
-                        <p className="text-xs text-slate-400">Tidak ada parameter tambahan.</p>
+                        <p className="text-xs text-slate-500">Tidak ada parameter tambahan.</p>
                       ) : (
                         <dl className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-xs sm:grid-cols-3 lg:grid-cols-4">
                           {paramEntries.map(([k, v]) => (
@@ -98,7 +98,7 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
                         <p className="mt-2 text-xs text-slate-500">
                           {isRevenue ? "Pendapatan" : "Biaya"} ter-refleksi:{" "}
                           <span className={cn("font-semibold", isRevenue ? "text-emerald-700" : "text-slate-800")}>{formatIdr(r.amountIdr)}</span>
-                          <span className="text-slate-400"> — volume × tarif price list</span>
+                          <span className="text-slate-500"> — volume × tarif price list</span>
                         </p>
                       )}
                     </td>

@@ -83,9 +83,9 @@ export function OperationalDashboardView({ data, company }: { data: OpDashboardV
 function FilterBar({ company }: { company: string }) {
   const chip = (Icon: typeof Building2, label: string, value: string) => (
     <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm">
-      <Icon className="h-4 w-4 text-slate-400" />
+      <Icon className="h-4 w-4 text-slate-500" />
       <div className="leading-tight">
-        <span className="block text-[10px] uppercase tracking-wide text-slate-400">{label}</span>
+        <span className="block text-[10px] uppercase tracking-wide text-slate-500">{label}</span>
         <span className="font-medium text-slate-700">{value}</span>
       </div>
       <ChevronDown className="h-3.5 w-3.5 text-slate-300" />
@@ -97,7 +97,7 @@ function FilterBar({ company }: { company: string }) {
       {chip(CalendarDays, "Periode", "Semua periode")}
       {chip(Tag, "Blok", "Semua blok")}
       {chip(Leaf, "Komoditas", "Kelapa & Durian")}
-      <span className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-400" title="Notifikasi">
+      <span className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500" title="Notifikasi">
         <Bell className="h-4 w-4" />
       </span>
     </div>
@@ -114,11 +114,11 @@ function KpiCard({ kpi }: { kpi: Kpi }) {
         <div className="min-w-0">
           <p className="text-sm text-slate-500">{kpi.label}</p>
           <p className={cn("mt-0.5 text-3xl font-bold tabular-nums", empty ? "text-slate-300" : "text-slate-800")}>
-            {kpi.value}{!empty && kpi.unit ? <span className="ml-1 text-base font-semibold text-slate-400">{kpi.unit}</span> : null}
+            {kpi.value}{!empty && kpi.unit ? <span className="ml-1 text-base font-semibold text-slate-500">{kpi.unit}</span> : null}
           </p>
         </div>
       </div>
-      {kpi.note && <p className="mt-2 text-xs text-slate-400">{kpi.note}</p>}
+      {kpi.note && <p className="mt-2 text-xs text-slate-500">{kpi.note}</p>}
     </div>
   );
 }
@@ -144,7 +144,7 @@ function Stage({ stage }: { stage: JourneyStage }) {
       <dl className="space-y-1">
         {stage.metrics.map((m) => (
           <div key={m.label} className="text-[11px] leading-tight">
-            <dt className="text-slate-400">{m.label}</dt>
+            <dt className="text-slate-500">{m.label}</dt>
             <dd className={cn("font-semibold", m.value === "—" ? "text-slate-300" : "text-slate-700")}>{m.value}</dd>
           </div>
         ))}
@@ -171,7 +171,7 @@ function Dot({ c }: { c: string }) {
 function Timeline({ data }: { data: OpDashboardView }) {
   return (
     <div>
-      <p className="mb-2 text-[11px] text-slate-400">{data.timelineLabel}</p>
+      <p className="mb-2 text-[11px] text-slate-500">{data.timelineLabel}</p>
       <div className="space-y-2.5">
         {data.timeline.map((row) => <TimelineRowView key={row.activity} row={row} />)}
       </div>

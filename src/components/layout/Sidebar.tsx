@@ -139,7 +139,7 @@ export function Sidebar({
           type="button"
           onClick={onClose}
           aria-label={d("common.close", "Tutup")}
-          className="-mr-1.5 rounded-md p-1.5 text-slate-400 hover:bg-slate-100 md:hidden"
+          className="-mr-1.5 rounded-md p-1.5 text-slate-500 hover:bg-slate-100 md:hidden"
         >
           <X className="h-5 w-5" />
         </button>
@@ -160,7 +160,7 @@ export function Sidebar({
                   type="button"
                   onClick={() => toggle(group.key!)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between rounded-md px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 hover:text-slate-600"
+                  className="flex w-full items-center justify-between rounded-md px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-600"
                 >
                   <span>{d(group.key)}</span>
                   <ChevronDown className={cn("h-3.5 w-3.5 transition-transform", !isOpen && "-rotate-90")} />
@@ -181,7 +181,7 @@ export function Sidebar({
                             className="flex cursor-not-allowed items-center justify-between rounded-md px-3 py-2 text-sm text-slate-300"
                           >
                             <span className="flex items-center gap-2.5"><Icon className="h-4 w-4" />{label}</span>
-                            <span className="rounded bg-slate-100 px-1.5 text-[10px] font-semibold uppercase text-slate-400">{d("chrome.stub")}</span>
+                            <span className="rounded bg-slate-100 px-1.5 text-[10px] font-semibold uppercase text-slate-500">{d("chrome.stub")}</span>
                           </span>
                         </li>
                       );
@@ -209,7 +209,7 @@ export function Sidebar({
         })}
       </nav>
 
-      <div className="border-t border-slate-100 px-4 py-3 text-[11px] leading-relaxed text-slate-400">
+      <div className="border-t border-slate-100 px-4 py-3 text-[11px] leading-relaxed text-slate-500">
         {d("chrome.footer")}<br />{d("chrome.footerStub")}
       </div>
     </aside>

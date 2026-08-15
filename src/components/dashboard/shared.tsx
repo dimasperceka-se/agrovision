@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 export function DashboardFilterBar({ company }: { company: string }) {
   const chip = (Icon: LucideIcon, label: string, value: string) => (
     <div className="flex items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm">
-      <Icon className="h-4 w-4 text-slate-400" />
+      <Icon className="h-4 w-4 text-slate-500" />
       <div className="leading-tight">
-        <span className="block text-[10px] uppercase tracking-wide text-slate-400">{label}</span>
+        <span className="block text-[10px] uppercase tracking-wide text-slate-500">{label}</span>
         <span className="font-medium text-slate-700">{value}</span>
       </div>
       <ChevronDown className="h-3.5 w-3.5 text-slate-300" />
@@ -21,7 +21,7 @@ export function DashboardFilterBar({ company }: { company: string }) {
       {chip(CalendarDays, "Periode", "Semua periode")}
       {chip(Tag, "Blok", "Semua blok")}
       {chip(Leaf, "Komoditas", "Kelapa & Durian")}
-      <span className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-400" title="Notifikasi">
+      <span className="ml-auto inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-500" title="Notifikasi">
         <Bell className="h-4 w-4" />
       </span>
     </div>
@@ -46,14 +46,14 @@ export function KpiCard({ icon: Icon, label, value, unit, note, tone = "default"
         <div className="min-w-0 flex-1">
           <p className="text-sm text-slate-500">{label}</p>
           <p className={cn("mt-0.5 text-2xl font-bold tabular-nums", valueCls)}>
-            {value}{!empty && unit ? <span className="ml-1 text-sm font-semibold text-slate-400">{unit}</span> : null}
+            {value}{!empty && unit ? <span className="ml-1 text-sm font-semibold text-slate-500">{unit}</span> : null}
           </p>
         </div>
       </div>
       {(note || badge) && (
         <div className="mt-2 flex items-center gap-2">
           {badge && <span className={cn("rounded px-1.5 py-0.5 text-[10px] font-medium", badge.tone === "warn" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700")}>{badge.text}</span>}
-          {note && <p className="text-xs text-slate-400">{note}</p>}
+          {note && <p className="text-xs text-slate-500">{note}</p>}
         </div>
       )}
     </div>
@@ -79,7 +79,7 @@ export function EmptyPanel({ icon: Icon, title, desc, action }: { icon: LucideIc
     <div className="flex flex-col items-center justify-center gap-2 py-8 text-center">
       <span className="rounded-full bg-slate-100 p-3 text-slate-300"><Icon className="h-6 w-6" /></span>
       <p className="text-sm font-medium text-slate-500">{title}</p>
-      <p className="max-w-xs text-xs leading-relaxed text-slate-400">{desc}</p>
+      <p className="max-w-xs text-xs leading-relaxed text-slate-500">{desc}</p>
       {action}
     </div>
   );

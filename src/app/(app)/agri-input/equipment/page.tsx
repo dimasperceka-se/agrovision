@@ -59,7 +59,7 @@ export default async function Page() {
 
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
-          Katalog aset <span className="font-normal text-slate-400">— harga & konsumsi jadi dasar biaya di Accounting</span>
+          Katalog aset <span className="font-normal text-slate-500">— harga & konsumsi jadi dasar biaya di Accounting</span>
         </h2>
         {items.length === 0 ? (
           <EmptyState icon={Wrench} title="Belum ada equipment" description="Tambahkan alat/kendaraan/drone beserta harga beli dan konsumsi energinya." />

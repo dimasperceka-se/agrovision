@@ -95,7 +95,7 @@ export default async function Page() {
         ) : (
           <>
             <RecommendationTable recos={recos} />
-            <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">
+            <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">
               Klik satu baris untuk melihat nilai tiap parameter + <strong>dosis produk pupuk</strong> (mis. K₂O → KNO₃ dalam g/pohon).
             </p>
           </>
@@ -104,7 +104,7 @@ export default async function Page() {
 
       {/* ---- Catatan aplikasi pupuk (realisasi) ---- */}
       <h2 className="mb-2 text-sm font-semibold text-slate-800">
-        Catatan aplikasi pupuk <span className="font-normal text-slate-400">— realisasi di lapangan</span>
+        Catatan aplikasi pupuk <span className="font-normal text-slate-500">— realisasi di lapangan</span>
       </h2>
       {canWrite && ctx.companyId && ferts.length === 0 && (
         <div className="mb-4 flex items-start gap-2 rounded-md border border-amber-200 bg-amber-50 p-3">

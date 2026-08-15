@@ -56,7 +56,7 @@ export function RecommendationTable({ recos }: { recos: FertRecommendation[] }) 
                 >
                   <td className="px-4 py-2.5 font-mono text-xs text-slate-600">
                     <span className="inline-flex items-center gap-1">
-                      {open ? <ChevronDown className="h-3.5 w-3.5 text-emerald-600" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-400" />}
+                      {open ? <ChevronDown className="h-3.5 w-3.5 text-emerald-600" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-500" />}
                       {r.blockCode}
                     </span>
                   </td>
@@ -94,7 +94,7 @@ export function RecommendationTable({ recos }: { recos: FertRecommendation[] }) 
                             <KV label="Sumber K" value={r.kSource ?? EMPTY} />
                             <KV label="Split" value={r.splitCount ? `${r.splitCount}× / tahun` : EMPTY} />
                           </div>
-                          <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">Target hara ({UNIT})</p>
+                          <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-500">Target hara ({UNIT})</p>
                           <div className="flex flex-wrap gap-1.5">
                             <NutChip label="N" v={r.doseN} />
                             <NutChip label="P₂O₅" v={r.doseP2o5} />
@@ -115,23 +115,23 @@ export function RecommendationTable({ recos }: { recos: FertRecommendation[] }) 
                             <FlaskConical className="h-3.5 w-3.5" /> Rekomendasi produk pupuk ({UNIT})
                           </p>
                           {blend.length === 0 ? (
-                            <p className="text-xs text-slate-400">Target hara belum lengkap untuk dihitung.</p>
+                            <p className="text-xs text-slate-500">Target hara belum lengkap untuk dihitung.</p>
                           ) : (
                             <ul className="space-y-1.5">
                               {blend.map((b) => (
                                 <li key={b.product} className="flex items-baseline justify-between gap-3 text-sm">
                                   <span className="text-slate-700">
                                     {b.product}
-                                    <span className="ml-1.5 text-[10px] text-slate-400">suplai {b.supplies}</span>
+                                    <span className="ml-1.5 text-[10px] text-slate-500">suplai {b.supplies}</span>
                                   </span>
                                   <span className="font-semibold tabular-nums text-slate-800">
-                                    {formatNumber(Math.round(b.amountG))} <span className="text-xs font-normal text-slate-400">{UNIT}</span>
+                                    {formatNumber(Math.round(b.amountG))} <span className="text-xs font-normal text-slate-500">{UNIT}</span>
                                   </span>
                                 </li>
                               ))}
                             </ul>
                           )}
-                          <p className="mt-2 border-t border-slate-100 pt-2 text-[10px] leading-relaxed text-slate-400">
+                          <p className="mt-2 border-t border-slate-100 pt-2 text-[10px] leading-relaxed text-slate-500">
                             Dihitung: target hara ÷ kadar hara produk (mis. K₂O 500 ÷ 46% KNO₃ ≈ 1.087 {UNIT}).
                             Total per tahun; bagi ke {r.splitCount ?? "beberapa"} aplikasi. Provisional sampai terkalibrasi.
                           </p>
@@ -175,7 +175,7 @@ function NutChip({ label, v }: { label: string; v: number | null }) {
 function KV({ label, value }: { label: string; value: string }) {
   return (
     <span className="text-slate-600">
-      <span className="text-slate-400">{label}:</span> <span className="font-medium">{value}</span>
+      <span className="text-slate-500">{label}:</span> <span className="font-medium">{value}</span>
     </span>
   );
 }

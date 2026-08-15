@@ -58,7 +58,7 @@ export default async function Page() {
           </ResponsiveTable>
         )}
       </div>
-      <p className="mt-3 text-xs leading-relaxed text-slate-400">Peran creator dengan akses estate terbatas hanya melihat blok pada estate tersebut — ditegakkan Row Level Security di database. Undang pengguna & atur akses estate: fase berikutnya (fungsi grant_estate_access sudah siap di DB).</p>
+      <p className="mt-3 text-xs leading-relaxed text-slate-500">Peran creator dengan akses estate terbatas hanya melihat blok pada estate tersebut — ditegakkan Row Level Security di database. Undang pengguna & atur akses estate: fase berikutnya (fungsi grant_estate_access sudah siap di DB).</p>
     </div>
   );
 }

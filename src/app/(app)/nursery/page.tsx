@@ -58,7 +58,7 @@ export default async function Page() {
           </ResponsiveTable>
         )}
       </div>
-      <p className="mt-3 text-xs leading-relaxed text-slate-400">Survival rate dihitung dari inspeksi terakhir yang disetujui dibagi jumlah awal batch. Batch tanpa inspeksi ditandai {EMPTY}.</p>
+      <p className="mt-3 text-xs leading-relaxed text-slate-500">Survival rate dihitung dari inspeksi terakhir yang disetujui dibagi jumlah awal batch. Batch tanpa inspeksi ditandai {EMPTY}.</p>
     </div>
   );
 }

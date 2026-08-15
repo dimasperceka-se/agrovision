@@ -15,7 +15,7 @@ export const STATUS_META: Record<string, { label: string; cls: string }> = {
   terbit:        { label: "Terbit",        cls: "bg-emerald-50 text-emerald-700" },
   akan_berakhir: { label: "Akan berakhir", cls: "bg-amber-50 text-amber-700" },
   tidak_berlaku: { label: "Tidak berlaku", cls: "bg-red-50 text-red-700" },
-  tidak_relevan: { label: "Tidak relevan", cls: "bg-slate-50 text-slate-400" },
+  tidak_relevan: { label: "Tidak relevan", cls: "bg-slate-50 text-slate-500" },
 };
 const STATUS_ORDER = [
   "belum_mulai", "dalam_proses", "terbit", "akan_berakhir", "tidak_berlaku", "tidak_relevan",
@@ -40,7 +40,7 @@ export function RegistryGroup({
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-slate-50"
       >
-        {open ? <ChevronDown className="h-4 w-4 text-slate-400" /> : <ChevronRight className="h-4 w-4 text-slate-400" />}
+        {open ? <ChevronDown className="h-4 w-4 text-slate-500" /> : <ChevronRight className="h-4 w-4 text-slate-500" />}
         <span className="flex h-6 w-6 items-center justify-center rounded bg-slate-800 text-xs font-bold text-white">
           {group.code}
         </span>
@@ -88,7 +88,7 @@ function Row({ item, canEdit }: { item: ComplianceItem; canEdit: boolean }) {
       <tr className={cn("border-b border-slate-50 last:border-0", item.isPrerequisite && "bg-amber-50/20")}>
         <td data-label="Item" className="px-4 py-2 align-top">
           <div className="flex items-start gap-1.5">
-            <span className="font-mono text-xs text-slate-400">{item.code}</span>
+            <span className="font-mono text-xs text-slate-500">{item.code}</span>
             {item.isPrerequisite && <Star className="mt-0.5 h-3 w-3 shrink-0 fill-amber-400 text-amber-400" />}
           </div>
           <div className="text-slate-700">{item.name}</div>
@@ -103,8 +103,8 @@ function Row({ item, canEdit }: { item: ComplianceItem; canEdit: boolean }) {
         <td data-label="Masa berlaku" data-empty={!item.validityNote} className="px-3 py-2 align-top text-xs text-slate-500">{item.validityNote ?? "—"}</td>
         <td data-label="Status" className="px-3 py-2 align-top">
           <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", meta.cls)}>{meta.label}</span>
-          {item.referenceNo && <div className="mt-0.5 font-mono text-[11px] text-slate-400">{item.referenceNo}</div>}
-          {item.expiresOn && <div className="mt-0.5 text-[11px] text-slate-400">exp. {item.expiresOn}</div>}
+          {item.referenceNo && <div className="mt-0.5 font-mono text-[11px] text-slate-500">{item.referenceNo}</div>}
+          {item.expiresOn && <div className="mt-0.5 text-[11px] text-slate-500">exp. {item.expiresOn}</div>}
         </td>
         {canEdit && (
           <td data-action className="px-3 py-2 align-top text-right">

@@ -52,7 +52,7 @@ export function PeriodForm({
             {periods.length}
           </span>
         </span>
-        <ChevronDown className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 text-slate-500 transition-transform group-open:rotate-180" />
       </summary>
 
       <Notice state={state} />
@@ -84,14 +84,14 @@ export function PeriodForm({
           <ul className="mt-4 space-y-1 border-t border-slate-100 pt-3 text-xs text-slate-500">
             {periods.map((p) => (
               <li key={p.id}>
-                <span className="font-mono text-slate-400">{p.code}</span> &middot; {p.name} &middot;{" "}
+                <span className="font-mono text-slate-500">{p.code}</span> &middot; {p.name} &middot;{" "}
                 {p.startsOn} → {p.endsOn}
               </li>
             ))}
           </ul>
         )}
 
-        <p className="mt-3 text-xs leading-relaxed text-slate-400">
+        <p className="mt-3 text-xs leading-relaxed text-slate-500">
           {/* DECISION NEEDED: nama & rentang fase proyek sebenarnya dari klien */}
           Nama dan rentang fase yang sebenarnya perlu dikonfirmasi klien — belum diseed karena itu
           keputusan bisnis, bukan struktur.
@@ -121,7 +121,7 @@ export function BudgetForm({
           <Plus className="h-4 w-4 text-emerald-600" />
           Susun anggaran
         </span>
-        <ChevronDown className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 text-slate-500 transition-transform group-open:rotate-180" />
       </summary>
 
       <Notice state={state} />
@@ -210,7 +210,7 @@ function Field({
           error ? "border-red-300" : "border-slate-200",
         )}
       >
-        {prefix && <span className="text-sm text-slate-400">{prefix}</span>}
+        {prefix && <span className="text-sm text-slate-500">{prefix}</span>}
         <input
           id={name}
           name={name}

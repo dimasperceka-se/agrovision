@@ -46,7 +46,7 @@ export function InfoBox({
         aria-expanded={open}
         className={cn(
           "flex h-6 w-6 items-center justify-center rounded-full transition-colors",
-          open ? "bg-sky-100 text-sky-700" : "text-slate-400 hover:bg-slate-100 hover:text-sky-600",
+          open ? "bg-sky-100 text-sky-700" : "text-slate-500 hover:bg-slate-100 hover:text-sky-600",
         )}
       >
         <Info className="h-4 w-4" />
@@ -66,7 +66,7 @@ export function InfoBox({
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Tutup"
-              className="rounded p-0.5 text-slate-400 hover:bg-slate-100"
+              className="rounded p-0.5 text-slate-500 hover:bg-slate-100"
             >
               <X className="h-4 w-4" />
             </button>

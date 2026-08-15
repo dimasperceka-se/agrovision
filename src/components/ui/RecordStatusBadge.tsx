@@ -15,7 +15,7 @@ const STYLE: Record<string, { label: string; cls: string }> = {
   under_review: { label: "Direview", cls: "bg-amber-50 text-amber-700" },
   approved: { label: "Disetujui", cls: "bg-emerald-50 text-emerald-700" },
   rejected: { label: "Ditolak", cls: "bg-red-50 text-red-700" },
-  cancelled: { label: "Dibatalkan", cls: "bg-slate-100 text-slate-400" },
+  cancelled: { label: "Dibatalkan", cls: "bg-slate-100 text-slate-500" },
 };
 
 export function RecordStatusBadge({ status }: { status: string }) {

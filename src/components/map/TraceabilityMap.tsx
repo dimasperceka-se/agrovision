@@ -285,7 +285,7 @@ export function TraceabilityMap() {
       <div className="absolute left-3 top-3 w-60 overflow-hidden rounded-lg border border-slate-200 bg-white/95 text-xs shadow-lg backdrop-blur">
         <button type="button" onClick={() => setPanelOpen((v) => !v)} className="flex w-full items-center justify-between px-3 py-2 font-semibold text-slate-700 hover:bg-slate-50">
           <span className="flex items-center gap-1.5"><Layers className="h-3.5 w-3.5 text-emerald-600" /> Traceability</span>
-          {panelOpen ? <ChevronDown className="h-3.5 w-3.5 text-slate-400" /> : <ChevronUp className="h-3.5 w-3.5 text-slate-400" />}
+          {panelOpen ? <ChevronDown className="h-3.5 w-3.5 text-slate-500" /> : <ChevronUp className="h-3.5 w-3.5 text-slate-500" />}
         </button>
 
         {panelOpen && (
@@ -309,7 +309,7 @@ export function TraceabilityMap() {
             {/* legenda */}
             {mode === "transactional" ? (
               <div className="space-y-1">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">Aktor</p>
+                <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">Aktor</p>
                 {(Object.keys(ACTOR_META) as ActorType[]).map((t) => (
                   <div key={t} className="flex items-center gap-2 text-slate-600">
                     <span className="h-2.5 w-2.5 rounded-full ring-1 ring-black/20" style={{ backgroundColor: ACTOR_META[t].color }} />
@@ -319,9 +319,9 @@ export function TraceabilityMap() {
               </div>
             ) : (
               <div className="space-y-1">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">Intensitas emisi (kg CO₂e)</p>
+                <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">Intensitas emisi (kg CO₂e)</p>
                 <div className="h-2.5 w-full rounded" style={{ background: `linear-gradient(to right, ${EMISSION_RAMP.map(([, c]) => c).join(",")})` }} />
-                <div className="flex justify-between text-[10px] tabular-nums text-slate-400">
+                <div className="flex justify-between text-[10px] tabular-nums text-slate-500">
                   <span>{EMISSION_RAMP[0][0]}</span><span>rendah → tinggi</span><span>{EMISSION_RAMP[EMISSION_RAMP.length - 1][0]}</span>
                 </div>
               </div>
@@ -329,7 +329,7 @@ export function TraceabilityMap() {
 
             {/* toggle layer */}
             <div className="space-y-1.5">
-              <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">Layer</p>
+              <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">Layer</p>
               <ToggleRow label="Arus transaksi" checked={showFlows} disabled={mode === "emission"} onChange={() => setShowFlows((v) => !v)} />
               <ToggleRow label="Area kebun" checked={showFarms} onChange={() => setShowFarms((v) => !v)} />
               <div className="flex overflow-hidden rounded-md border border-slate-300">
@@ -366,10 +366,10 @@ export function TraceabilityMap() {
               <span className="text-lg" aria-hidden>{ACTOR_META[selected.type].icon}</span>
               <div>
                 <p className="text-sm font-semibold text-slate-800">{selected.name}</p>
-                <p className="font-mono text-[11px] text-slate-400">{selected.displayId} · {ACTOR_META[selected.type].label}</p>
+                <p className="font-mono text-[11px] text-slate-500">{selected.displayId} · {ACTOR_META[selected.type].label}</p>
               </div>
             </div>
-            <button type="button" onClick={() => setSelected(null)} aria-label="Tutup" className="rounded p-0.5 text-slate-400 hover:bg-slate-100"><X className="h-4 w-4" /></button>
+            <button type="button" onClick={() => setSelected(null)} aria-label="Tutup" className="rounded p-0.5 text-slate-500 hover:bg-slate-100"><X className="h-4 w-4" /></button>
           </div>
 
           <div className="flex border-b border-slate-100 text-xs">
@@ -390,10 +390,10 @@ export function TraceabilityMap() {
             )}
 
             {tab === "tx" && (
-              actorFlows.length === 0 ? <p className="text-slate-400">Tidak ada transaksi.</p> : (
+              actorFlows.length === 0 ? <p className="text-slate-500">Tidak ada transaksi.</p> : (
                 <ResponsiveTable>
                   <table className="w-full">
-                    <thead className="text-left text-[10px] uppercase text-slate-400">
+                    <thead className="text-left text-[10px] uppercase text-slate-500">
                       <tr><th className="py-1">Tgl</th><th>Komoditas</th><th>Dari→Ke</th><th className="text-right">Kg</th></tr>
                     </thead>
                     <tbody>
@@ -418,7 +418,7 @@ export function TraceabilityMap() {
                   <span className="float-right font-semibold tabular-nums text-slate-800">{formatNumber(selected.emission.totalCo2eq)} kg CO₂e</span>
                 </div>
                 <div>
-                  <p className="mb-1 text-[10px] font-medium uppercase text-slate-400">Emisi per sumber</p>
+                  <p className="mb-1 text-[10px] font-medium uppercase text-slate-500">Emisi per sumber</p>
                   <BarChart width={280} height={Math.max(120, selected.emission.sources.length * 26)} data={selected.emission.sources} layout="vertical" margin={{ left: 0, right: 24, top: 0, bottom: 0 }}>
                     <XAxis type="number" hide />
                     <YAxis type="category" dataKey="source" width={110} tick={{ fontSize: 9, fill: "#64748b" }} />
@@ -430,7 +430,7 @@ export function TraceabilityMap() {
                   </BarChart>
                 </div>
                 <div>
-                  <p className="mb-1 text-[10px] font-medium uppercase text-slate-400">Komposisi GHG</p>
+                  <p className="mb-1 text-[10px] font-medium uppercase text-slate-500">Komposisi GHG</p>
                   <div className="flex items-center gap-3">
                     <PieChart width={110} height={110}>
                       <Pie data={selected.emission.ghg} dataKey="value" nameKey="category" cx="50%" cy="50%" innerRadius={26} outerRadius={48}>
@@ -465,7 +465,7 @@ export function TraceabilityMap() {
 function ToggleRow({ label, checked, disabled, onChange }: { label: string; checked: boolean; disabled?: boolean; onChange: () => void }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <span className={cn(disabled ? "text-slate-400" : "text-slate-600")}>{label}</span>
+      <span className={cn(disabled ? "text-slate-500" : "text-slate-600")}>{label}</span>
       <button type="button" role="switch" aria-checked={checked} aria-label={label} disabled={disabled} onClick={onChange}
         className={cn("relative h-4 w-7 shrink-0 rounded-full transition-colors", checked ? "bg-emerald-600" : "bg-slate-300", disabled && "cursor-not-allowed opacity-40")}>
         <span className={cn("absolute top-0.5 h-3 w-3 rounded-full bg-white shadow transition-all", checked ? "left-[0.875rem]" : "left-0.5")} />

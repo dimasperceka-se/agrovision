@@ -28,7 +28,7 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
           <Meta label="Komoditas" value={meta.commodity} />
           <Meta label="Diketahui" value="________________" />
         </dl>
-        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">Sumber: {meta.source}</p>
+        <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">Sumber: {meta.source}</p>
       </section>
 
       {/* Tabel modul */}
@@ -54,7 +54,7 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
             <tbody>
               {rows.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length} className="px-4 py-8 text-center text-sm text-slate-400">
+                  <td colSpan={columns.length} className="px-4 py-8 text-center text-sm text-slate-500">
                     Belum ada data.
                   </td>
                 </tr>
@@ -87,7 +87,7 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
             <span className="mx-1 inline-block h-2.5 w-2.5 rounded-sm bg-blue-600 align-middle" /> Header biru = rekomendasi tambahan (baru), digabung langsung.
           </p>
           {visual && <p className="text-blue-600">Visual pendamping: {visual}</p>}
-          {meta.note && <p className="text-slate-400">Catatan: {meta.note}</p>}
+          {meta.note && <p className="text-slate-500">Catatan: {meta.note}</p>}
         </div>
       </section>
     </div>
@@ -97,7 +97,7 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline gap-2">
-      <dt className="w-28 shrink-0 text-slate-400">{label}</dt>
+      <dt className="w-28 shrink-0 text-slate-500">{label}</dt>
       <dd className="font-medium text-slate-700">{value}</dd>
     </div>
   );

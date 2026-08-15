@@ -49,7 +49,7 @@ export function SuitabilityForm({ blocks, fields }: { blocks: Block[]; fields: F
           />
         </div>
 
-        <p className="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <p className="mt-4 mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
           Parameter lahan &mdash; isi yang tersedia, kosongkan yang belum diukur
         </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -177,7 +177,7 @@ function ResultCard({
               >
                 <td data-label="Karakteristik" className="px-4 py-1.5 text-slate-700">
                   {p.charLabel}
-                  <span className="ml-1.5 font-mono text-xs text-slate-400">{p.symbol}</span>
+                  <span className="ml-1.5 font-mono text-xs text-slate-500">{p.symbol}</span>
                 </td>
                 <td data-label="Nilai" className="px-4 py-1.5 text-slate-600">
                   {p.value}

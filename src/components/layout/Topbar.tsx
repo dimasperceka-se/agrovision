@@ -119,7 +119,7 @@ export function Topbar({
             </div>
             <div className="text-sm leading-tight">
               <p className="font-medium text-slate-700">{fullName}</p>
-              <p className="text-xs text-slate-400">{d(`role.${role}`)}</p>
+              <p className="text-xs text-slate-500">{d(`role.${role}`)}</p>
             </div>
           </div>
           <form action={logoutAction}>
@@ -151,14 +151,14 @@ export function Topbar({
           {menuOpen && (
             <>
               <div className="fixed inset-0 z-40" aria-hidden="true" onClick={() => setMenuOpen(false)} />
-              <div role="menu" className="absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border border-slate-200 bg-white p-3 shadow-xl">
+              <div role="menu" className="agv-pop absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border border-slate-200 bg-white p-3 shadow-xl">
                 <div className="border-b border-slate-100 pb-2">
                   <p className="text-sm font-semibold text-slate-800">{fullName}</p>
-                  <p className="text-xs text-slate-400">{d(`role.${role}`)} · {email}</p>
+                  <p className="text-xs text-slate-500">{d(`role.${role}`)} · {email}</p>
                 </div>
                 {multi && (
                   <form action={switchCompanyAction} className="mt-2">
-                    <label htmlFor="companyIdMobile" className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-slate-400">{d("chrome.entity", "Entitas")}</label>
+                    <label htmlFor="companyIdMobile" className="mb-1 block text-[11px] font-medium uppercase tracking-wide text-slate-500">{d("chrome.entity", "Entitas")}</label>
                     <select
                       id="companyIdMobile"
                       name="companyId"
@@ -174,7 +174,7 @@ export function Topbar({
                   </form>
                 )}
                 <div className="mt-2">
-                  <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">{d("chrome.language")}</p>
+                  <p className="mb-1 text-[11px] font-medium uppercase tracking-wide text-slate-500">{d("chrome.language")}</p>
                   <LocaleToggle locale={locale} />
                 </div>
                 <form action={logoutAction} className="mt-3">

@@ -51,12 +51,12 @@ export default async function Page() {
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <div className="flex items-center gap-1.5"><TrendingUp className="h-4 w-4 text-emerald-600" /><p className="text-xs text-slate-500">Revenue</p></div>
           <p className={cn("mt-1.5 text-xl font-bold tabular-nums", hasRevenue ? "text-slate-800" : "text-slate-300")}>{hasRevenue ? formatIdr(reflection.totalRevenueIdr) : EMPTY}</p>
-          <p className="mt-0.5 text-xs text-slate-400">{hasRevenue ? "dari panen disetujui" : "menunggu panen disetujui"}</p>
+          <p className="mt-0.5 text-xs text-slate-500">{hasRevenue ? "dari panen disetujui" : "menunggu panen disetujui"}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <div className="flex items-center gap-1.5"><Scale className="h-4 w-4 text-emerald-600" /><p className="text-xs text-slate-500">Laba / rugi</p></div>
           <p className={cn("mt-1.5 text-xl font-bold tabular-nums", balance === null ? "text-slate-300" : balance < 0 ? "text-red-700" : "text-emerald-700")}>{balance === null ? EMPTY : formatIdr(balance)}</p>
-          <p className="mt-0.5 text-xs text-slate-400">{balance === null ? "butuh revenue" : "revenue − biaya"}</p>
+          <p className="mt-0.5 text-xs text-slate-500">{balance === null ? "butuh revenue" : "revenue − biaya"}</p>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export default async function Page() {
       <section className="mb-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">Biaya ter-refleksi = volume × tarif</h2>
         {reflection.lines.length === 0 ? (
-          <p className="px-4 py-6 text-center text-sm text-slate-400">Belum ada volume operasional untuk direfleksikan.</p>
+          <p className="px-4 py-6 text-center text-sm text-slate-500">Belum ada volume operasional untuk direfleksikan.</p>
         ) : (
           <ResponsiveTable>
             <table className="w-full text-sm">
@@ -129,7 +129,7 @@ export default async function Page() {
       {/* Price list — tarif dapat diubah approver */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
-          Price List <span className="font-normal text-slate-400">— {canEdit ? "klik tarif untuk mengubah" : "hanya approver/super admin yang bisa mengubah"}</span>
+          Price List <span className="font-normal text-slate-500">— {canEdit ? "klik tarif untuk mengubah" : "hanya approver/super admin yang bisa mengubah"}</span>
         </h2>
         <ResponsiveTable>
           <table className="w-full text-sm">
@@ -145,7 +145,7 @@ export default async function Page() {
               {[...costRates, ...revenueRates].map((p) => (
                 <tr key={p.id} className="border-b border-slate-50 last:border-0">
                   <td data-label="Kode" className="px-4 py-2 font-mono text-xs text-slate-500">{p.code}</td>
-                  <td data-label="Kategori" className="px-4 py-2 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-400">· {p.note}</span> : null}</td>
+                  <td data-label="Kategori" className="px-4 py-2 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-500">· {p.note}</span> : null}</td>
                   <td data-label="Jenis" className="px-4 py-2">
                     <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", p.kind === "revenue" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600")}>
                       {p.kind === "revenue" ? "Revenue" : "Biaya"}

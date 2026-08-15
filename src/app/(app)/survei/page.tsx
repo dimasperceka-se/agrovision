@@ -39,11 +39,11 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
                 <Link href={`/survei/${f.id}`} className="flex items-center justify-between px-4 py-2.5 hover:bg-slate-50">
                   <div>
                     <p className="text-sm font-medium text-slate-700">{f.name}</p>
-                    <p className="text-xs text-slate-400">Modul {f.module} · versi {f.version}</p>
+                    <p className="text-xs text-slate-500">Modul {f.module} · versi {f.version}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="rounded bg-slate-100 px-2 py-1 text-xs text-slate-500">{f.fieldCount} field</span>
-                    <ChevronRight className="h-4 w-4 text-slate-400" />
+                    <ChevronRight className="h-4 w-4 text-slate-500" />
                   </div>
                 </Link>
               </li>

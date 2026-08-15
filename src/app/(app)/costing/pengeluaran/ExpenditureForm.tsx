@@ -37,7 +37,7 @@ export function ExpenditureForm({
           <Plus className="h-4 w-4 text-emerald-600" />
           Catat pengeluaran
         </span>
-        <ChevronDown className="h-4 w-4 text-slate-400 transition-transform group-open:rotate-180" />
+        <ChevronDown className="h-4 w-4 text-slate-500 transition-transform group-open:rotate-180" />
       </summary>
 
       {state.message && (
@@ -194,7 +194,7 @@ export function ExpenditureForm({
             {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
             Simpan sebagai draft
           </button>
-          <p className="mt-2 text-xs text-slate-400">
+          <p className="mt-2 text-xs text-slate-500">
             Tersimpan sebagai draft. Ajukan dari daftar di bawah agar masuk approval.
           </p>
         </form>
@@ -225,7 +225,7 @@ function Field({
           error ? "border-red-300" : "border-slate-200",
         )}
       >
-        {prefix && <span className="text-sm text-slate-400">{prefix}</span>}
+        {prefix && <span className="text-sm text-slate-500">{prefix}</span>}
         <input
           id={name}
           name={name}
@@ -284,7 +284,7 @@ function Select({
       {error ? (
         <p className="mt-1 text-xs text-red-600">{error}</p>
       ) : hint ? (
-        <p className="mt-1 text-xs text-slate-400">{hint}</p>
+        <p className="mt-1 text-xs text-slate-500">{hint}</p>
       ) : null}
     </div>
   );

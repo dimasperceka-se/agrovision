@@ -439,14 +439,14 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
           className="flex w-full items-center justify-between px-3 py-2 font-semibold text-slate-700 hover:bg-slate-50"
         >
           <span className="flex items-center gap-1.5"><Layers className="h-3.5 w-3.5 text-emerald-600" /> Layer</span>
-          {panelOpen ? <ChevronDown className="h-3.5 w-3.5 text-slate-400" /> : <ChevronUp className="h-3.5 w-3.5 text-slate-400" />}
+          {panelOpen ? <ChevronDown className="h-3.5 w-3.5 text-slate-500" /> : <ChevronUp className="h-3.5 w-3.5 text-slate-500" />}
         </button>
 
         {panelOpen && (
           <div className="max-h-[38dvh] space-y-3 overflow-y-auto overscroll-contain border-t border-slate-100 px-3 py-2.5 md:max-h-[400px]">
             {/* Peta dasar */}
             <div>
-              <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">Peta dasar</p>
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-500">Peta dasar</p>
               <div className="flex overflow-hidden rounded-md border border-slate-300">
                 {(["satellite", "street"] as const).map((b) => (
                   <button
@@ -463,7 +463,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
 
             {/* Overlay */}
             <div className="space-y-1.5">
-              <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">Overlay</p>
+              <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">Overlay</p>
               <ToggleRow label="Plot kebun" checked={showPlots} disabled={status !== "loading" && !plotsAvailable} onChange={() => setShowPlots((v) => !v)} />
               <ToggleRow label="Ortho drone" hint="pilot" checked={showOrtho} onChange={() => setShowOrtho((v) => !v)} />
               <ToggleRow label="Blok real" hint="pilot" checked={showReal} onChange={() => setShowReal((v) => !v)} />
@@ -479,13 +479,13 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
             {/* Interpolasi */}
             {interp && Object.keys(interp).length > 0 && (
               <div className="space-y-1">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-slate-400">Interpolasi (pilot)</p>
+                <p className="text-[10px] font-medium uppercase tracking-wide text-slate-500">Interpolasi (pilot)</p>
                 {/* Legend di ATAS daftar — dengan 60 layer, daftar discroll dan
                     legend di bawah tidak akan pernah terlihat. */}
                 {activeMeta && (
                   <div className="pb-1">
                     <div className="h-2 w-full rounded" style={{ background: `linear-gradient(to right, ${activeMeta.ramp.join(",")})` }} />
-                    <div className="flex justify-between pt-0.5 text-[10px] tabular-nums text-slate-400">
+                    <div className="flex justify-between pt-0.5 text-[10px] tabular-nums text-slate-500">
                       <span>{activeMeta.min}</span>
                       <span>{activeMeta.unit}</span>
                       <span>{activeMeta.max}</span>
@@ -504,7 +504,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
                       )}
                     >
                       <span>{meta.label}</span>
-                      <span className="text-[10px] text-slate-400">{meta.unit}</span>
+                      <span className="text-[10px] text-slate-500">{meta.unit}</span>
                     </button>
                   ))}
                 </div>
@@ -534,7 +534,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
         <Overlay>
           <TriangleAlert className="h-5 w-5 text-amber-300" />
           <p className="text-sm text-slate-100">Gagal memuat geometry blok</p>
-          <p className="text-xs text-slate-400">{errorMsg}</p>
+          <p className="text-xs text-slate-500">{errorMsg}</p>
         </Overlay>
       )}
 
@@ -552,7 +552,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
                   <p className="font-mono text-sm font-semibold text-slate-800">{selected.blockCode}</p>
                   <p className="text-xs text-slate-500">{selected.estateName}</p>
                 </div>
-                <button type="button" onClick={() => setSelected(null)} aria-label="Tutup" className="rounded p-0.5 text-slate-400 hover:bg-slate-100">
+                <button type="button" onClick={() => setSelected(null)} aria-label="Tutup" className="rounded p-0.5 text-slate-500 hover:bg-slate-100">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -564,7 +564,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
                 <Row label="Biaya / ha" value={formatIdr(selected.costPerHaIdr)} />
                 {selected.pendingCount > 0 && <Row label="Menunggu approval" value={String(selected.pendingCount)} warn />}
               </dl>
-              <p className="mt-2 border-t border-slate-100 pt-2 text-xs leading-relaxed text-slate-400">
+              <p className="mt-2 border-t border-slate-100 pt-2 text-xs leading-relaxed text-slate-500">
                 Hanya transaksi disetujui yang dihitung. Luas dari PostGIS.
               </p>
             </>
@@ -580,7 +580,7 @@ function ToggleRow({ label, hint, checked, disabled, onChange }: {
 }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <span className={cn("flex items-baseline gap-1", disabled ? "text-slate-400" : "text-slate-600")}>
+      <span className={cn("flex items-baseline gap-1", disabled ? "text-slate-500" : "text-slate-600")}>
         {label}
         {hint && <span className="text-[9px] uppercase tracking-wide text-sky-500">{hint}</span>}
       </span>
