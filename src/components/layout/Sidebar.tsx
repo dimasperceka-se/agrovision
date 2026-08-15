@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Map, Sprout, Shovel, Compass, FlaskConical, Scissors,
   ClipboardList, Cloud, BadgeCheck, GitBranch, Wallet, PiggyBank,
   FileBarChart2, CheckSquare, Database, Users, Leaf, ChevronDown,
-  SprayCan, Wheat, Wrench, TreePine, Calculator, TrendingUp,
+  SprayCan, Wheat, Wrench, TreePine, Calculator, TrendingUp, X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getDict, type Locale } from "@/lib/i18n";
@@ -100,7 +100,14 @@ const GROUPS: Group[] = [
   { key: null, items: [{ href: "/approval", key: "nav.approval.inbox", icon: CheckSquare, ready: true }] },
 ];
 
-export function Sidebar({ role, locale }: { role: string; locale: Locale }) {
+export function Sidebar({
+  role, locale, open = false, onClose,
+}: {
+  role: string;
+  locale: Locale;
+  open?: boolean;
+  onClose?: () => void;
+}) {
   const pathname = usePathname();
   const d = getDict(locale);
 
@@ -114,12 +121,28 @@ export function Sidebar({ role, locale }: { role: string; locale: Locale }) {
   const toggle = (k: string) => setCollapsed((s) => ({ ...s, [k]: !s[k] }));
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white">
-      <div className="flex items-center gap-2 px-5 py-4">
-        <div className="rounded-lg bg-emerald-700 p-1.5">
-          <Leaf className="h-5 w-5 text-white" />
+    <aside
+      id="app-drawer"
+      className={cn(
+        "fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 flex-col border-r border-slate-200 bg-white transition-transform duration-200 md:static md:z-auto md:translate-x-0",
+        open ? "translate-x-0" : "-translate-x-full",
+      )}
+    >
+      <div className="flex items-center justify-between px-5 py-4">
+        <div className="flex items-center gap-2">
+          <div className="rounded-lg bg-emerald-700 p-1.5">
+            <Leaf className="h-5 w-5 text-white" />
+          </div>
+          <span className="text-base font-bold text-slate-800">AgroVision</span>
         </div>
-        <span className="text-base font-bold text-slate-800">AgroVision</span>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label={d("common.close", "Tutup")}
+          className="-mr-1.5 rounded-md p-1.5 text-slate-400 hover:bg-slate-100 md:hidden"
+        >
+          <X className="h-5 w-5" />
+        </button>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 pb-4">
@@ -167,9 +190,10 @@ export function Sidebar({ role, locale }: { role: string; locale: Locale }) {
                       <li key={item.href}>
                         <Link
                           href={item.href}
+                          onClick={onClose}
                           aria-current={active ? "page" : undefined}
                           className={cn(
-                            "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                            "flex min-h-11 items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors md:min-h-0",
                             active ? "bg-emerald-50 text-emerald-700" : "text-slate-600 hover:bg-slate-50",
                           )}
                         >
