@@ -10,6 +10,8 @@ steps:
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
       - -t
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest
+      - --build-arg
+      - NEXT_PUBLIC_TILES_BASE_URL=${_TILES_BASE_URL}
       - .
   # 2. Push ke Artifact Registry
   - name: gcr.io/cloud-builders/docker
@@ -41,6 +43,7 @@ substitutions:
   _REPO: agrovision
   _SERVICE: agrovision
   _BASEMAP_URL: ""
+  _TILES_BASE_URL: https://storage.googleapis.com/agrovision-tiles-393569486275
 options:
   logging: CLOUD_LOGGING_ONLY
 timeout: 1800s

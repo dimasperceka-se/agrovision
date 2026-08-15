@@ -51,6 +51,8 @@ const PILOT_BOUNDS: [[number, number], [number, number]] = [
 const REAL_BLOCKS_URL = "/overlays/polygon-block-real.geojson";
 const POINTS_URL = "/overlays/pilot-points.geojson";
 const INTERP_MANIFEST_URL = "/overlays/interp/manifest.json";
+// Ortho drone (~465MB) di-host di GCS, keluar dari repo. Kosong = lokal (/public/tiles) untuk dev.
+const TILES_BASE = process.env.NEXT_PUBLIC_TILES_BASE_URL ?? "";
 
 // Warna titik pohon — kontras tinggi terhadap citra hijau & satu sama lain.
 const PALM_COLOR = "#fde047"; // kuning terang (kelapa/palm)
@@ -76,7 +78,7 @@ function buildStyle(): StyleSpecification {
       // ?v=2 = cache-buster: tile lama (latar putih opak) sudah diganti versi
       // transparan (nearblack). URL identik → browser bisa sajikan cache basi;
       // query param memaksa fetch ulang.
-      ortho: { type: "raster", tiles: ["/tiles/ortho/{z}/{x}/{y}.png?v=2"], tileSize: 256, minzoom: 14, maxzoom: 19, attribution: "Drone orthophoto" },
+      ortho: { type: "raster", tiles: [`${TILES_BASE}/tiles/ortho/{z}/{x}/{y}.png?v=2`], tileSize: 256, minzoom: 14, maxzoom: 19, attribution: "Drone orthophoto" },
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#0f172a" } },

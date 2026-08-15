@@ -11,9 +11,12 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Base URL host tiles ortho di GCS. NEXT_PUBLIC_* di-inline saat build → harus ada di sini.
+ARG NEXT_PUBLIC_TILES_BASE_URL=""
 # Env dummy KHUSUS build: koneksi DB dibuat saat modul di-import, dan `next build`
 # meng-import halaman. Build tidak konek DB sungguhan — runtime pakai secret Cloud Run.
 ENV NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_TILES_BASE_URL=$NEXT_PUBLIC_TILES_BASE_URL \
     DATABASE_URL=postgres://build:build@localhost:5432/build \
     SESSION_SECRET=build_time_only_placeholder_min_32_chars_0000
 RUN npm run build
