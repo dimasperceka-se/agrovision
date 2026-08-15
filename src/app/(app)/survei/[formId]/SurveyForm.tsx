@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { Loader2, Send, CircleAlert, CircleCheck } from "lucide-react";
 import { submitSurveyAction, type SurveyState } from "@/lib/actions/survey";
 import type { SurveyForm as FormSchema, SurveyField } from "@/lib/repo/operational";
@@ -16,9 +17,9 @@ export function SurveyForm({ form, blocks }: { form: FormSchema; blocks: { value
       <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-6 text-center">
         <CircleCheck className="mx-auto h-8 w-8 text-emerald-600" />
         <p className="mt-2 text-sm font-medium text-emerald-800">{state.message}</p>
-        <a href="/survei" className="mt-3 inline-block rounded-md border border-emerald-300 bg-white px-3 py-1.5 text-sm text-emerald-700 hover:bg-emerald-100">
+        <Link href="/survei" className="mt-3 inline-block rounded-md border border-emerald-300 bg-white px-3 py-1.5 text-sm text-emerald-700 hover:bg-emerald-100">
           Kembali ke Survei
-        </a>
+        </Link>
       </div>
     );
   }

@@ -1,7 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/Toast";
+import { ServiceWorkerRegister } from "@/components/pwa/ServiceWorkerRegister";
+import { OfflineBanner } from "@/components/pwa/OfflineBanner";
+import { getLocale } from "@/lib/i18n-server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,20 +19,36 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AgroVision — Agroforestry, Traceability & Carbon Intelligence Platform",
   description: "Prototype platform AgroVision untuk agroforestry, traceability, dan carbon intelligence.",
+  applicationName: "AgroVision",
+  appleWebApp: { capable: true, title: "AgroVision", statusBarStyle: "default" },
+  icons: { apple: "/icons/apple-touch-icon.png" },
 };
 
-export default function RootLayout({
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#059669" },
+    { media: "(prefers-color-scheme: dark)", color: "#065f46" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
     <html
-      lang="id"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-slate-50">
+        <OfflineBanner locale={locale} />
         <ToastProvider>{children}</ToastProvider>
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

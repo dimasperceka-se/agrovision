@@ -20,6 +20,19 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "8mb",
     },
   },
+
+  // Service worker tidak boleh di-cache browser agar update-nya cepat terpasang.
+  async headers() {
+    return [
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

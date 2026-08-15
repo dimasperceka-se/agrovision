@@ -5,6 +5,7 @@ import { logoutAction, setLocaleAction, switchCompanyAction } from "@/lib/action
 import type { CompanyOption } from "@/lib/session";
 import { getDict, LOCALES, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 
 function initials(name: string): string {
   return name.split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase() ?? "").join("");
@@ -60,6 +61,7 @@ export function Topbar({
       </div>
 
       <div className="flex items-center gap-3">
+        <InstallPrompt locale={locale} />
         {/* Toggle bahasa: satu tombol per locale, submit Server Action. */}
         <form action={setLocaleAction} className="flex overflow-hidden rounded-md border border-slate-200">
           {LOCALES.map((l) => (
