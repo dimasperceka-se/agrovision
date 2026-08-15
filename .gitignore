@@ -46,3 +46,7 @@ next-env.d.ts
 
 # claude code local settings
 .claude/settings.local.json
+
+# aset besar — dilayani dari GCS / bisa diregenerasi (bikin repo terlalu berat untuk di-clone Cloud Build)
+/public/tiles/
+*.tif
