@@ -30,7 +30,7 @@ steps:
       - --memory=1Gi
       - --min-instances=0
       - --max-instances=4
-      - --add-cloudsql-instances=${_SQL_INSTANCE}
+      - --add-cloudsql-instances=${PROJECT_ID}:${_REGION}:agrovision-db
       - --set-secrets=DATABASE_URL=DATABASE_URL:latest,SESSION_SECRET=SESSION_SECRET:latest
       - --set-env-vars=NODE_ENV=production,NEXT_PUBLIC_BASEMAP_STYLE_URL=${_BASEMAP_URL}
 images:
@@ -40,7 +40,6 @@ substitutions:
   _REGION: asia-southeast2
   _REPO: agrovision
   _SERVICE: agrovision
-  _SQL_INSTANCE: PROJECT_ID:asia-southeast2:agrovision-db
   _BASEMAP_URL: ""
 options:
   logging: CLOUD_LOGGING_ONLY
