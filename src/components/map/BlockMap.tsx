@@ -149,7 +149,16 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
   const [showPoints, setShowPoints] = useState(false);
   const [activeInterp, setActiveInterp] = useState<string | null>(null);
   const [interp, setInterp] = useState<InterpManifest | null>(null);
-  const [panelOpen, setPanelOpen] = useState(true);
+  // Default TERTUTUP supaya di HP peta tidak tertutup panel; dibuka otomatis di
+  // desktop (>=768px) lewat efek di bawah — inisialisasi tidak boleh menyentuh
+  // window agar render server & klien sama (hindari hydration mismatch).
+  const [panelOpen, setPanelOpen] = useState(false);
+  useEffect(() => {
+    const openOnDesktop = () => {
+      if (window.matchMedia("(min-width: 768px)").matches) setPanelOpen(true);
+    };
+    openOnDesktop();
+  }, []);
 
   function flyToPilot(m: MlMap) {
     m.fitBounds(PILOT_BOUNDS, { padding: 40, maxZoom: 19, duration: 800 });
@@ -423,7 +432,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
       <div ref={container} className={cn(heightClass, "w-full bg-slate-900")} />
 
       {/* ── Panel kontrol layer (pojok kiri-bawah) ── */}
-      <div className="absolute bottom-3 left-3 w-56 overflow-hidden rounded-lg border border-slate-200 bg-white/95 text-xs shadow-lg backdrop-blur">
+      <div className="absolute bottom-3 left-3 z-10 w-[min(14rem,calc(100%-1.5rem))] overflow-hidden rounded-lg border border-slate-200 bg-white/95 text-xs shadow-lg backdrop-blur md:w-56">
         <button
           type="button"
           onClick={() => setPanelOpen((v) => !v)}
@@ -434,7 +443,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
         </button>
 
         {panelOpen && (
-          <div className="max-h-[400px] space-y-3 overflow-y-auto border-t border-slate-100 px-3 py-2.5">
+          <div className="max-h-[38dvh] space-y-3 overflow-y-auto overscroll-contain border-t border-slate-100 px-3 py-2.5 md:max-h-[400px]">
             {/* Peta dasar */}
             <div>
               <p className="mb-1 text-[10px] font-medium uppercase tracking-wide text-slate-400">Peta dasar</p>
@@ -529,8 +538,9 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
         </Overlay>
       )}
 
+      {/* Mobile: kartu detail naik di atas pil "Layer" agar tidak bertabrakan. */}
       {(selected || loadingDetail) && (
-        <div className="absolute bottom-3 right-3 w-72 rounded-lg border border-slate-200 bg-white/97 p-3 shadow-lg backdrop-blur">
+        <div className="absolute bottom-14 right-3 z-10 max-h-[45dvh] w-[min(18rem,calc(100%-1.5rem))] overflow-y-auto rounded-lg border border-slate-200 bg-white/97 p-3 shadow-lg backdrop-blur md:bottom-3 md:max-h-none md:w-72 md:overflow-visible">
           {loadingDetail ? (
             <p className="flex items-center gap-2 text-sm text-slate-500">
               <Loader2 className="h-4 w-4 animate-spin" /> Memuat data blok...
