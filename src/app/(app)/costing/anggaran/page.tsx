@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatIdr, formatPct } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { PeriodForm, BudgetForm } from "./Forms";
@@ -110,7 +111,7 @@ export default async function AnggaranPage() {
             description="Susun anggaran di atas. Perbandingan realisasi dihitung otomatis dari pengeluaran yang sudah disetujui — tidak perlu diinput ulang."
           />
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -130,20 +131,21 @@ export default async function AnggaranPage() {
                     key={b.budgetId}
                     className={cn("border-b border-slate-50 last:border-0", b.isOverBudget && "bg-red-50/40")}
                   >
-                    <td className="px-4 py-2.5 text-slate-600">{b.periodName}</td>
-                    <td className="px-4 py-2.5 text-slate-700">{b.costCategoryName}</td>
-                    <td className="px-4 py-2.5">
+                    <td data-label="Periode" className="px-4 py-2.5 text-slate-600">{b.periodName}</td>
+                    <td data-label="Kategori" className="px-4 py-2.5 text-slate-700">{b.costCategoryName}</td>
+                    <td data-label="Lingkup" className="px-4 py-2.5">
                       <span className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-500">
                         {b.scopeType}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-600">
+                    <td data-label="Anggaran" className="px-4 py-2.5 text-right tabular-nums text-slate-600">
                       {formatIdr(b.budgetIdr)}
                     </td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-800">
+                    <td data-label="Realisasi" className="px-4 py-2.5 text-right tabular-nums text-slate-800">
                       {formatIdr(b.actualIdr)}
                     </td>
                     <td
+                      data-label="Sisa"
                       className={cn(
                         "px-4 py-2.5 text-right tabular-nums",
                         b.remainingIdr < 0 ? "font-medium text-red-700" : "text-slate-600",
@@ -151,10 +153,10 @@ export default async function AnggaranPage() {
                     >
                       {formatIdr(b.remainingIdr)}
                     </td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-700">
+                    <td data-label="Serapan" className="px-4 py-2.5 text-right tabular-nums text-slate-700">
                       {formatPct(b.utilisationPct)}
                     </td>
-                    <td className="px-4 py-2.5">
+                    <td data-label="Status" className="px-4 py-2.5">
                       {b.isOverBudget ? (
                         <span className="rounded bg-red-50 px-1.5 py-0.5 text-xs font-medium text-red-700">
                           Terlampaui
@@ -169,7 +171,7 @@ export default async function AnggaranPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
       </section>
 

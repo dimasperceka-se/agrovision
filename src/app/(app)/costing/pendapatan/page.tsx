@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatIdr, formatIdrShort, formatNumber, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -62,7 +63,7 @@ export default async function RevenuePage() {
             description="Setujui panen di Inbox Approval untuk melihat pendapatan muncul di sini — otomatis dari tonase × tarif komoditas."
           />
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -75,10 +76,10 @@ export default async function RevenuePage() {
               <tbody>
                 {reflection.revenueLines.map((l) => (
                   <tr key={l.cropCode} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2.5 text-slate-700">{l.category}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-600">{formatNumber(l.tonnage)} ton</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatIdrShort(l.rateIdr)}</td>
-                    <td className="px-4 py-2.5 text-right font-medium tabular-nums text-emerald-700">{formatIdr(l.amountIdr)}</td>
+                    <td data-label="Komoditas" className="px-4 py-2.5 text-slate-700">{l.category}</td>
+                    <td data-label="Tonase" className="px-4 py-2.5 text-right tabular-nums text-slate-600">{formatNumber(l.tonnage)} ton</td>
+                    <td data-label="Tarif / ton" className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatIdrShort(l.rateIdr)}</td>
+                    <td data-label="Pendapatan" className="px-4 py-2.5 text-right font-medium tabular-nums text-emerald-700">{formatIdr(l.amountIdr)}</td>
                   </tr>
                 ))}
                 <tr className="bg-slate-50 font-semibold">
@@ -87,7 +88,7 @@ export default async function RevenuePage() {
                 </tr>
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
       </section>
 
@@ -96,7 +97,7 @@ export default async function RevenuePage() {
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
           Tarif komoditas <span className="font-normal text-slate-400">— diubah di Refleksi Biaya (approver/super admin)</span>
         </h2>
-        <div className="overflow-x-auto">
+        <ResponsiveTable>
           <table className="w-full text-sm">
             <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
               <tr>
@@ -108,14 +109,14 @@ export default async function RevenuePage() {
             <tbody>
               {reflection.revenueRates.map((p) => (
                 <tr key={p.id} className="border-b border-slate-50 last:border-0">
-                  <td className="px-4 py-2.5 font-mono text-xs text-slate-500">{p.code}</td>
-                  <td className="px-4 py-2.5 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-400">· {p.note}</span> : null}</td>
-                  <td className="px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(p.rateIdr)}<span className="text-xs text-slate-400"> / {p.unit}</span></td>
+                  <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-500">{p.code}</td>
+                  <td data-label="Komoditas" className="px-4 py-2.5 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-400">· {p.note}</span> : null}</td>
+                  <td data-label="Tarif" className="px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(p.rateIdr)}<span className="text-xs text-slate-400"> / {p.unit}</span></td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ResponsiveTable>
       </section>
     </div>
   );

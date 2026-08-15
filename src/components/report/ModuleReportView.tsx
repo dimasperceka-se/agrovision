@@ -1,3 +1,4 @@
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import type { ModuleReport } from "@/lib/report/types";
 
 /**
@@ -32,7 +33,7 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
 
       {/* Tabel modul */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-        <div className="overflow-x-auto">
+        <ResponsiveTable>
           <table className="w-full text-sm">
             <thead>
               <tr>
@@ -63,6 +64,8 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
                     {row.map((cell, ci) => (
                       <td
                         key={ci}
+                        data-label={columns[ci].label}
+                        data-empty={cell === null || cell === "" || cell === "—"}
                         className={
                           "px-3 py-2 " +
                           (columns[ci].align === "right" ? "text-right tabular-nums " : "") +
@@ -77,7 +80,7 @@ export function ModuleReportView({ report }: { report: ModuleReport }) {
               )}
             </tbody>
           </table>
-        </div>
+        </ResponsiveTable>
         <div className="space-y-1 border-t border-slate-100 px-4 py-2 text-xs">
           <p className="text-slate-500">
             <span className="mr-1 inline-block h-2.5 w-2.5 rounded-sm bg-emerald-700 align-middle" /> Header hijau = kolom eksisting ·{" "}

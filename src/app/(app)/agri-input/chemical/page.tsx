@@ -8,6 +8,7 @@ import { OpRecordForm } from "@/components/ui/OpRecordForm";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { listChemicals } from "@/lib/repo/agriInput";
 import { createChemicalAction } from "@/lib/actions/agriInput";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -58,7 +59,7 @@ export default async function Page() {
         {items.length === 0 ? (
           <EmptyState icon={FlaskConical} title="Belum ada item chemical" description="Tambahkan pupuk/pestisida beserta stok dan rekomendasi fasenya." />
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -75,24 +76,24 @@ export default async function Page() {
                   const low = i.reorderLevel !== null && i.stockQty <= i.reorderLevel;
                   return (
                     <tr key={i.id} className="border-b border-slate-50 last:border-0">
-                      <td className="px-4 py-2 font-mono text-xs text-slate-500">{i.code}</td>
-                      <td className="px-4 py-2 text-slate-700">{i.name}</td>
-                      <td className="px-4 py-2 text-slate-600 capitalize">{i.category}</td>
-                      <td className="px-4 py-2">
+                      <td data-label="Kode" className="px-4 py-2 font-mono text-xs text-slate-500">{i.code}</td>
+                      <td data-label="Nama" className="px-4 py-2 text-slate-700">{i.name}</td>
+                      <td data-label="Kategori" className="px-4 py-2 text-slate-600 capitalize">{i.category}</td>
+                      <td data-label="Jalur" className="px-4 py-2">
                         <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", i.isOrganic ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600")}>
                           {i.isOrganic ? "Organik" : "Sintetik"}
                         </span>
                       </td>
-                      <td className={cn("px-4 py-2 text-right tabular-nums", low ? "font-semibold text-red-700" : "text-slate-700")}>
+                      <td data-label="Stok" className={cn("px-4 py-2 text-right tabular-nums", low ? "font-semibold text-red-700" : "text-slate-700")}>
                         {formatNumber(i.stockQty)} {i.unit}{low ? " ⚠" : ""}
                       </td>
-                      <td className="px-4 py-2 text-slate-600">{i.recPhase ? (PHASE_LABEL[i.recPhase] ?? i.recPhase) : "—"}</td>
+                      <td data-label="Rekomendasi fase" data-empty={!i.recPhase} className="px-4 py-2 text-slate-600">{i.recPhase ? (PHASE_LABEL[i.recPhase] ?? i.recPhase) : "—"}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
       </section>
     </div>

@@ -75,7 +75,7 @@ export function FinancialDashboardView({ data, company }: { data: FinDashboard; 
                   {gradeKeys.map((k) => <Bar key={k} dataKey={k} stackId="g" fill={GRADE_COLOR[k] ?? "#94a3b8"} radius={[0, 2, 2, 0]} />)}
                 </BarChart>
               </ResponsiveContainer>
-              <div className="mt-2 flex gap-6 border-t border-slate-100 pt-2 text-xs">
+              <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-2 text-xs">
                 <div><span className="text-slate-400">Total Revenue</span><p className="font-semibold text-emerald-700">{data.totalRevenue === null ? "—" : formatIdr(data.totalRevenue)}</p></div>
                 <div><span className="text-slate-400">Total Volume</span><p className="font-semibold text-slate-700">{data.totalVolume === null ? "—" : `${num(data.totalVolume, 2)} ton`}</p></div>
               </div>

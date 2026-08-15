@@ -1,6 +1,7 @@
 import { RecordStatusBadge } from "./RecordStatusBadge";
 import { EmptyState } from "./EmptyState";
 import { OpSubmitButton } from "./OpSubmitButton";
+import { ResponsiveTable } from "./ResponsiveTable";
 import { formatDate, EMPTY } from "@/lib/format";
 import type { LucideIcon } from "lucide-react";
 import type { OpRecord } from "@/lib/repo/operational";
@@ -28,7 +29,7 @@ export function OpRecordTable({
   }
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-      <div className="overflow-x-auto">
+      <ResponsiveTable>
         <table className="w-full text-sm">
           <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
             <tr>
@@ -43,17 +44,17 @@ export function OpRecordTable({
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} className="border-b border-slate-50 align-top last:border-0">
-                <td className="whitespace-nowrap px-4 py-2.5 text-slate-600">{formatDate(r.eventDate)}</td>
-                <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{r.blockCode ?? EMPTY}</td>
-                <td className="px-4 py-2.5 text-slate-700">{r.detail}</td>
-                <td className="px-4 py-2.5 text-slate-500">{r.createdByName ?? EMPTY}</td>
-                <td className="px-4 py-2.5">
+                <td data-label="Tanggal" className="whitespace-nowrap px-4 py-2.5 text-slate-600">{formatDate(r.eventDate)}</td>
+                <td data-label="Blok" className="px-4 py-2.5 font-mono text-xs text-slate-600">{r.blockCode ?? EMPTY}</td>
+                <td data-label="Detail" className="px-4 py-2.5 text-slate-700">{r.detail}</td>
+                <td data-label="Petugas" className="px-4 py-2.5 text-slate-500">{r.createdByName ?? EMPTY}</td>
+                <td data-label="Status" className="px-4 py-2.5">
                   <RecordStatusBadge status={r.approvalStatus} />
                   {r.rejectionReason && (
                     <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-red-600">{r.rejectionReason}</p>
                   )}
                 </td>
-                <td className="px-4 py-2.5 text-right">
+                <td data-action className="px-4 py-2.5 text-right">
                   {canWrite && (r.approvalStatus === "draft" || r.approvalStatus === "rejected") && (
                     <OpSubmitButton module={moduleKey} id={r.id} />
                   )}
@@ -62,7 +63,7 @@ export function OpRecordTable({
             ))}
           </tbody>
         </table>
-      </div>
+      </ResponsiveTable>
     </div>
   );
 }

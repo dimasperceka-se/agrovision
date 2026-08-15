@@ -23,7 +23,7 @@ type FC = GeoJSON.FeatureCollection;
  * warna per status + legenda (OK/Perhatian/Kritis/Belum ada data). Tanpa panel
  * layer. Blok dummy tidak ditampilkan.
  */
-export function EstateMap({ status, heightClass = "h-[300px]" }: { status: IndStatus; heightClass?: string }) {
+export function EstateMap({ status, heightClass = "h-[42dvh] md:h-[300px]" }: { status: IndStatus; heightClass?: string }) {
   const el = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const color = COLOR[status] ?? COLOR.belum;
@@ -33,6 +33,8 @@ export function EstateMap({ status, heightClass = "h-[300px]" }: { status: IndSt
     let cancelled = false;
     const m = new MlMap({
       container: el.current,
+      // Mobile: dua jari untuk menggeser peta agar scroll halaman tetap lancar.
+      cooperativeGestures: typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches,
       style: {
         version: 8,
         sources: { esri: { type: "raster", tiles: [ESRI], tileSize: 256, maxzoom: 19, attribution: "Tiles &copy; Esri" } },

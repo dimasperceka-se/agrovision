@@ -126,7 +126,9 @@ function boundsOf(features: GeoJSON.Feature[]): LngLatBounds {
   return b;
 }
 
-export function BlockMap({ blockCount, heightClass = "h-[520px]" }: { blockCount: number; heightClass?: string }) {
+// Mobile: tinggi mengikuti viewport (dvh) agar peta tetap proporsional & tidak
+// memaksa scroll panjang; desktop tetap tinggi tetap.
+export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }: { blockCount: number; heightClass?: string }) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<MlMap | null>(null);
   const blocksData = useRef<FC | null>(null);
@@ -231,6 +233,9 @@ export function BlockMap({ blockCount, heightClass = "h-[520px]" }: { blockCount
     const m = new MlMap({
       container: container.current,
       style: buildStyle(),
+      // Mobile: butuh dua jari untuk menggeser peta, supaya satu jari tetap
+      // men-scroll halaman (peta tidak "menjebak" scroll). Desktop tidak berubah.
+      cooperativeGestures: typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches,
       // Buka langsung di wilayah drone (pilot Sumatra), bukan overview Kalimantan.
       center: [(ORTHO.west + ORTHO.east) / 2, (ORTHO.south + ORTHO.north) / 2],
       zoom: 12.5,

@@ -8,6 +8,7 @@ import { OpRecordForm } from "@/components/ui/OpRecordForm";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { listEquipment } from "@/lib/repo/agriInput";
 import { createEquipmentAction } from "@/lib/actions/agriInput";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatIdr, formatNumber, EMPTY } from "@/lib/format";
 
 export const metadata = { title: "Equipment — AgroVision" };
@@ -63,7 +64,7 @@ export default async function Page() {
         {items.length === 0 ? (
           <EmptyState icon={Wrench} title="Belum ada equipment" description="Tambahkan alat/kendaraan/drone beserta harga beli dan konsumsi energinya." />
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -79,18 +80,18 @@ export default async function Page() {
               <tbody>
                 {items.map((i) => (
                   <tr key={i.id} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2 font-mono text-xs text-slate-500">{i.code}</td>
-                    <td className="px-4 py-2 text-slate-700">{i.name}</td>
-                    <td className="px-4 py-2 text-slate-600 capitalize">{i.category}</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-slate-700">{i.purchasePriceIdr === null ? EMPTY : formatIdr(i.purchasePriceIdr)}</td>
-                    <td className="px-4 py-2 text-slate-600">{i.usageFreq ?? EMPTY}</td>
-                    <td className="px-4 py-2 text-slate-600">{i.fuelType ? (FUEL_LABEL[i.fuelType] ?? i.fuelType) : EMPTY}</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-slate-600">{i.fuelPerHour === null ? EMPTY : formatNumber(i.fuelPerHour)}</td>
+                    <td data-label="Kode" className="px-4 py-2 font-mono text-xs text-slate-500">{i.code}</td>
+                    <td data-label="Nama" className="px-4 py-2 text-slate-700">{i.name}</td>
+                    <td data-label="Kategori" className="px-4 py-2 text-slate-600 capitalize">{i.category}</td>
+                    <td data-label="Harga beli" data-empty={i.purchasePriceIdr === null} className="px-4 py-2 text-right tabular-nums text-slate-700">{i.purchasePriceIdr === null ? EMPTY : formatIdr(i.purchasePriceIdr)}</td>
+                    <td data-label="Frekuensi" data-empty={!i.usageFreq} className="px-4 py-2 text-slate-600">{i.usageFreq ?? EMPTY}</td>
+                    <td data-label="Energi" data-empty={!i.fuelType} className="px-4 py-2 text-slate-600">{i.fuelType ? (FUEL_LABEL[i.fuelType] ?? i.fuelType) : EMPTY}</td>
+                    <td data-label="Konsumsi/jam" data-empty={i.fuelPerHour === null} className="px-4 py-2 text-right tabular-nums text-slate-600">{i.fuelPerHour === null ? EMPTY : formatNumber(i.fuelPerHour)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
       </section>
     </div>

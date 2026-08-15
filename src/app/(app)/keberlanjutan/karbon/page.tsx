@@ -9,6 +9,7 @@ import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
 import { InfoBox } from "@/components/ui/InfoBox";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatHa, formatNumber, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -138,7 +139,7 @@ export default async function KarbonPage() {
             <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
               Karbon per Blok &mdash; {run.code}
             </h2>
-            <div className="overflow-x-auto">
+            <ResponsiveTable>
               <table className="w-full text-sm">
                 <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                   <tr>
@@ -155,12 +156,12 @@ export default async function KarbonPage() {
                     const st = STATUS_LABEL[b.status] ?? STATUS_LABEL.neutral;
                     return (
                       <tr key={b.blockCode} className="border-b border-slate-50 last:border-0">
-                        <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{b.blockCode}</td>
-                        <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatHa(b.areaHa)}</td>
-                        <td className="px-4 py-2.5 text-right tabular-nums text-red-700">{tco2e(b.emissionTco2e)}</td>
-                        <td className="px-4 py-2.5 text-right tabular-nums text-emerald-700">{tco2e(b.sequestrationTco2e)}</td>
-                        <td className="px-4 py-2.5 text-right tabular-nums font-medium text-slate-800">{tco2e(b.netTco2e)}</td>
-                        <td className="px-4 py-2.5">
+                        <td data-label="Blok" className="px-4 py-2.5 font-mono text-xs text-slate-600">{b.blockCode}</td>
+                        <td data-label="Luas" className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatHa(b.areaHa)}</td>
+                        <td data-label="Emisi" className="px-4 py-2.5 text-right tabular-nums text-red-700">{tco2e(b.emissionTco2e)}</td>
+                        <td data-label="Serapan" className="px-4 py-2.5 text-right tabular-nums text-emerald-700">{tco2e(b.sequestrationTco2e)}</td>
+                        <td data-label="Neraca" className="px-4 py-2.5 text-right tabular-nums font-medium text-slate-800">{tco2e(b.netTco2e)}</td>
+                        <td data-label="Status" className="px-4 py-2.5">
                           <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", st.cls)}>{st.label}</span>
                         </td>
                       </tr>
@@ -168,7 +169,7 @@ export default async function KarbonPage() {
                   })}
                 </tbody>
               </table>
-            </div>
+            </ResponsiveTable>
           </section>
         </>
       )}
@@ -180,7 +181,7 @@ export default async function KarbonPage() {
         {factors.length === 0 ? (
           <EmptyState icon={Cloud} title="Belum ada faktor emisi" />
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -193,12 +194,12 @@ export default async function KarbonPage() {
               <tbody>
                 {factors.map((f) => (
                   <tr key={f.code} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2.5 font-mono text-xs text-slate-500">{f.code}</td>
-                    <td className="px-4 py-2.5 text-slate-700">{f.name}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-700">
+                    <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-500">{f.code}</td>
+                    <td data-label="Nama" className="px-4 py-2.5 text-slate-700">{f.name}</td>
+                    <td data-label="Nilai" className="px-4 py-2.5 text-right tabular-nums text-slate-700">
                       {formatNumber(f.value)} {f.unitNumerator}/{f.unitDenominator}
                     </td>
-                    <td className="px-4 py-2.5 text-xs text-slate-500">
+                    <td data-label="Sumber" className="px-4 py-2.5 text-xs text-slate-500">
                       {f.sourceStandard}
                       {f.requiresNote && (
                         <span className="ml-1.5 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800">
@@ -210,7 +211,7 @@ export default async function KarbonPage() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
       </section>
     </div>

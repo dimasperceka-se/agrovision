@@ -8,6 +8,7 @@ import { getDict } from "@/lib/i18n";
 import { Pagination } from "@/components/ui/Pagination";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { RecordStatusBadge } from "@/components/ui/RecordStatusBadge";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatDate, formatIdr, formatIdrShort, formatHa, EMPTY } from "@/lib/format";
 import { SubmitButton } from "./SubmitButton";
 import { cn } from "@/lib/utils";
@@ -69,7 +70,7 @@ export default async function PengeluaranPage({
       {perBlock.length > 0 && (
         <div className="mb-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
           <p className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">Biaya per blok</p>
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -83,11 +84,11 @@ export default async function PengeluaranPage({
               <tbody>
                 {perBlock.map((b) => (
                   <tr key={b.blockId} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{b.blockCode}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatHa(b.areaHa)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{b.transactionCount}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-700">{formatIdr(b.totalCostIdr)}</td>
-                    <td className="px-4 py-2.5 text-right font-medium tabular-nums text-slate-800">
+                    <td data-label="Blok" className="px-4 py-2.5 font-mono text-xs text-slate-600">{b.blockCode}</td>
+                    <td data-label="Luas" className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatHa(b.areaHa)}</td>
+                    <td data-label="Transaksi" className="px-4 py-2.5 text-right tabular-nums text-slate-500">{b.transactionCount}</td>
+                    <td data-label="Total biaya" className="px-4 py-2.5 text-right tabular-nums text-slate-700">{formatIdr(b.totalCostIdr)}</td>
+                    <td data-label="Biaya / ha" className="px-4 py-2.5 text-right font-medium tabular-nums text-slate-800">
                       {b.costPerHaIdr === null ? (
                         <span title="Luas belum ada — polygon blok belum didigitasi">{EMPTY}</span>
                       ) : (
@@ -98,7 +99,7 @@ export default async function PengeluaranPage({
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
           <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-400">
             Hanya transaksi berstatus <strong>disetujui</strong> yang dihitung. Luas berasal dari PostGIS, bukan input manual.
           </p>
@@ -137,7 +138,7 @@ export default async function PengeluaranPage({
           />
         ) : (
           <>
-            <div className="overflow-x-auto">
+            <ResponsiveTable>
               <table className="w-full text-sm">
                 <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                   <tr>
@@ -154,30 +155,30 @@ export default async function PengeluaranPage({
                 <tbody>
                   {data.rows.map((r) => (
                     <tr key={r.id} className="border-b border-slate-50 align-top last:border-0">
-                      <td className="whitespace-nowrap px-4 py-2.5 text-slate-600">{formatDate(r.transactionDate)}</td>
-                      <td className="px-4 py-2.5 font-mono text-xs text-slate-600">
+                      <td data-label="Tanggal" className="whitespace-nowrap px-4 py-2.5 text-slate-600">{formatDate(r.transactionDate)}</td>
+                      <td data-label="Blok" className="px-4 py-2.5 font-mono text-xs text-slate-600">
                         {r.isOverhead ? (
                           <span className="rounded bg-slate-100 px-1.5 py-0.5 font-sans text-xs text-slate-500">overhead</span>
                         ) : (
                           r.blockCode ?? EMPTY
                         )}
                       </td>
-                      <td className="px-4 py-2.5 text-slate-700">{r.costCategoryName ?? EMPTY}</td>
-                      <td className="px-4 py-2.5 text-slate-500">{r.supplierName ?? EMPTY}</td>
-                      <td className="whitespace-nowrap px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(r.amountIdr)}</td>
-                      <td className="px-4 py-2.5">
+                      <td data-label="Kategori" data-empty={!r.costCategoryName} className="px-4 py-2.5 text-slate-700">{r.costCategoryName ?? EMPTY}</td>
+                      <td data-label="Supplier" data-empty={!r.supplierName} className="px-4 py-2.5 text-slate-500">{r.supplierName ?? EMPTY}</td>
+                      <td data-label="Nilai" className="whitespace-nowrap px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(r.amountIdr)}</td>
+                      <td data-label="Bukti" className="px-4 py-2.5">
                         <span className="inline-flex items-center gap-1 text-xs text-slate-500" title={`${r.evidenceCount} lampiran`}>
                           <Paperclip className="h-3.5 w-3.5" />
                           {r.evidenceCount}
                         </span>
                       </td>
-                      <td className="px-4 py-2.5">
+                      <td data-label="Status" className="px-4 py-2.5">
                         <RecordStatusBadge status={r.approvalStatus} />
                         {r.rejectionReason && (
                           <p className="mt-1 max-w-[220px] text-xs leading-relaxed text-red-600">{r.rejectionReason}</p>
                         )}
                       </td>
-                      <td className="px-4 py-2.5 text-right">
+                      <td data-action className="px-4 py-2.5 text-right">
                         {canWrite && (r.approvalStatus === "draft" || r.approvalStatus === "rejected") && (
                           <SubmitButton id={r.id} />
                         )}
@@ -186,7 +187,7 @@ export default async function PengeluaranPage({
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ResponsiveTable>
             <Pagination
               page={data.page}
               pageSize={data.pageSize}

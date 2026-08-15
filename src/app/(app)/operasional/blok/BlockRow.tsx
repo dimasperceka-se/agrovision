@@ -28,12 +28,12 @@ export function BlockRow({
         hasGeometry ? "cursor-pointer hover:bg-emerald-50/50" : "",
       )}
     >
-      <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{code}</td>
-      <td className="px-4 py-2.5 text-slate-700">{name ?? "—"}</td>
-      <td className="px-4 py-2.5 text-slate-500">{estateName}</td>
-      <td className="px-4 py-2.5 text-right tabular-nums text-slate-700">{formatHa(areaHa)}</td>
-      <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{plantingYear ?? "—"}</td>
-      <td className="px-4 py-2.5">
+      <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-600">{code}</td>
+      <td data-label="Nama" data-empty={!name} className="px-4 py-2.5 text-slate-700">{name ?? "—"}</td>
+      <td data-label="Estate" className="px-4 py-2.5 text-slate-500">{estateName}</td>
+      <td data-label="Luas" className="px-4 py-2.5 text-right tabular-nums text-slate-700">{formatHa(areaHa)}</td>
+      <td data-label="Tahun tanam" data-empty={plantingYear === null} className="px-4 py-2.5 text-right tabular-nums text-slate-500">{plantingYear ?? "—"}</td>
+      <td data-label="Polygon" className="px-4 py-2.5">
         {hasGeometry ? (
           <span className="rounded bg-emerald-50 px-1.5 py-0.5 text-xs font-medium text-emerald-700">Ada</span>
         ) : (

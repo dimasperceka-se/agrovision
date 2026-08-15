@@ -12,7 +12,7 @@ export default async function LoginPage() {
 
   return (
     <div
-      className="flex min-h-screen items-center justify-center px-6 py-12"
+      className="flex min-h-[100dvh] items-center justify-center px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-12"
       style={{
         backgroundImage:
           "radial-gradient(circle at 20% 20%, #d8f0db 0, transparent 40%), radial-gradient(circle at 80% 80%, #c7e8cf 0, transparent 45%), linear-gradient(135deg, #f8fafc 0%, #f1f8f2 100%)",
@@ -26,7 +26,7 @@ export default async function LoginPage() {
           <ArrowLeft className="h-4 w-4" /> Kembali
         </Link>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-emerald-900/5">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-emerald-900/5 sm:p-8">
           <div className="mb-6 flex flex-col items-center text-center">
             <div className="rounded-xl bg-emerald-700 p-2.5">
               <Leaf className="h-6 w-6 text-white" />

@@ -3,6 +3,7 @@ import { Calculator, Info, TrendingUp, Scale } from "lucide-react";
 import { requireContext } from "@/lib/session";
 import { getPriceList, reflectedCosts } from "@/lib/repo/pricing";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatIdr, formatIdrShort, formatNumber, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { PriceRateEditor } from "./PriceRateEditor";
@@ -62,7 +63,7 @@ export default async function Page() {
       {hasRevenue && (
         <section className="mb-5 overflow-hidden rounded-xl border border-slate-200 bg-white">
           <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">Revenue ter-refleksi = tonase panen × tarif</h2>
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr><th className="px-4 py-2 font-medium">Komoditas</th><th className="px-4 py-2 text-right font-medium">Tonase</th><th className="px-4 py-2 text-right font-medium">Tarif/ton</th><th className="px-4 py-2 text-right font-medium">Revenue</th></tr>
@@ -70,15 +71,15 @@ export default async function Page() {
               <tbody>
                 {reflection.revenueLines.map((l) => (
                   <tr key={l.cropCode} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2 text-slate-700">{l.category}</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-slate-600">{formatNumber(l.tonnage)} ton</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-slate-500">{formatIdrShort(l.rateIdr)}</td>
-                    <td className="px-4 py-2 text-right tabular-nums font-medium text-emerald-700">{formatIdr(l.amountIdr)}</td>
+                    <td data-label="Komoditas" className="px-4 py-2 text-slate-700">{l.category}</td>
+                    <td data-label="Tonase" className="px-4 py-2 text-right tabular-nums text-slate-600">{formatNumber(l.tonnage)} ton</td>
+                    <td data-label="Tarif/ton" className="px-4 py-2 text-right tabular-nums text-slate-500">{formatIdrShort(l.rateIdr)}</td>
+                    <td data-label="Revenue" className="px-4 py-2 text-right tabular-nums font-medium text-emerald-700">{formatIdr(l.amountIdr)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         </section>
       )}
 
@@ -88,7 +89,7 @@ export default async function Page() {
         {reflection.lines.length === 0 ? (
           <p className="px-4 py-6 text-center text-sm text-slate-400">Belum ada volume operasional untuk direfleksikan.</p>
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -102,11 +103,11 @@ export default async function Page() {
               <tbody>
                 {reflection.lines.map((l) => (
                   <tr key={l.code} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2 text-slate-700">{l.category}</td>
-                    <td className="px-4 py-2 text-xs text-slate-500">{l.driverLabel}</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-slate-600">{formatNumber(l.volume)} {l.unit}</td>
-                    <td className="px-4 py-2 text-right tabular-nums text-slate-500">{formatIdrShort(l.rateIdr)}</td>
-                    <td className="px-4 py-2 text-right tabular-nums font-medium text-slate-800">{formatIdr(l.amountIdr)}</td>
+                    <td data-label="Komponen" className="px-4 py-2 text-slate-700">{l.category}</td>
+                    <td data-label="Sumber volume" className="px-4 py-2 text-xs text-slate-500">{l.driverLabel}</td>
+                    <td data-label="Volume" className="px-4 py-2 text-right tabular-nums text-slate-600">{formatNumber(l.volume)} {l.unit}</td>
+                    <td data-label="Tarif" className="px-4 py-2 text-right tabular-nums text-slate-500">{formatIdrShort(l.rateIdr)}</td>
+                    <td data-label="Biaya" className="px-4 py-2 text-right tabular-nums font-medium text-slate-800">{formatIdr(l.amountIdr)}</td>
                   </tr>
                 ))}
                 <tr className="bg-slate-50 font-semibold">
@@ -115,7 +116,7 @@ export default async function Page() {
                 </tr>
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
         {reflection.manualCost.length > 0 && (
           <p className="border-t border-slate-100 px-4 py-2 text-xs text-slate-500">
@@ -130,7 +131,7 @@ export default async function Page() {
         <h2 className="border-b border-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800">
           Price List <span className="font-normal text-slate-400">— {canEdit ? "klik tarif untuk mengubah" : "hanya approver/super admin yang bisa mengubah"}</span>
         </h2>
-        <div className="overflow-x-auto">
+        <ResponsiveTable>
           <table className="w-full text-sm">
             <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
               <tr>
@@ -143,21 +144,21 @@ export default async function Page() {
             <tbody>
               {[...costRates, ...revenueRates].map((p) => (
                 <tr key={p.id} className="border-b border-slate-50 last:border-0">
-                  <td className="px-4 py-2 font-mono text-xs text-slate-500">{p.code}</td>
-                  <td className="px-4 py-2 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-400">· {p.note}</span> : null}</td>
-                  <td className="px-4 py-2">
+                  <td data-label="Kode" className="px-4 py-2 font-mono text-xs text-slate-500">{p.code}</td>
+                  <td data-label="Kategori" className="px-4 py-2 text-slate-700">{p.category}{p.note ? <span className="ml-1 text-xs text-slate-400">· {p.note}</span> : null}</td>
+                  <td data-label="Jenis" className="px-4 py-2">
                     <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", p.kind === "revenue" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600")}>
                       {p.kind === "revenue" ? "Revenue" : "Biaya"}
                     </span>
                   </td>
-                  <td className="px-4 py-2 text-right">
+                  <td data-label="Tarif" className="px-4 py-2 text-right">
                     <PriceRateEditor id={p.id} rateIdr={p.rateIdr} unit={p.unit} canEdit={canEdit} />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </ResponsiveTable>
       </section>
     </div>
   );

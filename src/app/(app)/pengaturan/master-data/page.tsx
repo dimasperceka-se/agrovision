@@ -5,6 +5,7 @@ import { listMasterItems, listMasterTypes } from "@/lib/repo/master";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { MasterDataManager } from "./MasterDataManager";
 
 export const metadata = { title: "Master Data — AgroVision" };
@@ -48,26 +49,28 @@ export default async function MasterDataPage({
         </div>
 
         <div className="mt-5 overflow-x-auto rounded-xl border border-slate-200 bg-white">
-          <table className="w-full text-sm">
-            <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
-              <tr>
-                <th className="px-4 py-2.5 font-medium">Tipe</th>
-                <th className="px-4 py-2.5 font-medium">Kode</th>
-                <th className="px-4 py-2.5 text-right font-medium">Item aktif</th>
-              </tr>
-            </thead>
-            <tbody>
-              {types.map((t) => (
-                <tr key={t.id} className="border-b border-slate-50 last:border-0">
-                  <td className="px-4 py-2.5 text-slate-700">{t.name}</td>
-                  <td className="px-4 py-2.5 font-mono text-xs text-slate-400">{t.code}</td>
-                  <td className="px-4 py-2.5 text-right tabular-nums text-slate-700">
-                    {t.itemCount}
-                  </td>
+          <ResponsiveTable>
+            <table className="w-full text-sm">
+              <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
+                <tr>
+                  <th className="px-4 py-2.5 font-medium">Tipe</th>
+                  <th className="px-4 py-2.5 font-medium">Kode</th>
+                  <th className="px-4 py-2.5 text-right font-medium">Item aktif</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {types.map((t) => (
+                  <tr key={t.id} className="border-b border-slate-50 last:border-0">
+                    <td data-label="Tipe" className="px-4 py-2.5 text-slate-700">{t.name}</td>
+                    <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-400">{t.code}</td>
+                    <td data-label="Item aktif" className="px-4 py-2.5 text-right tabular-nums text-slate-700">
+                      {t.itemCount}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </ResponsiveTable>
         </div>
       </div>
     );

@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { listSeedStock } from "@/lib/repo/operational";
 import { formatNumber, formatPct, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -24,7 +25,7 @@ export default async function Page() {
         {stock.length === 0 ? (
           <EmptyState icon={Sprout} title="Belum ada batch bibit" description="Batch bibit dan inspeksinya muncul di sini setelah dicatat." />
         ) : (
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                 <tr>
@@ -40,13 +41,13 @@ export default async function Page() {
               <tbody>
                 {stock.map((s) => (
                   <tr key={s.batchCode} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{s.batchCode}</td>
-                    <td className="px-4 py-2.5 text-slate-700">{s.cropName}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-600">{formatNumber(s.qtyInitial)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-emerald-700">{formatNumber(s.qtyAlive)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatNumber(s.qtyDead)}</td>
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatNumber(s.qtyDamaged)}</td>
-                    <td className={cn("px-4 py-2.5 text-right font-medium tabular-nums",
+                    <td data-label="Batch" className="px-4 py-2.5 font-mono text-xs text-slate-600">{s.batchCode}</td>
+                    <td data-label="Komoditas" className="px-4 py-2.5 text-slate-700">{s.cropName}</td>
+                    <td data-label="Awal" className="px-4 py-2.5 text-right tabular-nums text-slate-600">{formatNumber(s.qtyInitial)}</td>
+                    <td data-label="Hidup" className="px-4 py-2.5 text-right tabular-nums text-emerald-700">{formatNumber(s.qtyAlive)}</td>
+                    <td data-label="Mati" className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatNumber(s.qtyDead)}</td>
+                    <td data-label="Rusak" className="px-4 py-2.5 text-right tabular-nums text-slate-500">{formatNumber(s.qtyDamaged)}</td>
+                    <td data-label="Survival" className={cn("px-4 py-2.5 text-right font-medium tabular-nums",
                       s.survivalPct === null ? "text-slate-300" : s.survivalPct >= 90 ? "text-emerald-700" : "text-amber-700")}>
                       {s.survivalPct === null ? EMPTY : formatPct(s.survivalPct)}
                     </td>
@@ -54,7 +55,7 @@ export default async function Page() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         )}
       </div>
       <p className="mt-3 text-xs leading-relaxed text-slate-400">Survival rate dihitung dari inspeksi terakhir yang disetujui dibagi jumlah awal batch. Batch tanpa inspeksi ditandai {EMPTY}.</p>

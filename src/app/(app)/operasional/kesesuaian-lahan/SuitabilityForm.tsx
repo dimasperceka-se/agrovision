@@ -6,6 +6,7 @@ import {
   computeSuitabilityAction, saveSuitabilityAction, type SuitState,
 } from "@/lib/actions/suitability";
 import type { Classification, PerChar } from "@/lib/repo/suitability";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { cn } from "@/lib/utils";
 
 type Field = { code: string; label: string; unit: string | null; isNumeric: boolean; options?: string[] };
@@ -156,38 +157,40 @@ function ResultCard({
         </div>
       </div>
 
-      <table className="w-full text-sm">
-        <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
-          <tr>
-            <th className="px-4 py-2 font-medium">Karakteristik</th>
-            <th className="px-4 py-2 font-medium">Nilai</th>
-            <th className="px-4 py-2 text-right font-medium">Kelas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {assessed.map((p: PerChar) => (
-            <tr
-              key={p.charCode}
-              className={cn(
-                "border-b border-slate-50 last:border-0",
-                p.cls === result.overall && "bg-amber-50/40",
-              )}
-            >
-              <td className="px-4 py-1.5 text-slate-700">
-                {p.charLabel}
-                <span className="ml-1.5 font-mono text-xs text-slate-400">{p.symbol}</span>
-              </td>
-              <td className="px-4 py-1.5 text-slate-600">
-                {p.value}
-                {p.unit ? ` ${p.unit}` : ""}
-              </td>
-              <td className={cn("px-4 py-1.5 text-right font-semibold tabular-nums", CELL_CLS[p.cls!])}>
-                {p.cls}
-              </td>
+      <ResponsiveTable>
+        <table className="w-full text-sm">
+          <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
+            <tr>
+              <th className="px-4 py-2 font-medium">Karakteristik</th>
+              <th className="px-4 py-2 font-medium">Nilai</th>
+              <th className="px-4 py-2 text-right font-medium">Kelas</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {assessed.map((p: PerChar) => (
+              <tr
+                key={p.charCode}
+                className={cn(
+                  "border-b border-slate-50 last:border-0",
+                  p.cls === result.overall && "bg-amber-50/40",
+                )}
+              >
+                <td data-label="Karakteristik" className="px-4 py-1.5 text-slate-700">
+                  {p.charLabel}
+                  <span className="ml-1.5 font-mono text-xs text-slate-400">{p.symbol}</span>
+                </td>
+                <td data-label="Nilai" className="px-4 py-1.5 text-slate-600">
+                  {p.value}
+                  {p.unit ? ` ${p.unit}` : ""}
+                </td>
+                <td data-label="Kelas" className={cn("px-4 py-1.5 text-right font-semibold tabular-nums", CELL_CLS[p.cls!])}>
+                  {p.cls}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ResponsiveTable>
 
       <div className="border-t border-slate-100 px-4 py-3">
         <p className="text-xs leading-relaxed text-slate-500">

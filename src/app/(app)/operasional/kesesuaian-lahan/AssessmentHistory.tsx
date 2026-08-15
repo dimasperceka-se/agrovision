@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronRight, Compass } from "lucide-react";
 import type { PerChar } from "@/lib/repo/suitability";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatDate, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +42,7 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <ResponsiveTable>
       <table className="w-full text-sm">
         <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
           <tr>
@@ -69,24 +70,24 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
                   )}
                   title="Klik untuk melihat parameter yang terisi"
                 >
-                  <td className="px-2 py-2.5 text-slate-400">
+                  <td data-action className="px-2 py-2.5 text-slate-400">
                     {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                   </td>
-                  <td className="px-4 py-2.5 font-mono text-xs text-slate-600">
+                  <td data-label="Blok" className="px-4 py-2.5 font-mono text-xs text-slate-600">
                     {r.blockCode}
                     {r.isDemo && <span className="ml-1.5 rounded bg-slate-100 px-1 py-0.5 text-[10px] font-medium text-slate-500">contoh</span>}
                   </td>
-                  <td className="px-4 py-2.5 text-slate-700">{r.cropName ?? EMPTY}</td>
-                  <td className="px-4 py-2.5">
+                  <td data-label="Komoditas" className="px-4 py-2.5 text-slate-700">{r.cropName ?? EMPTY}</td>
+                  <td data-label="Kelas" className="px-4 py-2.5">
                     {r.suitClass ? (
                       <span className={cn("rounded px-1.5 py-0.5 text-xs font-semibold", CLASS_CLS[r.suitClass] ?? "")}>
                         {r.suitClass}
                       </span>
                     ) : EMPTY}
                   </td>
-                  <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{r.subclass ?? EMPTY}</td>
-                  <td className="px-4 py-2.5 text-slate-500">{formatDate(r.assessedAt)}</td>
-                  <td className="px-4 py-2.5 text-slate-500">{r.approvalStatus}</td>
+                  <td data-label="Subkelas" data-empty={!r.subclass} className="px-4 py-2.5 font-mono text-xs text-slate-600">{r.subclass ?? EMPTY}</td>
+                  <td data-label="Tanggal" className="px-4 py-2.5 text-slate-500">{formatDate(r.assessedAt)}</td>
+                  <td data-label="Status" className="px-4 py-2.5 text-slate-500">{r.approvalStatus}</td>
                 </tr>
                 {open && (
                   <tr key={`${r.id}-detail`} className="border-b border-slate-100 bg-slate-50/40">
@@ -117,14 +118,14 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
                                   key={p.charCode}
                                   className={cn("border-b border-slate-50 last:border-0", p.cls === r.suitClass && "bg-amber-50/40")}
                                 >
-                                  <td className="px-3 py-1.5 text-slate-700">
+                                  <td data-label="Karakteristik" className="px-3 py-1.5 text-slate-700">
                                     {p.charLabel}
                                     <span className="ml-1.5 font-mono text-xs text-slate-400">{p.symbol}</span>
                                   </td>
-                                  <td className="px-3 py-1.5 text-slate-600">
+                                  <td data-label="Nilai" className="px-3 py-1.5 text-slate-600">
                                     {p.value}{p.unit ? ` ${p.unit}` : ""}
                                   </td>
-                                  <td className={cn("px-3 py-1.5 text-right font-semibold tabular-nums", CELL_CLS[p.cls!])}>
+                                  <td data-label="Kelas" className={cn("px-3 py-1.5 text-right font-semibold tabular-nums", CELL_CLS[p.cls!])}>
                                     {p.cls}
                                   </td>
                                 </tr>
@@ -144,6 +145,6 @@ export function AssessmentHistory({ rows }: { rows: HistoryRow[] }) {
           })}
         </tbody>
       </table>
-    </div>
+    </ResponsiveTable>
   );
 }

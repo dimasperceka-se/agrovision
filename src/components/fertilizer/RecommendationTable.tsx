@@ -5,6 +5,7 @@ import { ChevronRight, ChevronDown, FlaskConical } from "lucide-react";
 import type { FertRecommendation } from "@/lib/repo/fertilizer";
 import { computeBlend } from "@/lib/fertBlend";
 import { approachLabel, phaseLabel } from "@/lib/fertParams";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatDate, formatNumber, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +23,9 @@ export function RecommendationTable({ recos }: { recos: FertRecommendation[] }) 
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <div className="overflow-x-auto">
+    /* Matriks lebar (13 kolom, 5 kolom dosis hara untuk dibandingkan menyamping)
+       + baris detail expandable → scroll horizontal, kolom Blok tetap terlihat. */
+    <ResponsiveTable mode="scroll">
       <table className="w-full text-sm">
         <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
           <tr>
@@ -142,7 +145,7 @@ export function RecommendationTable({ recos }: { recos: FertRecommendation[] }) 
           })}
         </tbody>
       </table>
-    </div>
+    </ResponsiveTable>
   );
 }
 

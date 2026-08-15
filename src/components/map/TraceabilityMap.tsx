@@ -20,6 +20,7 @@ import {
   ACTORS, FLOWS, ACTOR_META, FLOW_COLORS, EMISSION_RAMP, TRACE_IS_DEMO,
   actorById, traceStats, type Actor, type ActorType,
 } from "@/lib/traceabilityDemo";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { cn } from "@/lib/utils";
 import { formatNumber } from "@/lib/format";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -390,21 +391,23 @@ export function TraceabilityMap() {
 
             {tab === "tx" && (
               actorFlows.length === 0 ? <p className="text-slate-400">Tidak ada transaksi.</p> : (
-                <table className="w-full">
-                  <thead className="text-left text-[10px] uppercase text-slate-400">
-                    <tr><th className="py-1">Tgl</th><th>Komoditas</th><th>Dari→Ke</th><th className="text-right">Kg</th></tr>
-                  </thead>
-                  <tbody>
-                    {actorFlows.map((f) => (
-                      <tr key={f.id} className="border-t border-slate-50">
-                        <td className="py-1 tabular-nums text-slate-500">{f.date.slice(5)}</td>
-                        <td className="text-slate-600">{f.commodity}</td>
-                        <td className="font-mono text-[10px] text-slate-500">{actorById(f.from)?.displayId}→{actorById(f.to)?.displayId}</td>
-                        <td className="text-right tabular-nums text-slate-700">{formatNumber(f.grossKg)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <ResponsiveTable>
+                  <table className="w-full">
+                    <thead className="text-left text-[10px] uppercase text-slate-400">
+                      <tr><th className="py-1">Tgl</th><th>Komoditas</th><th>Dari→Ke</th><th className="text-right">Kg</th></tr>
+                    </thead>
+                    <tbody>
+                      {actorFlows.map((f) => (
+                        <tr key={f.id} className="border-t border-slate-50">
+                          <td data-label="Tgl" className="py-1 tabular-nums text-slate-500">{f.date.slice(5)}</td>
+                          <td data-label="Komoditas" className="text-slate-600">{f.commodity}</td>
+                          <td data-label="Dari→Ke" className="font-mono text-[10px] text-slate-500">{actorById(f.from)?.displayId}→{actorById(f.to)?.displayId}</td>
+                          <td data-label="Kg" className="text-right tabular-nums text-slate-700">{formatNumber(f.grossKg)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </ResponsiveTable>
               )
             )}
 

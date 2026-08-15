@@ -172,8 +172,10 @@ export function ExpenditureForm({
               type="file"
               required
               accept="image/jpeg,image/png,image/webp,image/heic,application/pdf"
+              // Di HP: langsung buka kamera belakang untuk memotret struk.
+              capture="environment"
               aria-invalid={state.fieldErrors?.evidence ? true : undefined}
-              className="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-700 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-emerald-800"
+              className="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:min-h-11 file:rounded-md file:border-0 file:bg-emerald-700 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-emerald-800"
             />
             <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
               Foto struk atau invoice. JPG, PNG, WebP, HEIC, atau PDF — maksimal 8 MB. Approver akan

@@ -8,6 +8,7 @@ import {
   deactivateMasterItemAction,
   type ActionState,
 } from "@/lib/actions/master";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { cn } from "@/lib/utils";
 
 type TypeTab = { code: string; name: string; itemCount: number; isHierarchical: boolean };
@@ -152,64 +153,66 @@ export function MasterDataManager({
               </p>
             </div>
           ) : (
-            <table className="w-full text-sm">
-              <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
-                <tr>
-                  <th className="px-4 py-2.5 font-medium">Kode</th>
-                  <th className="px-4 py-2.5 font-medium">Nama</th>
-                  {isHierarchical && <th className="px-4 py-2.5 font-medium">Induk</th>}
-                  <th className="px-4 py-2.5 text-right font-medium">Urutan</th>
-                  <th className="px-4 py-2.5 font-medium">Status</th>
-                  <th className="px-4 py-2.5" />
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((it) => (
-                  <tr key={it.id} className="border-b border-slate-50 last:border-0">
-                    <td className="px-4 py-2.5 font-mono text-xs text-slate-500">{it.code}</td>
-                    <td className="px-4 py-2.5 text-slate-700">
-                      {it.name}
-                      {it.isGlobal && (
-                        <span className="ml-2 rounded bg-sky-50 px-1.5 py-0.5 text-xs font-medium text-sky-700">
-                          global
-                        </span>
-                      )}
-                    </td>
-                    {isHierarchical && (
-                      <td className="px-4 py-2.5 text-slate-500">{it.parentName ?? "—"}</td>
-                    )}
-                    <td className="px-4 py-2.5 text-right tabular-nums text-slate-500">
-                      {it.sortOrder}
-                    </td>
-                    <td className="px-4 py-2.5">
-                      <span
-                        className={cn(
-                          "rounded px-1.5 py-0.5 text-xs font-medium",
-                          it.isActive
-                            ? "bg-emerald-50 text-emerald-700"
-                            : "bg-slate-100 text-slate-500",
-                        )}
-                      >
-                        {it.isActive ? "Aktif" : "Nonaktif"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2.5 text-right">
-                      {it.isActive && (
-                        <form action={deactFormAction} className="inline">
-                          <input type="hidden" name="id" value={it.id} />
-                          <button
-                            type="submit"
-                            className="text-xs font-medium text-slate-500 hover:text-red-600"
-                          >
-                            Nonaktifkan
-                          </button>
-                        </form>
-                      )}
-                    </td>
+            <ResponsiveTable>
+              <table className="w-full text-sm">
+                <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
+                  <tr>
+                    <th className="px-4 py-2.5 font-medium">Kode</th>
+                    <th className="px-4 py-2.5 font-medium">Nama</th>
+                    {isHierarchical && <th className="px-4 py-2.5 font-medium">Induk</th>}
+                    <th className="px-4 py-2.5 text-right font-medium">Urutan</th>
+                    <th className="px-4 py-2.5 font-medium">Status</th>
+                    <th className="px-4 py-2.5" />
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {items.map((it) => (
+                    <tr key={it.id} className="border-b border-slate-50 last:border-0">
+                      <td data-label="Kode" className="px-4 py-2.5 font-mono text-xs text-slate-500">{it.code}</td>
+                      <td data-label="Nama" className="px-4 py-2.5 text-slate-700">
+                        {it.name}
+                        {it.isGlobal && (
+                          <span className="ml-2 rounded bg-sky-50 px-1.5 py-0.5 text-xs font-medium text-sky-700">
+                            global
+                          </span>
+                        )}
+                      </td>
+                      {isHierarchical && (
+                        <td data-label="Induk" data-empty={!it.parentName} className="px-4 py-2.5 text-slate-500">{it.parentName ?? "—"}</td>
+                      )}
+                      <td data-label="Urutan" className="px-4 py-2.5 text-right tabular-nums text-slate-500">
+                        {it.sortOrder}
+                      </td>
+                      <td data-label="Status" className="px-4 py-2.5">
+                        <span
+                          className={cn(
+                            "rounded px-1.5 py-0.5 text-xs font-medium",
+                            it.isActive
+                              ? "bg-emerald-50 text-emerald-700"
+                              : "bg-slate-100 text-slate-500",
+                          )}
+                        >
+                          {it.isActive ? "Aktif" : "Nonaktif"}
+                        </span>
+                      </td>
+                      <td data-action className="px-4 py-2.5 text-right">
+                        {it.isActive && (
+                          <form action={deactFormAction} className="inline">
+                            <input type="hidden" name="id" value={it.id} />
+                            <button
+                              type="submit"
+                              className="text-xs font-medium text-slate-500 hover:text-red-600"
+                            >
+                              Nonaktifkan
+                            </button>
+                          </form>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </ResponsiveTable>
           )}
         </div>
 

@@ -9,6 +9,7 @@ import { getDict } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { RecordStatusBadge } from "@/components/ui/RecordStatusBadge";
 import { Pagination } from "@/components/ui/Pagination";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatDate, EMPTY } from "@/lib/format";
 
 export const metadata = { title: "Survei — AgroVision" };
@@ -57,7 +58,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
           <EmptyState icon={ClipboardList} title="Belum ada hasil survei" description="Submission dari lapangan muncul di sini. Renderer form schema-driven & entri mobile: fase berikutnya." />
         ) : (
           <>
-            <div className="overflow-x-auto">
+            <ResponsiveTable>
               <table className="w-full text-sm">
                 <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                   <tr><th className="px-4 py-2.5 font-medium">Form</th><th className="px-4 py-2.5 font-medium">Blok</th><th className="px-4 py-2.5 font-medium">Tanggal</th><th className="px-4 py-2.5 font-medium">Petugas</th><th className="px-4 py-2.5 font-medium">Status</th></tr>
@@ -65,16 +66,16 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
                 <tbody>
                   {subs.rows.map((r) => (
                     <tr key={r.id} className="border-b border-slate-50 last:border-0">
-                      <td className="px-4 py-2.5 text-slate-700">{r.formName}</td>
-                      <td className="px-4 py-2.5 font-mono text-xs text-slate-600">{r.blockCode ?? EMPTY}</td>
-                      <td className="px-4 py-2.5 text-slate-600">{formatDate(r.submittedAt)}</td>
-                      <td className="px-4 py-2.5 text-slate-500">{r.submittedByName ?? EMPTY}</td>
-                      <td className="px-4 py-2.5"><RecordStatusBadge status={r.approvalStatus} /></td>
+                      <td data-label="Form" className="px-4 py-2.5 text-slate-700">{r.formName}</td>
+                      <td data-label="Blok" data-empty={!r.blockCode} className="px-4 py-2.5 font-mono text-xs text-slate-600">{r.blockCode ?? EMPTY}</td>
+                      <td data-label="Tanggal" className="px-4 py-2.5 text-slate-600">{formatDate(r.submittedAt)}</td>
+                      <td data-label="Petugas" data-empty={!r.submittedByName} className="px-4 py-2.5 text-slate-500">{r.submittedByName ?? EMPTY}</td>
+                      <td data-label="Status" className="px-4 py-2.5"><RecordStatusBadge status={r.approvalStatus} /></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ResponsiveTable>
             <Pagination page={subs.page} pageSize={subs.pageSize} total={subs.total} basePath="/survei" />
           </>
         )}

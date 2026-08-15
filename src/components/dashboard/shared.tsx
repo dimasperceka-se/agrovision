@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Building2, CalendarDays, Tag, Leaf, ChevronDown, Bell } from "lucide-react";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { cn } from "@/lib/utils";
 
 /** Filter bar atas (presentational) sesuai mockup — dipakai semua dashboard. */
@@ -90,7 +91,7 @@ export type InsightRow = { area: string; temuan: string; rekomendasi: string; da
 export function InsightTable({ rows }: { rows: InsightRow[] }) {
   const rankColor = ["#dc2626", "#f59e0b", "#eab308", "#059669", "#64748b"];
   return (
-    <div className="overflow-x-auto">
+    <ResponsiveTable>
       <table className="w-full text-sm">
         <thead className="border-b border-slate-100 text-left text-xs text-slate-500">
           <tr>
@@ -105,18 +106,18 @@ export function InsightTable({ rows }: { rows: InsightRow[] }) {
         <tbody>
           {rows.map((r, i) => (
             <tr key={i} className="border-b border-slate-50 align-top last:border-0">
-              <td className="px-3 py-2">
+              <td data-label="Prioritas" className="px-3 py-2">
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded text-xs font-bold text-white" style={{ backgroundColor: rankColor[Math.min(i, 4)] }}>{i + 1}</span>
               </td>
-              <td className="px-3 py-2 font-medium text-slate-700">{r.area}</td>
-              <td className="max-w-[260px] px-3 py-2 text-slate-600">{r.temuan}</td>
-              <td className="max-w-[260px] px-3 py-2 text-slate-600">{r.rekomendasi}</td>
-              <td className="px-3 py-2 text-xs text-slate-500">↓ {r.dampak}</td>
-              <td className="px-3 py-2"><span className="whitespace-nowrap rounded bg-red-50 px-1.5 py-0.5 text-[11px] font-medium text-red-600">{r.status}</span></td>
+              <td data-label="Area" className="px-3 py-2 font-medium text-slate-700">{r.area}</td>
+              <td data-label="Temuan" className="max-w-[260px] px-3 py-2 text-slate-600">{r.temuan}</td>
+              <td data-label="Rekomendasi" className="max-w-[260px] px-3 py-2 text-slate-600">{r.rekomendasi}</td>
+              <td data-label="Dampak" className="px-3 py-2 text-xs text-slate-500">↓ {r.dampak}</td>
+              <td data-label="Status" className="px-3 py-2"><span className="whitespace-nowrap rounded bg-red-50 px-1.5 py-0.5 text-[11px] font-medium text-red-600">{r.status}</span></td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+    </ResponsiveTable>
   );
 }

@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { Loader2, Pencil, Save, CircleCheck } from "lucide-react";
 import { setOrganicStatusAction, type OrganicState } from "@/lib/actions/organic";
 import type { OrganicItem } from "@/lib/repo/sustainability";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { cn } from "@/lib/utils";
 
 export const ORGANIC_STATUS: Record<string, { label: string; cls: string }> = {
@@ -24,7 +25,7 @@ export function OrganicTracker({
   canEdit: boolean;
 }) {
   return (
-    <div className="overflow-x-auto">
+    <ResponsiveTable>
       <table className="w-full text-sm">
         <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
           <tr>
@@ -38,7 +39,7 @@ export function OrganicTracker({
           {items.map((item) => <Row key={item.code} item={item} variant={variant} canEdit={canEdit} />)}
         </tbody>
       </table>
-    </div>
+    </ResponsiveTable>
   );
 }
 
@@ -50,7 +51,7 @@ function Row({ item, variant, canEdit }: { item: OrganicItem; variant: "standard
   return (
     <>
       <tr className="border-b border-slate-50 last:border-0 align-top">
-        <td className="px-4 py-2">
+        <td data-label={variant === "standard" ? "Standar" : "Bukti"} className="px-4 py-2">
           <div className="flex items-start gap-1.5">
             <span className="font-mono text-xs text-slate-400">{item.code}</span>
           </div>
@@ -59,7 +60,7 @@ function Row({ item, variant, canEdit }: { item: OrganicItem; variant: "standard
             <div className="mt-0.5 text-[11px] text-slate-400">{item.detail}</div>
           )}
         </td>
-        <td className="px-3 py-2 text-xs text-slate-500">
+        <td data-label={variant === "standard" ? "Pasar / penerbit" : "Catatan"} className="px-3 py-2 text-xs text-slate-500">
           {variant === "standard" ? (
             <>
               {item.market && <div className="font-medium text-slate-600">{item.market}</div>}
@@ -69,13 +70,13 @@ function Row({ item, variant, canEdit }: { item: OrganicItem; variant: "standard
             item.detail ?? "—"
           )}
         </td>
-        <td className="px-3 py-2">
+        <td data-label="Status" className="px-3 py-2">
           <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", meta.cls)}>{meta.label}</span>
           {item.referenceNo && <div className="mt-0.5 font-mono text-[11px] text-slate-400">{item.referenceNo}</div>}
           {item.expiresOn && <div className="mt-0.5 text-[11px] text-slate-400">exp. {item.expiresOn}</div>}
         </td>
         {canEdit && (
-          <td className="px-3 py-2 text-right">
+          <td data-action className="px-3 py-2 text-right">
             <button
               type="button"
               onClick={() => setEditing((v) => !v)}

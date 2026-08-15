@@ -10,6 +10,7 @@ import { InfoBox } from "@/components/ui/InfoBox";
 import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatDate, formatPct, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { OrganicTracker } from "./OrganicTracker";
@@ -148,12 +149,12 @@ export default async function SertifikasiPage() {
           <Table head={["Kode", "Blok", "Status", "Skor", "Temuan", "Kritis?"]}>
             {assessments.map((a) => (
               <tr key={a.code} className="border-b border-slate-50 last:border-0">
-                <Td mono>{a.code}</Td>
-                <Td mono>{a.blockCode}</Td>
-                <Td><Badge cls="bg-slate-100 text-slate-600">{ASSESS_LABEL[a.status] ?? a.status}</Badge></Td>
-                <Td right>{formatPct(a.scorePct)}</Td>
-                <Td right>{a.findingCount}</Td>
-                <Td>{a.hasCriticalFailure ? <Badge cls="bg-red-50 text-red-700">Ya</Badge> : <span className="text-slate-400">—</span>}</Td>
+                <Td label="Kode" mono>{a.code}</Td>
+                <Td label="Blok" mono>{a.blockCode}</Td>
+                <Td label="Status"><Badge cls="bg-slate-100 text-slate-600">{ASSESS_LABEL[a.status] ?? a.status}</Badge></Td>
+                <Td label="Skor" right>{formatPct(a.scorePct)}</Td>
+                <Td label="Temuan" right>{a.findingCount}</Td>
+                <Td label="Kritis?">{a.hasCriticalFailure ? <Badge cls="bg-red-50 text-red-700">Ya</Badge> : <span className="text-slate-400">—</span>}</Td>
               </tr>
             ))}
           </Table>
@@ -169,12 +170,12 @@ export default async function SertifikasiPage() {
               const sv = SEVERITY[c.severity] ?? SEVERITY.minor;
               return (
                 <tr key={c.code} className="border-b border-slate-50 last:border-0">
-                  <Td mono>{c.code}</Td>
-                  <Td mono>{c.blockCode}</Td>
-                  <Td><Badge cls={sv.cls}>{sv.label}</Badge></Td>
-                  <Td>{c.description}</Td>
-                  <Td muted>{formatDate(c.dueDate)}</Td>
-                  <Td><Badge cls="bg-slate-100 text-slate-600">{c.status}</Badge></Td>
+                  <Td label="Kode" mono>{c.code}</Td>
+                  <Td label="Blok" mono>{c.blockCode}</Td>
+                  <Td label="Severity"><Badge cls={sv.cls}>{sv.label}</Badge></Td>
+                  <Td label="Temuan">{c.description}</Td>
+                  <Td label="Jatuh tempo" muted>{formatDate(c.dueDate)}</Td>
+                  <Td label="Status"><Badge cls="bg-slate-100 text-slate-600">{c.status}</Badge></Td>
                 </tr>
               );
             })}
@@ -191,12 +192,12 @@ export default async function SertifikasiPage() {
               const st = CERT_STATE[ct.state];
               return (
                 <tr key={ct.code} className="border-b border-slate-50 last:border-0">
-                  <Td mono>{ct.code}</Td>
-                  <Td mono>{ct.blockCode}</Td>
-                  <Td>{ct.standardName}</Td>
-                  <Td muted>{formatDate(ct.validFrom)} – {formatDate(ct.validUntil)}</Td>
-                  <Td right>{ct.daysLeft < 0 ? EMPTY : ct.daysLeft}</Td>
-                  <Td><Badge cls={st.cls}>{st.label}</Badge></Td>
+                  <Td label="Kode" mono>{ct.code}</Td>
+                  <Td label="Blok" mono>{ct.blockCode}</Td>
+                  <Td label="Standar">{ct.standardName}</Td>
+                  <Td label="Berlaku" muted>{formatDate(ct.validFrom)} – {formatDate(ct.validUntil)}</Td>
+                  <Td label="Sisa hari" right>{ct.daysLeft < 0 ? EMPTY : ct.daysLeft}</Td>
+                  <Td label="Status"><Badge cls={st.cls}>{st.label}</Badge></Td>
                 </tr>
               );
             })}
@@ -227,19 +228,19 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 function Table({ head, children }: { head: string[]; children: React.ReactNode }) {
   return (
-    <div className="overflow-x-auto">
+    <ResponsiveTable>
       <table className="w-full text-sm">
         <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
           <tr>{head.map((h, i) => <th key={h} className={cn("px-4 py-2.5 font-medium", i >= 3 && "text-right")}>{h}</th>)}</tr>
         </thead>
         <tbody>{children}</tbody>
       </table>
-    </div>
+    </ResponsiveTable>
   );
 }
-function Td({ children, mono, muted, right }: { children: React.ReactNode; mono?: boolean; muted?: boolean; right?: boolean }) {
+function Td({ children, label, mono, muted, right }: { children: React.ReactNode; label?: string; mono?: boolean; muted?: boolean; right?: boolean }) {
   return (
-    <td className={cn("px-4 py-2.5", mono && "font-mono text-xs text-slate-600", muted && "text-slate-500", right && "text-right tabular-nums", !mono && !muted && "text-slate-700")}>
+    <td data-label={label} className={cn("px-4 py-2.5", mono && "font-mono text-xs text-slate-600", muted && "text-slate-500", right && "text-right tabular-nums", !mono && !muted && "text-slate-700")}>
       {children}
     </td>
   );

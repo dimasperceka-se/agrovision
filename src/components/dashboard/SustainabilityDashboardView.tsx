@@ -111,7 +111,7 @@ export function SustainabilityDashboardView({ data, company }: { data: SustDashb
           {!data.organic ? (
             <EmptyPanel icon={Leaf} title="Belum ada input tercatat" desc="Porsi organik muncul setelah ada aplikasi pupuk disetujui." />
           ) : (
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-start">
               <ResponsiveContainer width={130} height={130}>
                 <PieChart>
                   <Pie data={organicData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={38} outerRadius={60}>

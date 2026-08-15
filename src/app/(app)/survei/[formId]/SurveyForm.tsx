@@ -44,7 +44,7 @@ export function SurveyForm({ form, blocks }: { form: FormSchema; blocks: { value
           name="blockId"
           required
           defaultValue=""
-          className={cn("w-full max-w-md rounded-md border bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/30", state.fieldErrors?.blockId ? "border-red-300" : "border-slate-200")}
+          className={cn("min-h-11 w-full max-w-md rounded-md border bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/30", state.fieldErrors?.blockId ? "border-red-300" : "border-slate-200")}
         >
           <option value="" disabled>Pilih blok...</option>
           {blocks.map((b) => <option key={b.value} value={b.value}>{b.label}</option>)}
@@ -63,11 +63,11 @@ export function SurveyForm({ form, blocks }: { form: FormSchema; blocks: { value
         </section>
       ))}
 
-      <div className="flex items-center gap-3">
+      <div className="sticky bottom-0 -mx-4 flex flex-col items-stretch gap-2 border-t border-slate-100 bg-white/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:flex-row sm:items-center sm:gap-3 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
         <button
           type="submit"
           disabled={pending}
-          className="flex items-center gap-1.5 rounded-md bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
+          className="flex min-h-11 items-center justify-center gap-1.5 rounded-md bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
         >
           {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           Kirim survei
@@ -86,7 +86,7 @@ function Field({ field, error }: { field: SurveyField; error?: string }) {
       {field.label}{field.required && <span className="text-red-500"> *</span>}
     </label>
   );
-  const cls = cn("w-full rounded-md border bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/30", error ? "border-red-300" : "border-slate-200");
+  const cls = cn("min-h-11 w-full rounded-md border bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/30", error ? "border-red-300" : "border-slate-200");
   const isComment = field.code.endsWith("_comment") || field.fieldType === "text";
   const wide = isComment ? "md:col-span-2" : "";
 
@@ -109,7 +109,7 @@ function Field({ field, error }: { field: SurveyField; error?: string }) {
   } else if (field.fieldType === "date") {
     input = <input id={field.code} name={field.code} type="date" required={field.required} className={cls} />;
   } else if (field.fieldType === "number") {
-    input = <input id={field.code} name={field.code} type="number" step="any" required={field.required} className={cls} />;
+    input = <input id={field.code} name={field.code} type="number" inputMode="decimal" step="any" required={field.required} className={cls} />;
   } else {
     input = <textarea id={field.code} name={field.code} rows={2} required={field.required} className={cls} placeholder="Catatan (opsional)" />;
   }

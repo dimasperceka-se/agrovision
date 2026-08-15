@@ -64,22 +64,33 @@ export function OpRecordForm({
             <FieldControl key={f.name} field={f} error={state.fieldErrors?.[f.name]} />
           ))}
         </div>
-        <button
-          type="submit"
-          disabled={pending}
-          className="mt-4 flex items-center gap-1.5 rounded-md bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60"
-        >
-          {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-          Simpan draft
-        </button>
+        {/* Mobile: tombol simpan menempel di bawah form agar selalu terjangkau. */}
+        <div className="sticky bottom-0 -mx-4 mt-4 border-t border-slate-100 bg-white/95 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-white/80 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
+          <button
+            type="submit"
+            disabled={pending}
+            className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-md bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-60 sm:w-auto"
+          >
+            {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+            Simpan draft
+          </button>
+        </div>
       </form>
     </details>
   );
 }
 
+/** Keyboard mobile yang tepat per tipe input. */
+function inputModeFor(type?: string): React.HTMLAttributes<HTMLInputElement>["inputMode"] {
+  if (type === "number") return "decimal";
+  if (type === "tel") return "tel";
+  if (type === "email") return "email";
+  return undefined;
+}
+
 function FieldControl({ field: f, error }: { field: Field; error?: string }) {
   const base = cn(
-    "w-full rounded-md border px-3 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/30",
+    "min-h-11 w-full rounded-md border px-3 py-2.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/30",
     error ? "border-red-300" : "border-slate-200",
   );
   const label = (
@@ -118,6 +129,7 @@ function FieldControl({ field: f, error }: { field: Field; error?: string }) {
     <div>
       {label}
       <input id={f.name} name={f.name} type={f.type ?? "text"} required={f.required}
+        inputMode={inputModeFor(f.type)}
         placeholder={f.placeholder} step={f.step} min={f.min} max={f.max}
         aria-invalid={error ? true : undefined} className={base} />
       {err}

@@ -1,3 +1,4 @@
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { STATUS_LABEL, STATUS_COLOR, type DashboardReport, type IndStatus } from "@/lib/report/types";
 
 /**
@@ -32,7 +33,7 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
 
       {/* Tabel indikator */}
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
-        <div className="overflow-x-auto">
+        <ResponsiveTable>
           <table className="w-full text-sm">
             <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
               <tr>
@@ -51,20 +52,20 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
                 const newGroup = !!ind.group;
                 return (
                   <tr key={i} className={"border-b border-slate-50 last:border-0 align-top " + (newGroup ? "border-t border-slate-200" : "")}>
-                    <td className="px-3 py-2 tabular-nums text-slate-400">{i + 1}</td>
-                    <td className="px-3 py-2 font-medium text-slate-700">{ind.group ?? ""}</td>
-                    <td className="px-3 py-2 text-slate-700">{ind.indicator}</td>
-                    <td className="px-3 py-2 text-right font-semibold tabular-nums text-slate-800">{ind.value}</td>
-                    <td className="px-3 py-2 text-slate-500">{ind.unit}</td>
-                    <td className="px-3 py-2"><StatusBadge status={ind.status} /></td>
-                    <td className="max-w-[260px] px-3 py-2 text-xs text-slate-500">{ind.followUp}</td>
-                    <td className="whitespace-nowrap px-3 py-2 text-xs text-slate-400">{ind.detail}</td>
+                    <td data-label="No" className="px-3 py-2 tabular-nums text-slate-400">{i + 1}</td>
+                    <td data-label="Tahap / Kelompok" data-empty={!ind.group} className="px-3 py-2 font-medium text-slate-700">{ind.group ?? ""}</td>
+                    <td data-label="Indikator" className="px-3 py-2 text-slate-700">{ind.indicator}</td>
+                    <td data-label="Nilai" className="px-3 py-2 text-right font-semibold tabular-nums text-slate-800">{ind.value}</td>
+                    <td data-label="Satuan" data-empty={!ind.unit} className="px-3 py-2 text-slate-500">{ind.unit}</td>
+                    <td data-label="Status" className="px-3 py-2"><StatusBadge status={ind.status} /></td>
+                    <td data-label="Tindak lanjut" className="max-w-[260px] px-3 py-2 text-xs text-slate-500">{ind.followUp}</td>
+                    <td data-label="Detail / modul" className="whitespace-nowrap px-3 py-2 text-xs text-slate-400">{ind.detail}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-        </div>
+        </ResponsiveTable>
         {meta.note && <p className="border-t border-slate-100 px-4 py-2 text-xs leading-relaxed text-slate-400">Catatan: {meta.note}</p>}
       </section>
 
@@ -74,7 +75,7 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
           <h3 className="border-b border-slate-100 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-slate-800">
             Insight &amp; Rekomendasi Tindak Lanjut
           </h3>
-          <div className="overflow-x-auto">
+          <ResponsiveTable>
             <table className="w-full text-sm">
               <thead className="border-b border-slate-100 text-left text-xs text-slate-500">
                 <tr>
@@ -87,10 +88,10 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
               <tbody>
                 {insights.map((ins, i) => (
                   <tr key={i} className="border-b border-slate-50 last:border-0 align-top">
-                    <td className="px-3 py-2 tabular-nums text-slate-400">{i + 1}</td>
-                    <td className="max-w-[340px] px-3 py-2 text-slate-700">{ins.finding}</td>
-                    <td className="max-w-[340px] px-3 py-2 text-slate-600">{ins.recommendation}</td>
-                    <td className="whitespace-nowrap px-3 py-2 text-xs">
+                    <td data-label="No" className="px-3 py-2 tabular-nums text-slate-400">{i + 1}</td>
+                    <td data-label="Temuan (kesimpulan)" className="max-w-[340px] px-3 py-2 text-slate-700">{ins.finding}</td>
+                    <td data-label="Rekomendasi tindak lanjut" className="max-w-[340px] px-3 py-2 text-slate-600">{ins.recommendation}</td>
+                    <td data-label="Prioritas · PIC" className="whitespace-nowrap px-3 py-2 text-xs">
                       <span className={"font-medium " + (ins.priority === "Tinggi" ? "text-red-700" : ins.priority === "Sedang" ? "text-amber-700" : "text-slate-600")}>{ins.priority}</span>
                       <span className="text-slate-400"> · {ins.pic}</span>
                     </td>
@@ -98,7 +99,7 @@ export function DashboardReportView({ report }: { report: DashboardReport }) {
                 ))}
               </tbody>
             </table>
-          </div>
+          </ResponsiveTable>
         </section>
       )}
     </div>

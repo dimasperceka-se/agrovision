@@ -19,6 +19,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, Cell, PieChart, Pie,
 } from "recharts";
 import { EstateMap } from "@/components/dashboard/EstateMap";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import type { ReportScreen, ScreenPanel, ScreenKpi, Tone, ProgressItem, RecoRail } from "@/lib/report/screenTypes";
 
 const ICONS: Record<string, ComponentType<{ className?: string }>> = {
@@ -372,7 +373,7 @@ function DetailTable({ screen, base }: { screen: ReportScreen; base: string }) {
           </a>
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <ResponsiveTable>
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-slate-50">
@@ -386,22 +387,22 @@ function DetailTable({ screen, base }: { screen: ReportScreen; base: string }) {
               <tr><td colSpan={columns.length} className="px-4 py-8 text-center text-sm text-slate-400">Belum ada data.</td></tr>
             ) : rows.map((row, ri) => (
               <tr key={ri} className="border-t border-slate-50 hover:bg-slate-50/40">
-                {row.map((cell, ci) => <Td key={ci} cell={cell} align={columns[ci]?.align} isNew={columns[ci]?.kind === "new"} />)}
+                {row.map((cell, ci) => <Td key={ci} cell={cell} label={columns[ci]?.label} align={columns[ci]?.align} isNew={columns[ci]?.kind === "new"} />)}
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
+      </ResponsiveTable>
       {footNote && <p className="border-t border-slate-100 px-4 py-2 text-[11px] text-slate-400">{footNote}</p>}
     </section>
   );
 }
 
-function Td({ cell, align, isNew }: { cell: string | number | null; align?: "left" | "right"; isNew?: boolean }) {
+function Td({ cell, label, align, isNew }: { cell: string | number | null; label?: string; align?: "left" | "right"; isNew?: boolean }) {
   const txt = cell === null || cell === "" ? "—" : String(cell);
   const tone = typeof cell === "string" ? textTone(cell) : null;
   return (
-    <td className={"whitespace-nowrap px-3 py-2 " + (align === "right" ? "text-right tabular-nums " : "") + (isNew ? "bg-blue-50/30 text-slate-600" : "text-slate-700")}>
+    <td data-label={label} data-empty={txt === "—"} className={"whitespace-nowrap px-3 py-2 " + (align === "right" ? "text-right tabular-nums " : "") + (isNew ? "bg-blue-50/30 text-slate-600" : "text-slate-700")}>
       {tone ? <span className={"inline-block rounded-full border px-2 py-0.5 text-[11px] font-medium " + PILL[tone]}>{txt}</span> : txt}
     </td>
   );

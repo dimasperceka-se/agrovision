@@ -7,6 +7,7 @@ import { getLocale } from "@/lib/i18n-server";
 import { getDict } from "@/lib/i18n";
 import { Pagination } from "@/components/ui/Pagination";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatHa } from "@/lib/format";
 import { BlockCreateForm } from "./BlockCreateForm";
 import { BlockMap } from "@/components/map/BlockMap";
@@ -99,7 +100,7 @@ export default async function BlokPage({
           />
         ) : (
           <>
-            <div className="overflow-x-auto">
+            <ResponsiveTable>
               <table className="w-full text-sm">
                 <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
                   <tr>
@@ -126,7 +127,7 @@ export default async function BlokPage({
                   ))}
                 </tbody>
               </table>
-            </div>
+            </ResponsiveTable>
             <Pagination
               page={data.page}
               pageSize={data.pageSize}

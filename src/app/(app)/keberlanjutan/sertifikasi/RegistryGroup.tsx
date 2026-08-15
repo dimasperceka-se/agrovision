@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { setComplianceStatusAction, type ComplianceState } from "@/lib/actions/compliance";
 import type { ComplianceItem } from "@/lib/repo/sustainability";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { cn } from "@/lib/utils";
 
 export const STATUS_META: Record<string, { label: string; cls: string }> = {
@@ -53,7 +54,7 @@ export function RegistryGroup({
       </button>
 
       {open && (
-        <div className="overflow-x-auto border-t border-slate-100">
+        <ResponsiveTable className="border-t border-slate-100">
           <table className="w-full text-sm">
             <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
               <tr>
@@ -71,7 +72,7 @@ export function RegistryGroup({
               ))}
             </tbody>
           </table>
-        </div>
+        </ResponsiveTable>
       )}
     </section>
   );
@@ -85,28 +86,28 @@ function Row({ item, canEdit }: { item: ComplianceItem; canEdit: boolean }) {
   return (
     <>
       <tr className={cn("border-b border-slate-50 last:border-0", item.isPrerequisite && "bg-amber-50/20")}>
-        <td className="px-4 py-2 align-top">
+        <td data-label="Item" className="px-4 py-2 align-top">
           <div className="flex items-start gap-1.5">
             <span className="font-mono text-xs text-slate-400">{item.code}</span>
             {item.isPrerequisite && <Star className="mt-0.5 h-3 w-3 shrink-0 fill-amber-400 text-amber-400" />}
           </div>
           <div className="text-slate-700">{item.name}</div>
         </td>
-        <td className="px-3 py-2 align-top text-xs text-slate-500">{item.issuer ?? "—"}</td>
-        <td className="px-3 py-2 align-top text-center">
+        <td data-label="Penerbit" data-empty={!item.issuer} className="px-3 py-2 align-top text-xs text-slate-500">{item.issuer ?? "—"}</td>
+        <td data-label="K/D" data-empty={!item.appliesCoconut && !item.appliesDurian} className="px-3 py-2 align-top text-center">
           <div className="flex justify-center gap-1">
             {item.appliesCoconut && <span className="rounded bg-emerald-50 px-1 text-xs font-medium text-emerald-700">K</span>}
             {item.appliesDurian && <span className="rounded bg-orange-50 px-1 text-xs font-medium text-orange-700">D</span>}
           </div>
         </td>
-        <td className="px-3 py-2 align-top text-xs text-slate-500">{item.validityNote ?? "—"}</td>
-        <td className="px-3 py-2 align-top">
+        <td data-label="Masa berlaku" data-empty={!item.validityNote} className="px-3 py-2 align-top text-xs text-slate-500">{item.validityNote ?? "—"}</td>
+        <td data-label="Status" className="px-3 py-2 align-top">
           <span className={cn("rounded px-1.5 py-0.5 text-xs font-medium", meta.cls)}>{meta.label}</span>
           {item.referenceNo && <div className="mt-0.5 font-mono text-[11px] text-slate-400">{item.referenceNo}</div>}
           {item.expiresOn && <div className="mt-0.5 text-[11px] text-slate-400">exp. {item.expiresOn}</div>}
         </td>
         {canEdit && (
-          <td className="px-3 py-2 align-top text-right">
+          <td data-action className="px-3 py-2 align-top text-right">
             <button
               type="button"
               onClick={() => setEditing((v) => !v)}

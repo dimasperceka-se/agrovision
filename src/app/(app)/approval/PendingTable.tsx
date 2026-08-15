@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
 import type { PendingItem } from "@/lib/repo/costing";
 import { RecordStatusBadge } from "@/components/ui/RecordStatusBadge";
+import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
 import { formatDate, formatIdr, formatNumber, EMPTY } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { DecisionForm } from "./DecisionForm";
@@ -20,7 +21,7 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
   const colSpan = COLSPAN_BASE + (canDecide ? 1 : 0);
 
   return (
-    <div className="overflow-x-auto">
+    <ResponsiveTable>
       <table className="w-full text-sm">
         <thead className="border-b border-slate-100 bg-slate-50 text-left text-xs text-slate-500">
           <tr>
@@ -46,28 +47,28 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
                   onClick={() => setOpenId(open ? null : key)}
                   className={cn("cursor-pointer border-b border-slate-50 align-top hover:bg-slate-50/70", open && "bg-emerald-50/40")}
                 >
-                  <td className="px-4 py-3">
+                  <td data-label="Modul" className="px-4 py-3">
                     <span className="inline-flex items-center gap-1">
                       {open ? <ChevronDown className="h-3.5 w-3.5 text-emerald-600" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-400" />}
                       <span className="rounded bg-slate-100 px-1.5 py-0.5 text-xs font-medium text-slate-600">{r.moduleLabel}</span>
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-slate-600">{formatDate(r.eventDate)}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-slate-600">
+                  <td data-label="Tanggal" className="whitespace-nowrap px-4 py-3 text-slate-600">{formatDate(r.eventDate)}</td>
+                  <td data-label="Blok" data-empty={!r.blockCode} className="px-4 py-3 font-mono text-xs text-slate-600">
                     {r.blockCode ?? <span className="font-sans text-slate-400">—</span>}
                   </td>
-                  <td className="max-w-[240px] px-4 py-3 text-slate-700">{r.detail ?? EMPTY}</td>
-                  <td className={cn("whitespace-nowrap px-4 py-3 text-right font-medium tabular-nums", isRevenue ? "text-emerald-700" : "text-slate-800")}>
+                  <td data-label="Detail" data-empty={!r.detail} className="max-w-[240px] px-4 py-3 text-slate-700">{r.detail ?? EMPTY}</td>
+                  <td data-label="Nilai" data-empty={r.amountIdr === null} className={cn("whitespace-nowrap px-4 py-3 text-right font-medium tabular-nums", isRevenue ? "text-emerald-700" : "text-slate-800")}>
                     {r.amountIdr === null ? <span className="text-slate-300">{EMPTY}</span> : (
                       <span title={isRevenue ? "Pendapatan (refleksi)" : "Biaya (refleksi)"}>
                         {isRevenue ? "+" : ""}{formatIdr(r.amountIdr)}
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-slate-500">{r.actorName ?? EMPTY}</td>
-                  <td className="px-4 py-3"><RecordStatusBadge status={r.approvalStatus} /></td>
+                  <td data-label="Pengaju" className="px-4 py-3 text-slate-500">{r.actorName ?? EMPTY}</td>
+                  <td data-label="Status" className="px-4 py-3"><RecordStatusBadge status={r.approvalStatus} /></td>
                   {canDecide && (
-                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                    <td data-action className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                       <DecisionForm moduleKey={r.moduleKey} id={r.recordId} />
                     </td>
                   )}
@@ -108,7 +109,7 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
           })}
         </tbody>
       </table>
-    </div>
+    </ResponsiveTable>
   );
 }
 
