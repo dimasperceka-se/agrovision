@@ -1,0 +1,47 @@
+# Build image AgroVision → push ke Artifact Registry → deploy ke Cloud Run.
+# Dipakai oleh trigger Cloud Build (branch main). Edit substitusi _SQL_INSTANCE
+# & _REGION sesuai proyekmu (bisa dioverride dari UI trigger).
+steps:
+  # 1. Build image
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest
+      - .
+  # 2. Push ke Artifact Registry
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', '--all-tags', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}']
+  # 3. Deploy ke Cloud Run
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --cpu=1
+      - --memory=1Gi
+      - --min-instances=0
+      - --max-instances=4
+      - --add-cloudsql-instances=${_SQL_INSTANCE}
+      - --set-secrets=DATABASE_URL=DATABASE_URL:latest,SESSION_SECRET=SESSION_SECRET:latest
+      - --set-env-vars=NODE_ENV=production,NEXT_PUBLIC_BASEMAP_STYLE_URL=${_BASEMAP_URL}
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest
+substitutions:
+  _REGION: asia-southeast2
+  _REPO: agrovision
+  _SERVICE: agrovision
+  _SQL_INSTANCE: PROJECT_ID:asia-southeast2:agrovision-db
+  _BASEMAP_URL: ""
+options:
+  logging: CLOUD_LOGGING_ONLY
+timeout: 1800s

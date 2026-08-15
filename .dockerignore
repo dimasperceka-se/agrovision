@@ -1,0 +1,14 @@
+.git
+node_modules
+.next
+.env
+.env.*
+*.local
+docs
+deploy
+scripts
+# Tile ortho/interpolasi besar (~465MB) — layani via GCS/CDN, jangan bundel ke image.
+public/tiles
+**/*.tif
+npm-debug.log*
+.DS_Store
