@@ -51,5 +51,5 @@ next-env.d.ts
 /public/tiles/
 *.tif
 
-# Tiket internal: memuat lokasi celah keamanan, jangan masuk repo publik
-docs/TIKET-Backend-Ridwan.md
+# Tiket internal: memuat lokasi celah kontrol, JANGAN masuk repo publik
+TIKET-*-INTERNAL.md
