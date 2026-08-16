@@ -50,3 +50,6 @@ next-env.d.ts
 # aset besar — dilayani dari GCS / bisa diregenerasi (bikin repo terlalu berat untuk di-clone Cloud Build)
 /public/tiles/
 *.tif
+
+# Tiket internal: memuat lokasi celah keamanan, jangan masuk repo publik
+docs/TIKET-Backend-Ridwan.md
