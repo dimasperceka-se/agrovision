@@ -38,6 +38,7 @@ export function DecisionForm({ moduleKey, id }: { moduleKey: string; id: string 
 
       <div className="flex items-center gap-1.5">
         <form action={formAction}>
+          <input type="hidden" name="moduleKey" value={moduleKey} />
           <input type="hidden" name="id" value={id} />
           <input type="hidden" name="decision" value="approved" />
           <button
