@@ -16,7 +16,32 @@ steps:
   # 2. Push ke Artifact Registry
   - name: gcr.io/cloud-builders/docker
     args: ['push', '--all-tags', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}']
-  # 3. Deploy ke Cloud Run
+  # 3. Migrasi DB -- WAJIB sebelum deploy. Step ini gagal ⇒ build gagal ⇒
+  #    deploy TIDAK jalan, revisi lama tetap melayani (perilaku bawaan Cloud
+  #    Build: step gagal menghentikan build, step sesudahnya tidak dieksekusi).
+  #    Cloud SQL Auth Proxy & migrate.mjs jalan dalam SATU container (bukan
+  #    sidecar terpisah) supaya tidak bergantung pada docker-in-docker/jaringan
+  #    antar-container -- lebih sederhana untuk tugas berumur pendek begini.
+  - name: node:22-alpine
+    id: db-migrate
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        set -e
+        wget -q -O /usr/local/bin/cloud-sql-proxy \
+          https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.2/cloud-sql-proxy.linux.amd64
+        chmod +x /usr/local/bin/cloud-sql-proxy
+        mkdir -p /cloudsql
+        /usr/local/bin/cloud-sql-proxy --unix-socket=/cloudsql "${PROJECT_ID}:${_REGION}:${_SQL_INSTANCE}" &
+        for i in $(seq 1 30); do
+          [ -S "/cloudsql/${PROJECT_ID}:${_REGION}:${_SQL_INSTANCE}/.s.PGSQL.5432" ] && break
+          sleep 1
+        done
+        npm ci
+        node db/migrate.mjs
+    secretEnv: ['MIGRATION_DATABASE_URL']
+  # 4. Deploy ke Cloud Run
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
@@ -44,6 +69,16 @@ substitutions:
   _SERVICE: agrovision
   _BASEMAP_URL: ""
   _TILES_BASE_URL: https://storage.googleapis.com/agrovision-tiles-393569486275
+  # Instance yang dituju step migrasi (db-migrate). Default ke produksi;
+  # override lewat --substitutions=_SQL_INSTANCE=agrovision-db-scratch saat
+  # menguji migrasi tanpa menyentuh Cloud SQL produksi. Sengaja TIDAK dipakai
+  # ulang di step deploy (--add-cloudsql-instances tetap hardcode ke instance
+  # produksi) supaya build uji tidak bisa salah pasang Cloud Run ke DB scratch.
+  _SQL_INSTANCE: agrovision-db
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/MIGRATION_DATABASE_URL/versions/latest
+      env: MIGRATION_DATABASE_URL
 options:
   logging: CLOUD_LOGGING_ONLY
 timeout: 1800s
