@@ -194,7 +194,7 @@ export function Sidebar({
                           aria-current={active ? "page" : undefined}
                           className={cn(
                             "flex min-h-11 items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors md:min-h-0",
-                            active ? "bg-emerald-50 text-emerald-700" : "text-slate-600 hover:bg-slate-50",
+                            active ? "border-l-2 border-brand-500 bg-brand-50 text-brand-700" : "border-l-2 border-transparent text-slate-600 hover:bg-slate-50",
                           )}
                         >
                           <Icon className="h-4 w-4" />{label}

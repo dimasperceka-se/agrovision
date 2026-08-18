@@ -32,10 +32,10 @@ export function buildExcelHtml(meta: { title: string; company: string; generated
   })();
 
   const body = sections.map((s) => {
-    const head = s.columns.map((c) => `<th style="background:${c.blue ? "#2563eb" : "#047857"};color:#fff;text-align:${c.align ?? "left"}">${esc(c.label)}</th>`).join("");
+    const head = s.columns.map((c) => `<th style="background:${c.blue ? "#2563eb" : "#1a6c2c"};color:#fff;text-align:${c.align ?? "left"}">${esc(c.label)}</th>`).join("");
     const rows = s.rows.map((r) => `<tr>${r.map((cell, i) => cellHtml(cell, s.columns[i]?.align)).join("")}</tr>`).join("");
-    const note = s.note ? `<tr><td colspan="${s.columns.length}" style="color:#64748b;font-size:9pt">${esc(s.note)}</td></tr>` : "";
-    return `<h2 style="color:#065f46">${esc(s.title)}</h2>
+    const note = s.note ? `<tr><td colspan="${s.columns.length}" style="color:#5c5a55;font-size:9pt">${esc(s.note)}</td></tr>` : "";
+    return `<h2 style="color:#17512a">${esc(s.title)}</h2>
       <table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse;font-size:10pt">
         <thead><tr>${head}</tr></thead><tbody>${rows}${note}</tbody></table><br/>`;
   }).join("\n");
@@ -45,7 +45,7 @@ export function buildExcelHtml(meta: { title: string; company: string; generated
 <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>
 <x:Name>${esc(meta.title)}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
 </x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
-<style>body{font-family:Arial,sans-serif} h1{color:#047857;margin:0} table{border-collapse:collapse}</style>
+<style>body{font-family:Arial,sans-serif} h1{color:#1a6c2c;margin:0} table{border-collapse:collapse}</style>
 </head>
 <body>
 <h1>AgroVision — ${esc(meta.title)}</h1>

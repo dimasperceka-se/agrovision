@@ -12,7 +12,7 @@ setWorkerUrl("/maplibre-gl-worker.mjs");
 const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
 const REAL_BLOCK_URL = "/overlays/polygon-block-real.geojson";
 const COLOR: Record<IndStatus, string> = {
-  ok: "#059669", perhatian: "#f59e0b", kritis: "#dc2626", belum: "#94a3b8", usulan: "#2563eb",
+  ok: "#1f8033", perhatian: "#f59e0b", kritis: "#dc2626", belum: "#a8a49a", usulan: "#2563eb",
 };
 const LEGEND: IndStatus[] = ["ok", "perhatian", "kritis", "belum"];
 

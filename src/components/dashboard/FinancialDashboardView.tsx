@@ -12,7 +12,7 @@ import { formatIdr, formatIdrShort } from "@/lib/format";
 const num = (v: number, d = 0) => new Intl.NumberFormat("id-ID", { maximumFractionDigits: d }).format(v);
 
 const KPI_ICON = { revenue: TrendingUp, expense: ArrowDownRight, profit: Wallet, budget: ClipboardList } as const;
-const GRADE_COLOR: Record<string, string> = { "Grade A": "#047857", "Grade B": "#34d399", "Grade C": "#fbbf24", "Grade —": "#94a3b8" };
+const GRADE_COLOR: Record<string, string> = { "Grade A": "#1a6c2c", "Grade B": "#4f9d5d", "Grade C": "#fbbf24", "Grade —": "#a8a49a" };
 
 export function FinancialDashboardView({ data, company }: { data: FinDashboard; company: string }) {
   const gradeKeys = Array.from(new Set(data.revenue.flatMap((r) => r.grades.map((g) => `Grade ${g.grade}`))));
@@ -50,12 +50,12 @@ export function FinancialDashboardView({ data, company }: { data: FinDashboard; 
           ) : (
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={faseData} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
-                <XAxis dataKey="fase" tick={{ fontSize: 10, fill: "#64748b" }} />
-                <YAxis tick={{ fontSize: 10, fill: "#94a3b8" }} tickFormatter={(v: number) => formatIdrShort(v)} width={64} />
+                <XAxis dataKey="fase" tick={{ fontSize: 10, fill: "#5c5a55" }} />
+                <YAxis tick={{ fontSize: 10, fill: "#a8a49a" }} tickFormatter={(v: number) => formatIdrShort(v)} width={64} />
                 <Tooltip formatter={(v) => formatIdr(Number(v))} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
-                <Bar dataKey="Anggaran" fill="#cbd5e1" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="Realisasi" fill="#059669" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Anggaran" fill="#cfcbc1" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="Realisasi" fill="#1f8033" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -68,11 +68,11 @@ export function FinancialDashboardView({ data, company }: { data: FinDashboard; 
             <>
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart layout="vertical" data={revData} margin={{ top: 4, right: 8, left: 8, bottom: 0 }}>
-                  <XAxis type="number" tick={{ fontSize: 10, fill: "#94a3b8" }} tickFormatter={(v: number) => formatIdrShort(v)} />
-                  <YAxis type="category" dataKey="commodity" tick={{ fontSize: 11, fill: "#475569" }} width={60} />
+                  <XAxis type="number" tick={{ fontSize: 10, fill: "#a8a49a" }} tickFormatter={(v: number) => formatIdrShort(v)} />
+                  <YAxis type="category" dataKey="commodity" tick={{ fontSize: 11, fill: "#45443f" }} width={60} />
                   <Tooltip formatter={(v) => formatIdr(Number(v))} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
-                  {gradeKeys.map((k) => <Bar key={k} dataKey={k} stackId="g" fill={GRADE_COLOR[k] ?? "#94a3b8"} radius={[0, 2, 2, 0]} />)}
+                  {gradeKeys.map((k) => <Bar key={k} dataKey={k} stackId="g" fill={GRADE_COLOR[k] ?? "#a8a49a"} radius={[0, 2, 2, 0]} />)}
                 </BarChart>
               </ResponsiveContainer>
               <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 border-t border-slate-100 pt-2 text-xs">

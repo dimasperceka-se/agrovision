@@ -10,18 +10,18 @@ import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { formatIdr, formatHa, formatPct, formatNumber, EMPTY } from "@/lib/format";
 
 const C = {
-  brand: "#047857", brandDark: "#065f46", text: "#1e293b", muted: "#64748b",
-  faint: "#94a3b8", border: "#e2e8f0", zebra: "#f8fafc", group: "#f1f5f9",
+  brand: "#1a6c2c", brandDark: "#17512a", text: "#1e293b", muted: "#5c5a55",
+  faint: "#a8a49a", border: "#e5e2da", zebra: "#f7f6f2", group: "#f2f0eb",
   warn: "#b91c1c", warnBg: "#fef2f2",
 };
 
 const styles = StyleSheet.create({
   page: { paddingTop: 88, paddingBottom: 46, paddingHorizontal: 34, fontSize: 9, color: C.text, fontFamily: "Helvetica" },
   header: { position: "absolute", top: 0, left: 0, right: 0, height: 68, backgroundColor: C.brand, paddingHorizontal: 34, paddingTop: 15, flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  accent: { position: "absolute", top: 68, left: 0, right: 0, height: 3, backgroundColor: "#34d399" },
+  accent: { position: "absolute", top: 68, left: 0, right: 0, height: 3, backgroundColor: "#4f9d5d" },
   brand: { color: "#ffffff", fontSize: 17, fontFamily: "Helvetica-Bold" },
-  hSub: { color: "#d1fae5", fontSize: 9.5, marginTop: 3, fontFamily: "Helvetica-Bold" },
-  hRight: { color: "#ecfdf5", fontSize: 8, textAlign: "right", marginBottom: 1.5 },
+  hSub: { color: "#d7e8d9", fontSize: 9.5, marginTop: 3, fontFamily: "Helvetica-Bold" },
+  hRight: { color: "#eef6ef", fontSize: 8, textAlign: "right", marginBottom: 1.5 },
   subtitle: { fontSize: 8.5, color: C.muted, marginBottom: 2, lineHeight: 1.4 },
   h2: { fontSize: 11, fontFamily: "Helvetica-Bold", color: C.brandDark, marginTop: 15, marginBottom: 5, paddingBottom: 3, borderBottomWidth: 1, borderBottomColor: C.border },
   kpiRow: { flexDirection: "row", marginTop: 2 },

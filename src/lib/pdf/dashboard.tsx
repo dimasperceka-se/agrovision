@@ -6,15 +6,15 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import { STATUS_LABEL, STATUS_COLOR, type DashboardReport, type IndStatus } from "@/lib/report/types";
 
-const C = { brand: "#047857", brandDark: "#065f46", text: "#1e293b", muted: "#64748b", faint: "#94a3b8", border: "#e2e8f0", zebra: "#f8fafc", group: "#eef2f7" };
+const C = { brand: "#1a6c2c", brandDark: "#17512a", text: "#1e293b", muted: "#5c5a55", faint: "#a8a49a", border: "#e5e2da", zebra: "#f7f6f2", group: "#eef2f7" };
 
 const st = StyleSheet.create({
   page: { paddingTop: 78, paddingBottom: 40, paddingHorizontal: 28, fontSize: 8, color: C.text, fontFamily: "Helvetica" },
   header: { position: "absolute", top: 0, left: 0, right: 0, height: 58, backgroundColor: C.brand, paddingHorizontal: 28, paddingTop: 12, flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  accent: { position: "absolute", top: 58, left: 0, right: 0, height: 3, backgroundColor: "#34d399" },
+  accent: { position: "absolute", top: 58, left: 0, right: 0, height: 3, backgroundColor: "#4f9d5d" },
   brand: { color: "#fff", fontSize: 15, fontFamily: "Helvetica-Bold" },
-  hSub: { color: "#d1fae5", fontSize: 8, marginTop: 2 },
-  hRight: { color: "#ecfdf5", fontSize: 7.5, textAlign: "right", marginBottom: 1.5 },
+  hSub: { color: "#d7e8d9", fontSize: 8, marginTop: 2 },
+  hRight: { color: "#eef6ef", fontSize: 7.5, textAlign: "right", marginBottom: 1.5 },
   metaWrap: { flexDirection: "row", flexWrap: "wrap", marginBottom: 6 },
   metaCell: { width: "50%", flexDirection: "row", marginBottom: 2 },
   metaLabel: { width: 96, color: C.faint },

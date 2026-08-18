@@ -15,7 +15,7 @@ export default async function LoginPage() {
       className="flex min-h-[100dvh] items-center justify-center px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-12"
       style={{
         backgroundImage:
-          "radial-gradient(circle at 20% 20%, #d8f0db 0, transparent 40%), radial-gradient(circle at 80% 80%, #c7e8cf 0, transparent 45%), linear-gradient(135deg, #f8fafc 0%, #f1f8f2 100%)",
+          "radial-gradient(circle at 20% 20%, #dbeadd 0, transparent 40%), radial-gradient(circle at 80% 80%, #cfe3d2 0, transparent 45%), linear-gradient(135deg, #f7f6f2 0%, #eef6ef 100%)",
       }}
     >
       <div className="w-full max-w-sm">

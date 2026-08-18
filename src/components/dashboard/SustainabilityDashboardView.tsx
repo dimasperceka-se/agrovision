@@ -16,13 +16,13 @@ const INS_FG = { emerald: "text-emerald-700", sky: "text-sky-700", amber: "text-
 
 export function SustainabilityDashboardView({ data, company }: { data: SustDashboard; company: string }) {
   const carbonData = [
-    { name: "Emisi Bruto", value: data.carbon.gross ?? 0, c: "#94a3b8" },
-    { name: "Penyerapan", value: data.carbon.sequestration ?? 0, c: "#34d399" },
-    { name: "Net", value: data.carbon.net ?? 0, c: "#059669" },
+    { name: "Emisi Bruto", value: data.carbon.gross ?? 0, c: "#a8a49a" },
+    { name: "Penyerapan", value: data.carbon.sequestration ?? 0, c: "#4f9d5d" },
+    { name: "Net", value: data.carbon.net ?? 0, c: "#1f8033" },
   ];
   const organicData = data.organic ? [
-    { name: "Organik", value: data.organic.organic, c: "#059669" },
-    { name: "Sintetik", value: data.organic.synthetic, c: "#cbd5e1" },
+    { name: "Organik", value: data.organic.organic, c: "#1f8033" },
+    { name: "Sintetik", value: data.organic.synthetic, c: "#cfcbc1" },
   ] : [];
   const organicPct = data.organic && data.organic.total > 0 ? (data.organic.organic / data.organic.total) * 100 : 0;
 
@@ -46,8 +46,8 @@ export function SustainabilityDashboardView({ data, company }: { data: SustDashb
             <>
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={carbonData} margin={{ top: 12, right: 8, left: 8, bottom: 0 }}>
-                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#64748b" }} />
-                  <YAxis tick={{ fontSize: 10, fill: "#94a3b8" }} width={40} />
+                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#5c5a55" }} />
+                  <YAxis tick={{ fontSize: 10, fill: "#a8a49a" }} width={40} />
                   <Tooltip formatter={(v) => `${num(Number(v), 2)} tCO₂e`} />
                   <Bar dataKey="value" radius={[3, 3, 0, 0]}>
                     {carbonData.map((d, i) => <Cell key={i} fill={d.c} />)}

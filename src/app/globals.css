@@ -1,24 +1,82 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TEMA WARNA — mengikuti identitas RSPO (rspo.org)
+   ───────────────────────────────────────────────────────────────────────────
+   Palet diambil dari stylesheet tema RSPO, diurut berdasarkan frekuensi pakai:
+     #f2f0eb (130x) latar krem hangat   #f78e1e (112x) oranye aksen utama
+     #0e0f11  (85x) tinta               #fabb78  (81x) oranye muda
+     #182e18  (44x) hijau hutan gelap   #2ca243  (26x) hijau daun
+     #767676  (32x) abu hangat          #eaeaea  (79x) garis terang
+
+   Cara penerapan: palet BAWAAN Tailwind ditimpa di sini, sehingga ~1.470
+   pemakaian `emerald-*`/`slate-*` yang tersebar di seluruh aplikasi ikut
+   berubah tanpa perlu menyunting satu per satu.
+     · emerald-* → ramp hijau RSPO (struktural + status "ok")
+     · slate-*   → ramp abu HANGAT (bukan abu-biru dingin seperti bawaan)
+     · brand-*   → oranye RSPO, untuk aksi utama & navigasi aktif
+   Status semantik tetap hijau/kuning/merah supaya artinya tidak berubah.
+   Semua nilai teks sudah dicek kontras WCAG AA di atas latar terang.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@theme {
+  /* Hijau RSPO — 500 = #2ca243 (hijau daun), 900 = #182e18 (hijau hutan) */
+  --color-emerald-50: #eef6ef;
+  --color-emerald-100: #d7e8d9;
+  --color-emerald-200: #b3d4b7;
+  --color-emerald-300: #85ba8c;
+  --color-emerald-400: #4f9d5d;
+  --color-emerald-500: #2ca243;
+  --color-emerald-600: #1f8033; /* 5,0:1 di atas putih — aman untuk teks */
+  --color-emerald-700: #1a6c2c; /* 6,5:1 */
+  --color-emerald-800: #17512a;
+  --color-emerald-900: #182e18; /* hijau hutan RSPO */
+  --color-emerald-950: #0f1f11;
+
+  /* Netral HANGAT — menggantikan slate bawaan yang berbias biru */
+  --color-slate-50: #f7f6f2;
+  --color-slate-100: #f2f0eb; /* krem RSPO — latar halaman */
+  --color-slate-200: #e5e2da;
+  --color-slate-300: #cfcbc1;
+  --color-slate-400: #a8a49a;
+  --color-slate-500: #767676; /* abu RSPO — 4,6:1, lulus AA */
+  --color-slate-600: #5c5a55;
+  --color-slate-700: #45443f;
+  --color-slate-800: #2b2a27;
+  --color-slate-900: #1e2024;
+  --color-slate-950: #0e0f11; /* tinta RSPO */
+
+  /* Oranye RSPO — aksen utama brand */
+  --color-brand-50: #fef3e8;
+  --color-brand-100: #fde4cb;
+  --color-brand-200: #fabb78;
+  --color-brand-300: #f9b062;
+  --color-brand-400: #f89f3f;
+  --color-brand-500: #f78e1e; /* oranye tanda tangan RSPO */
+  --color-brand-600: #d9740c;
+  --color-brand-700: #ad5a0a; /* 4,9:1 — aman untuk teks */
+  --color-brand-800: #8a4809;
+  --color-brand-900: #5c3006;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Latar aplikasi = krem hangat RSPO, bukan putih. Ini penanda identitas
+     paling kuat dari palet mereka. */
+  --background: #f2f0eb;
+  --foreground: #0e0f11;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Aplikasi ini sengaja BERTEMA TERANG saja. Blok prefers-color-scheme: dark
+   sebelumnya membuat latar body jadi hitam sementara seluruh komponen tetap
+   mengasumsikan latar terang — celah yang menyisakan tepi hitam di perangkat
+   ber-OS gelap. Sekarang warnanya dipasang tegas. */
 body {
   background: var(--background);
   color: var(--foreground);
@@ -32,7 +90,7 @@ body {
    punya ring yang terlihat saat difokuskan lewat keyboard. Klik mouse tidak
    memunculkannya (:focus-visible), jadi tampilan sehari-hari tidak berubah. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid #059669; /* emerald-600 */
+  outline: 2px solid #1f8033; /* emerald-600 */
   outline-offset: 2px;
   border-radius: 0.375rem;
 }
@@ -59,7 +117,7 @@ body {
 }
 .agv-skeleton {
   animation: agv-pulse 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  background-color: var(--color-slate-200, #e2e8f0);
+  background-color: var(--color-slate-200, #e5e2da);
   border-radius: 0.375rem;
 }
 
@@ -96,7 +154,7 @@ body {
   }
   .rt-cards tr {
     margin-bottom: 0.625rem;
-    border: 1px solid var(--color-slate-200, #e2e8f0);
+    border: 1px solid var(--color-slate-200, #e5e2da);
     border-radius: 0.6rem;
     background: #fff;
     padding: 0.25rem 0.15rem;
@@ -122,7 +180,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    color: var(--color-slate-400, #94a3b8);
+    color: var(--color-slate-400, #a8a49a);
     padding-top: 0.05rem;
   }
   /* Sel kosong disembunyikan agar kartu tidak penuh baris "—" tak berguna. */
@@ -132,7 +190,7 @@ body {
   /* Kolom aksi: rata kanan, penuh, dipisah garis tipis. */
   .rt-cards td[data-action] {
     justify-content: flex-end;
-    border-top: 1px solid var(--color-slate-100, #f1f5f9);
+    border-top: 1px solid var(--color-slate-100, #f2f0eb);
     margin-top: 0.15rem;
   }
   /* Baris detail yang di-expand (colSpan) tetap penuh tanpa label. */

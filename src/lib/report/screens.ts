@@ -18,7 +18,7 @@ const idrShort = (v: number | null) => {
   return `Rp ${nf(v)}`;
 };
 const sum = (xs: (number | null)[]) => { const v = xs.filter((x): x is number => x !== null); return v.length ? v.reduce((a, b) => a + b, 0) : null; };
-const GRADE_COLOR: Record<string, string> = { A: "#059669", B: "#eab308", C: "#ef4444" };
+const GRADE_COLOR: Record<string, string> = { A: "#1f8033", B: "#eab308", C: "#ef4444" };
 const APPROVED = "approved";
 const CROP: Record<string, string> = { DURIAN: "Durian", COCONUT: "Kelapa" };
 
@@ -216,7 +216,7 @@ async function nurseryScreen(ctx: RlsContext): Promise<ReportScreen> {
   const totDamaged = sum(rows.map((r) => N(r.damaged))) ?? 0;
   const survival = totInit && totAlive !== null ? (totAlive / totInit) * 100 : null;
   const mortality = survival === null ? null : 100 - survival;
-  const barsAlive: BarDatum[] = rows.map((r) => ({ name: r.batch ?? "—", value: N(r.alive) ?? 0, color: "#059669" }));
+  const barsAlive: BarDatum[] = rows.map((r) => ({ name: r.batch ?? "—", value: N(r.alive) ?? 0, color: "#1f8033" }));
   const alerts: ProgressItem[] = rows.map((r) => {
     const init = N(r.qty_initial); const alive = N(r.alive);
     const s = init && alive !== null ? (alive / init) * 100 : null;
@@ -264,8 +264,8 @@ async function weedingScreen(ctx: RlsContext): Promise<ReportScreen> {
   const latestStatus = rows[0] ? statusLabelId(rows[0].st ?? "") : "—";
   const methodCounts = new Map<string, number>();
   for (const r of rows) { const m = r.method ?? "—"; methodCounts.set(m, (methodCounts.get(m) ?? 0) + 1); }
-  const METHOD_COLOR: Record<string, string> = { manual: "#059669", kimia: "#2563eb", "manual+kimia": "#eab308", "manual + kimia": "#eab308" };
-  const pie: PieDatum[] = [...methodCounts.entries()].map(([m, c]) => ({ name: m, value: c, color: METHOD_COLOR[m.toLowerCase()] ?? "#94a3b8" }));
+  const METHOD_COLOR: Record<string, string> = { manual: "#1f8033", kimia: "#2563eb", "manual+kimia": "#eab308", "manual + kimia": "#eab308" };
+  const pie: PieDatum[] = [...methodCounts.entries()].map(([m, c]) => ({ name: m, value: c, color: METHOD_COLOR[m.toLowerCase()] ?? "#a8a49a" }));
   return {
     slug: "penyiangan", title: "Laporan Penyiangan",
     subtitle: "Ringkasan pelaksanaan kegiatan penyiangan pada blok terpilih.",
@@ -277,7 +277,7 @@ async function weedingScreen(ctx: RlsContext): Promise<ReportScreen> {
     ],
     panels: [
       { kind: "map", title: "Peta Blok", span: 1, status: "ok", legend: true, note: "Warna blok mengikuti metode penyiangan." },
-      { kind: "pie", title: "Distribusi Metode", span: 1, data: pie.length ? pie : [{ name: "—", value: 1, color: "#e2e8f0" }], centerValue: cakupan === null ? "—" : `${nf(cakupan, 0)}%`, centerLabel: "Cakupan" },
+      { kind: "pie", title: "Distribusi Metode", span: 1, data: pie.length ? pie : [{ name: "—", value: 1, color: "#e5e2da" }], centerValue: cakupan === null ? "—" : `${nf(cakupan, 0)}%`, centerLabel: "Cakupan" },
       { kind: "progressList", title: "Kepatuhan Jadwal", span: 1, items: [
         { label: "Realisasi terakhir", value: rows[0] ? D(rows[0].weeded_on) : "—", icon: "CalendarClock", tone: "ok" },
         { label: "Metode dominan", value: [...methodCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—", icon: "Droplets", tone: "default" },
@@ -434,10 +434,10 @@ async function harvestScreen(ctx: RlsContext): Promise<ReportScreen> {
   for (const r of rows) { const t = N(r.quantity_ton) ?? 0; const g = r.grade ?? "—"; gradeTon.set(g, (gradeTon.get(g) ?? 0) + t); const rt = rateFor(r.crop_code); if (rt !== null && r.st === APPROVED) revenue += t * rt; }
   const gradeA = gradeTon.get("A") ?? 0;
   const gradeAPct = totTon && totTon > 0 ? (gradeA / totTon) * 100 : null;
-  const pie: PieDatum[] = [...gradeTon.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([g, t]) => ({ name: `Grade ${g}`, value: t, color: GRADE_COLOR[g] ?? "#94a3b8" }));
+  const pie: PieDatum[] = [...gradeTon.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([g, t]) => ({ name: `Grade ${g}`, value: t, color: GRADE_COLOR[g] ?? "#a8a49a" }));
   const cropTon = new Map<string, number>();
   for (const r of rows) { const t = N(r.quantity_ton) ?? 0; const c = r.crop_code ?? "—"; cropTon.set(c, (cropTon.get(c) ?? 0) + t); }
-  const bars: BarDatum[] = [...cropTon.entries()].map(([c, t]) => ({ name: CROP[c] ?? c, value: Math.round(t * 100) / 100, color: "#059669" }));
+  const bars: BarDatum[] = [...cropTon.entries()].map(([c, t]) => ({ name: CROP[c] ?? c, value: Math.round(t * 100) / 100, color: "#1f8033" }));
   return {
     slug: "panen", title: "Laporan Panen",
     subtitle: "Panen per blok & komoditas; sumber revenue & traceability lot.",
@@ -448,7 +448,7 @@ async function harvestScreen(ctx: RlsContext): Promise<ReportScreen> {
       { icon: "Coins", label: "Revenue", value: revenue > 0 ? idrShort(revenue) : "Rp —", sub: "panen disetujui × tarif", tone: "ok" },
     ],
     panels: [
-      { kind: "pie", title: "Komposisi Grade", span: 1, data: pie.length ? pie : [{ name: "—", value: 1, color: "#e2e8f0" }], centerValue: nf(totTon, 2), centerLabel: "ton" },
+      { kind: "pie", title: "Komposisi Grade", span: 1, data: pie.length ? pie : [{ name: "—", value: 1, color: "#e5e2da" }], centerValue: nf(totTon, 2), centerLabel: "ton" },
       { kind: "bars", title: "Tonase per Komoditas", span: 1, data: bars, unit: "ton" },
       { kind: "stepper", title: "Traceability Panen", span: 1, steps: [
         { icon: "TreePalm", label: "Estate", sub: "sumber", tone: "ok" },
@@ -499,7 +499,7 @@ async function chemicalScreen(ctx: RlsContext): Promise<ReportScreen> {
     panels: [
       { kind: "progressList", title: "Tingkat Stok vs Ambang Reorder", span: 1, items: stockBars },
       { kind: "empty", title: "Konsumsi vs Stok", span: 1, icon: "BarChart3", message: "Belum ada data konsumsi", desc: "Tren konsumsi vs stok muncul setelah ada mutasi stok tercatat." },
-      { kind: "pie", title: "Organik vs Sintetik", span: 1, data: [{ name: "Organik", value: organikCount, color: "#059669" }, { name: "Sintetik", value: totItem - organikCount, color: "#cbd5e1" }], centerValue: `${nf(organikPct, 0)}%`, centerLabel: "Organik" },
+      { kind: "pie", title: "Organik vs Sintetik", span: 1, data: [{ name: "Organik", value: organikCount, color: "#1f8033" }, { name: "Sintetik", value: totItem - organikCount, color: "#cfcbc1" }], centerValue: `${nf(organikPct, 0)}%`, centerLabel: "Organik" },
     ],
     table: {
       title: "Daftar Katalog & Stok Chemical",
@@ -533,7 +533,7 @@ async function equipmentScreen(ctx: RlsContext): Promise<ReportScreen> {
     ],
     panels: [
       { kind: "statCards", title: "Profil Aset", span: 2, cols: 2, cards: rows.slice(0, 4).map((r) => ({ icon: "Wrench", label: `${r.code} · ${r.category ?? "—"}`, value: r.name ?? "—", badge: { text: "Internal", tone: "ok" }, sub: `Harga beli: ${idrShort(N(r.purchase_price_idr))}` })) },
-      { kind: "pie", title: "Kepemilikan", span: 1, data: [{ name: "Internal", value: rows.length || 1, color: "#059669" }, { name: "Outsource", value: 0, color: "#cbd5e1" }], centerValue: `${rows.length}`, centerLabel: "Aset" },
+      { kind: "pie", title: "Kepemilikan", span: 1, data: [{ name: "Internal", value: rows.length || 1, color: "#1f8033" }, { name: "Outsource", value: 0, color: "#cfcbc1" }], centerValue: `${rows.length}`, centerLabel: "Aset" },
     ],
     table: {
       title: "Detail Katalog Equipment",
@@ -605,9 +605,9 @@ async function carbonScreen(ctx: RlsContext): Promise<ReportScreen> {
   const totNet = sum(blocks.map((b) => b.netTco2e));
   const completeness = run?.dataCompletenessPct ?? null;
   const bars: BarDatum[] = [
-    { name: "Emisi Bruto", value: totEmis ?? 0, color: "#94a3b8" },
-    { name: "Penyerapan", value: totSeq ?? 0, color: "#34d399" },
-    { name: "Net", value: totNet ?? 0, color: "#059669" },
+    { name: "Emisi Bruto", value: totEmis ?? 0, color: "#a8a49a" },
+    { name: "Penyerapan", value: totSeq ?? 0, color: "#4f9d5d" },
+    { name: "Net", value: totNet ?? 0, color: "#1f8033" },
   ];
   return {
     slug: "karbon", title: "Laporan Carbon Accounting",
@@ -733,7 +733,7 @@ async function approvalScreen(ctx: RlsContext): Promise<ReportScreen> {
   const totReflect = sum(p.rows.map((r) => r.amountIdr ?? null));
   const modCount = new Map<string, number>();
   for (const r of p.rows) modCount.set(r.moduleLabel, (modCount.get(r.moduleLabel) ?? 0) + 1);
-  const bars: BarDatum[] = [...modCount.entries()].map(([m, c]) => ({ name: m, value: c, color: "#059669" }));
+  const bars: BarDatum[] = [...modCount.entries()].map(([m, c]) => ({ name: m, value: c, color: "#1f8033" }));
   const first = p.rows[0];
   return {
     slug: "approval", title: "Approval Inbox",
@@ -746,7 +746,7 @@ async function approvalScreen(ctx: RlsContext): Promise<ReportScreen> {
     ],
     panels: [
       { kind: "bars", title: "Antrean per Modul", span: 1, data: bars.length ? bars : [{ name: "—", value: 0 }], unit: "ajuan", horizontal: true },
-      { kind: "pie", title: "Distribusi per Approver", span: 1, data: [{ name: "Belum Ditugaskan", value: pending || 1, color: "#059669" }, { name: "Saya", value: 0, color: "#cbd5e1" }], centerValue: `${pending}`, centerLabel: "Total" },
+      { kind: "pie", title: "Distribusi per Approver", span: 1, data: [{ name: "Belum Ditugaskan", value: pending || 1, color: "#1f8033" }, { name: "Saya", value: 0, color: "#cfcbc1" }], centerValue: `${pending}`, centerLabel: "Total" },
       { kind: "progressList", title: "Tentang Maker-Checker", span: 1, items: [
         { label: "Setiap ajuan disetujui memperbarui data operasional & finansial.", icon: "Info", tone: "info" },
         { label: "Penolakan wajib disertai alasan yang jelas & dapat ditindaklanjuti.", icon: "AlertTriangle", tone: "perhatian" },
