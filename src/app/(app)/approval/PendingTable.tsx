@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronDown, Paperclip } from "lucide-react";
 import type { PendingItem } from "@/lib/repo/costing";
 import { RecordStatusBadge } from "@/components/ui/RecordStatusBadge";
 import { ResponsiveTable } from "@/components/ui/ResponsiveTable";
@@ -100,6 +100,18 @@ export function PendingTable({ rows, canDecide }: { rows: PendingItem[]; canDeci
                           <span className={cn("font-semibold", isRevenue ? "text-emerald-700" : "text-slate-800")}>{formatIdr(r.amountIdr)}</span>
                           <span className="text-slate-500"> — volume × tarif price list</span>
                         </p>
+                      )}
+                      {r.evidenceId && (
+                        <a
+                          href={`/api/evidence/${r.evidenceId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="mt-2 inline-flex items-center gap-1 text-xs text-emerald-700 hover:underline"
+                        >
+                          <Paperclip className="h-3.5 w-3.5" />
+                          Lihat bukti
+                        </a>
                       )}
                     </td>
                   </tr>

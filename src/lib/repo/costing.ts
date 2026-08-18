@@ -25,6 +25,8 @@ export type ExpenditureRow = {
   rejectionReason: string | null;
   isOverhead: boolean;
   evidenceCount: number;
+  /** Bukti pertama yang tertaut (satu transaksi = satu bukti saat ini) -- untuk link "lihat". */
+  evidenceId: string | null;
   createdByName: string | null;
 };
 
@@ -34,7 +36,10 @@ const EXP_SELECT = `
          ct.approval_status, ct.rejection_reason, ct.is_overhead,
          u.full_name AS created_by_name,
          (SELECT count(*) FROM app.evidence_links el
-           WHERE el.entity_type = 'cost_transaction' AND el.entity_id = ct.id) AS evidence_count
+           WHERE el.entity_type = 'cost_transaction' AND el.entity_id = ct.id) AS evidence_count,
+         (SELECT el.evidence_id FROM app.evidence_links el
+           WHERE el.entity_type = 'cost_transaction' AND el.entity_id = ct.id
+           ORDER BY el.evidence_id LIMIT 1) AS evidence_id
     FROM app.cost_transactions ct
     LEFT JOIN app.blocks b        ON b.id = ct.block_id
     LEFT JOIN app.master_items cat ON cat.id = ct.cost_category_id
@@ -58,6 +63,7 @@ function mapExp(r: Record<string, unknown>): ExpenditureRow {
     rejectionReason: (r.rejection_reason as string) ?? null,
     isOverhead: Boolean(r.is_overhead),
     evidenceCount: Number(r.evidence_count),
+    evidenceId: (r.evidence_id as string) ?? null,
     createdByName: (r.created_by_name as string) ?? null,
   };
 }
@@ -193,8 +199,13 @@ export async function createExpenditure(
       ],
     );
 
-    // MUTATION-TEST: evidence link INSERT disabled on purpose.
-    void ev;
+    // Tautkan bukti ke transaksinya -- tanpa ini, evidenceCount selalu 0 dan
+    // bukti tidak bisa ditelusuri dari daftar Pengeluaran maupun Inbox Approval.
+    await client.query(
+      `INSERT INTO app.evidence_links (evidence_id, entity_type, entity_id)
+       VALUES ($1, 'cost_transaction', $2)`,
+      [ev.rows[0].id, id],
+    );
 
     return id;
   });
@@ -604,6 +615,8 @@ export type PendingItem = {
   approvalStatus: string;
   /** Nilai tiap parameter record (untuk detail saat baris diklik). */
   params: Record<string, string | number | null>;
+  /** Bukti tertaut (baru ada untuk modul Pengeluaran) -- null bila tak ada/modul lain. */
+  evidenceId: string | null;
 };
 
 export async function listAllPending(
@@ -620,7 +633,7 @@ export async function listAllPending(
     );
     const rows = await client.query(
       `SELECT module_key, module_label, record_id, block_code, detail, amount_idr,
-              event_date, actor_name, approval_status, params
+              event_date, actor_name, approval_status, params, evidence_id
          FROM app.v_pending_approvals
         ORDER BY module_label, event_date NULLS LAST, record_id
         LIMIT $1 OFFSET $2`,
@@ -640,6 +653,7 @@ export async function listAllPending(
         actorName: (r.actor_name as string) ?? null,
         approvalStatus: String(r.approval_status),
         params: (r.params as Record<string, string | number | null>) ?? {},
+        evidenceId: (r.evidence_id as string) ?? null,
       })),
       total: Number(total.rows[0].n),
       page,
