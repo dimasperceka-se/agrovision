@@ -203,7 +203,7 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
         id: "points-circle", type: "circle", source: "points", layout: { visibility: "none" },
         paint: {
           "circle-radius": ["interpolate", ["linear"], ["zoom"], 13, 1.6, 16, 3.5, 19, 6],
-          "circle-color": ["match", ["get", "jenis"], "palm", PALM_COLOR, "durian", DURIAN_COLOR, "#94a3b8"],
+          "circle-color": ["match", ["get", "jenis"], "palm", PALM_COLOR, "durian", DURIAN_COLOR, "#a8a49a"],
           "circle-stroke-color": "#0f172a", "circle-stroke-width": 0.7, "circle-opacity": 0.95,
         },
       });
@@ -288,12 +288,12 @@ export function BlockMap({ blockCount, heightClass = "h-[60dvh] md:h-[520px]" }:
         if (hasBlocks) {
           blocksData.current = blocks;
           m.addSource("blocks", { type: "geojson", data: blocks! });
-          m.addLayer({ id: "blocks-fill", type: "fill", source: "blocks", paint: { "fill-color": "#10b981", "fill-opacity": 0.28 } });
-          m.addLayer({ id: "blocks-line", type: "line", source: "blocks", paint: { "line-color": "#34d399", "line-width": 1.6 } });
+          m.addLayer({ id: "blocks-fill", type: "fill", source: "blocks", paint: { "fill-color": "#2ca243", "fill-opacity": 0.28 } });
+          m.addLayer({ id: "blocks-line", type: "line", source: "blocks", paint: { "line-color": "#4f9d5d", "line-width": 1.6 } });
           m.addLayer({
             id: "blocks-label", type: "symbol", source: "blocks",
             layout: { "text-field": ["get", "code"], "text-size": 11 },
-            paint: { "text-color": "#ecfdf5", "text-halo-color": "#064e3b", "text-halo-width": 1.2 },
+            paint: { "text-color": "#eef6ef", "text-halo-color": "#064e3b", "text-halo-width": 1.2 },
           });
         }
 

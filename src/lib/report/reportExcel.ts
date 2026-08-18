@@ -21,17 +21,17 @@ function shell(title: string, bodyInner: string): string {
 </x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
 <style>
   body{font-family:Arial,sans-serif;color:#1e293b}
-  h1{color:#047857;margin:0;font-size:16pt}
-  .sub{color:#64748b;margin:2px 0 6px}
+  h1{color:#1a6c2c;margin:0;font-size:16pt}
+  .sub{color:#5c5a55;margin:2px 0 6px}
   .meta{border-collapse:collapse;margin:6px 0}
   .meta td{border:none;padding:2px 6px 2px 0;font-size:10pt;vertical-align:top}
-  .lbl{color:#065f46;font-weight:bold}
-  .src{color:#94a3b8;font-size:9pt;margin:2px 0 10px}
+  .lbl{color:#17512a;font-weight:bold}
+  .src{color:#a8a49a;font-size:9pt;margin:2px 0 10px}
   table.data{border-collapse:collapse;font-size:10pt}
   table.data th{color:#fff;padding:5px;text-align:left;vertical-align:top}
   table.data td{border:1px solid #d0d7de;padding:4px 5px;vertical-align:top}
-  h2{color:#065f46;font-size:12pt;margin:14px 0 4px}
-  .note{color:#94a3b8;font-size:9pt;margin:4px 0}
+  h2{color:#17512a;font-size:12pt;margin:14px 0 4px}
+  .note{color:#a8a49a;font-size:9pt;margin:4px 0}
   .visual{color:#2563eb;font-size:9pt;margin:2px 0}
 </style></head>
 <body>
@@ -50,7 +50,7 @@ function metaBlock(m: DashboardReport["meta"]): string {
     `<tr><td class="lbl">${esc(l1)}</td><td>${esc(v1)}</td><td style="width:32px"></td><td class="lbl">${esc(l2)}</td><td>${esc(v2)}</td></tr>`).join("");
   return `<h1>AgroVision — ${esc(m.title)}</h1>
     <div class="sub">${esc(m.subtitle)}</div>
-    <div style="color:#64748b;font-size:9pt;margin-bottom:4px">${esc(m.entity)} · Dicetak: ${esc(fmtDateTime(m.printedAt))}</div>
+    <div style="color:#5c5a55;font-size:9pt;margin-bottom:4px">${esc(m.entity)} · Dicetak: ${esc(fmtDateTime(m.printedAt))}</div>
     <table class="meta">${rows}</table>
     <div class="src">Sumber: ${esc(m.source)}</div>`;
 }
@@ -61,7 +61,7 @@ const numCell = (v: number) => `<td style="text-align:right;mso-number-format:'G
 export function dashboardExcelHtml(report: DashboardReport): string {
   const { meta, indicators, insights } = report;
   const indHead = ["No", "Tahap / Kelompok", "Indikator", "Nilai", "Satuan", "Status", "Tindak lanjut", "Detail / modul"]
-    .map((h, i) => `<th style="background:#047857;${i === 3 ? "text-align:right" : ""}">${esc(h)}</th>`).join("");
+    .map((h, i) => `<th style="background:#1a6c2c;${i === 3 ? "text-align:right" : ""}">${esc(h)}</th>`).join("");
   const indRows = indicators.map((ind, i) => {
     const c = STATUS_COLOR[ind.status];
     return `<tr>${numCell(i + 1)}<td style="font-weight:bold">${esc(ind.group ?? "")}</td><td>${esc(ind.indicator)}</td>`
@@ -70,7 +70,7 @@ export function dashboardExcelHtml(report: DashboardReport): string {
       + `<td>${esc(ind.followUp)}</td><td>${esc(ind.detail)}</td></tr>`;
   }).join("");
   const insHead = ["No", "Temuan (kesimpulan)", "Rekomendasi tindak lanjut", "Prioritas · PIC"]
-    .map((h) => `<th style="background:#047857">${esc(h)}</th>`).join("");
+    .map((h) => `<th style="background:#1a6c2c">${esc(h)}</th>`).join("");
   const insRows = insights.map((ins, i) =>
     `<tr>${numCell(i + 1)}<td>${esc(ins.finding)}</td><td>${esc(ins.recommendation)}</td><td style="font-weight:bold">${esc(`${ins.priority} · ${ins.pic}`)}</td></tr>`).join("");
 
@@ -85,12 +85,12 @@ export function dashboardExcelHtml(report: DashboardReport): string {
 export function moduleExcelHtml(report: ModuleReport): string {
   const { meta, columns, rows, visual } = report;
   const head = columns.map((c) =>
-    `<th style="background:${c.kind === "new" ? "#2563eb" : "#047857"};${c.align === "right" ? "text-align:right" : ""}">${esc(c.label)}</th>`).join("");
+    `<th style="background:${c.kind === "new" ? "#2563eb" : "#1a6c2c"};${c.align === "right" ? "text-align:right" : ""}">${esc(c.label)}</th>`).join("");
   const body = rows.map((row) =>
     `<tr>${row.map((cell, ci) => {
       const col = columns[ci];
       const isNum = typeof cell === "number";
-      const style = `${col.align === "right" ? "text-align:right;" : ""}${col.kind === "new" ? "background:#eff6ff;color:#475569;" : ""}`;
+      const style = `${col.align === "right" ? "text-align:right;" : ""}${col.kind === "new" ? "background:#eff6ff;color:#45443f;" : ""}`;
       return `<td style="${style}">${isNum ? cell : esc(cell === "" || cell === null ? "—" : cell)}</td>`;
     }).join("")}</tr>`).join("");
 

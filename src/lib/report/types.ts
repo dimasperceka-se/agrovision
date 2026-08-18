@@ -17,10 +17,10 @@ export const STATUS_LABEL: Record<IndStatus, string> = {
 
 // Warna badge status (dipakai UI web & PDF).
 export const STATUS_COLOR: Record<IndStatus, { fg: string; bg: string; border: string }> = {
-  ok: { fg: "#047857", bg: "#ecfdf5", border: "#a7f3d0" },
+  ok: { fg: "#1a6c2c", bg: "#eef6ef", border: "#b3d4b7" },
   perhatian: { fg: "#b45309", bg: "#fffbeb", border: "#fde68a" },
   kritis: { fg: "#b91c1c", bg: "#fef2f2", border: "#fecaca" },
-  belum: { fg: "#64748b", bg: "#f8fafc", border: "#e2e8f0" },
+  belum: { fg: "#5c5a55", bg: "#f7f6f2", border: "#e5e2da" },
   usulan: { fg: "#1d4ed8", bg: "#eff6ff", border: "#bfdbfe" },
 };
 

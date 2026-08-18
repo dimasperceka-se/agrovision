@@ -10,11 +10,11 @@ import { cn } from "@/lib/utils";
 const KPI_ICON = { seedprep: Sprout, survival: Leaf, harvest: Wheat, data: Database };
 const STAGE_ICON = { map: MapPin, prep: Shovel, seed: Sprout, grow: TreePine, harvest: Wheat };
 const INS_ICON = { water: Droplets, k: FlaskConical, data: Database, leaf: Leaf };
-const STATE_COLOR = { selesai: "#059669", berjalan: "#2563eb", planned: "#94a3b8" };
+const STATE_COLOR = { selesai: "#1f8033", berjalan: "#2563eb", planned: "#a8a49a" };
 const PRIO = {
   Tinggi: { fg: "#b91c1c", bg: "#fef2f2" },
   Menengah: { fg: "#b45309", bg: "#fffbeb" },
-  Rendah: { fg: "#475569", bg: "#f1f5f9" },
+  Rendah: { fg: "#45443f", bg: "#f2f0eb" },
 };
 
 export function OperationalDashboardView({ data, company }: { data: OpDashboardView; company: string }) {

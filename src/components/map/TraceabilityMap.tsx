@@ -117,7 +117,7 @@ export function TraceabilityMap() {
         return {
           type: "Feature",
           geometry: { type: "LineString", coordinates: generateArc([from.lng, from.lat], [to.lng, to.lat]) },
-          properties: { id: f.id, color: FLOW_COLORS[key] ?? "#94a3b8", grossKg: f.grossKg },
+          properties: { id: f.id, color: FLOW_COLORS[key] ?? "#a8a49a", grossKg: f.grossKg },
         };
       }),
     };
@@ -200,7 +200,7 @@ export function TraceabilityMap() {
       m.addLayer({
         id: "actors-label", type: "symbol", source: "actors",
         layout: { "text-field": ["get", "name"], "text-size": 10, "text-offset": [0, 1.5], "text-anchor": "top", "text-optional": true },
-        paint: { "text-color": "#f8fafc", "text-halo-color": "#0f172a", "text-halo-width": 1.3 },
+        paint: { "text-color": "#f7f6f2", "text-halo-color": "#0f172a", "text-halo-width": 1.3 },
       });
 
       // fit ke semua aktor
@@ -421,11 +421,11 @@ export function TraceabilityMap() {
                   <p className="mb-1 text-[10px] font-medium uppercase text-slate-500">Emisi per sumber</p>
                   <BarChart width={280} height={Math.max(120, selected.emission.sources.length * 26)} data={selected.emission.sources} layout="vertical" margin={{ left: 0, right: 24, top: 0, bottom: 0 }}>
                     <XAxis type="number" hide />
-                    <YAxis type="category" dataKey="source" width={110} tick={{ fontSize: 9, fill: "#64748b" }} />
+                    <YAxis type="category" dataKey="source" width={110} tick={{ fontSize: 9, fill: "#5c5a55" }} />
                     <Tooltip formatter={(v) => [`${formatNumber(Number(v))} kg`, "CO₂e"]} />
                     <Bar dataKey="value" radius={[0, 3, 3, 0]}>
                       {selected.emission.sources.map((s, i) => <Cell key={i} fill={s.value < 0 ? "#2bbe72" : "#814c46"} />)}
-                      <LabelList dataKey="value" position="right" formatter={(v) => formatNumber(Number(v))} style={{ fontSize: 9, fill: "#475569" }} />
+                      <LabelList dataKey="value" position="right" formatter={(v) => formatNumber(Number(v))} style={{ fontSize: 9, fill: "#45443f" }} />
                     </Bar>
                   </BarChart>
                 </div>

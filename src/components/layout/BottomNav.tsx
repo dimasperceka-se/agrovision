@@ -37,7 +37,7 @@ export function BottomNav({ locale, onMenu }: { locale: Locale; onMenu: () => vo
             aria-current={active ? "page" : undefined}
             className={cn(
               "flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[10px] font-medium",
-              active ? "text-emerald-700" : "text-slate-500",
+              active ? "text-brand-600" : "text-slate-500",
             )}
           >
             <Icon className="h-5 w-5" />

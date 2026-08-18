@@ -89,7 +89,7 @@ export type InsightRow = { area: string; temuan: string; rekomendasi: string; da
 
 /** Tabel Insight & Rekomendasi (Prioritas ber-badge angka). */
 export function InsightTable({ rows }: { rows: InsightRow[] }) {
-  const rankColor = ["#dc2626", "#f59e0b", "#eab308", "#059669", "#64748b"];
+  const rankColor = ["#dc2626", "#f59e0b", "#eab308", "#1f8033", "#5c5a55"];
   return (
     <ResponsiveTable>
       <table className="w-full text-sm">

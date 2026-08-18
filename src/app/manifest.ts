@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 /**
  * Web App Manifest (konvensi Next 16: app/manifest.ts).
- * Warna mengikuti sistem visual app: emerald-600 (#059669) & slate-50 (#f8fafc).
+ * Warna mengikuti identitas RSPO: hijau hutan #182e18 & krem #f2f0eb.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -16,8 +16,8 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#f8fafc",
-    theme_color: "#059669",
+    background_color: "#f2f0eb",
+    theme_color: "#182e18",
     categories: ["business", "productivity", "utilities"],
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },

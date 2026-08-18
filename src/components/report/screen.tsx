@@ -159,11 +159,11 @@ function RadarPanel({ panel }: { panel: Extract<ScreenPanel, { kind: "radar" }> 
     <>
       <ResponsiveContainer width="100%" height={240}>
         <RadarChart data={panel.axes} outerRadius="72%">
-          <PolarGrid stroke="#e2e8f0" />
-          <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11, fill: "#475569" }} />
-          <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 9, fill: "#cbd5e1" }} />
-          <Radar name="Nilai Aktual" dataKey="actual" stroke="#047857" fill="#047857" fillOpacity={0.28} />
-          <Radar name="Ambang S2" dataKey="ambang" stroke="#94a3b8" strokeDasharray="4 4" fill="none" />
+          <PolarGrid stroke="#e5e2da" />
+          <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11, fill: "#45443f" }} />
+          <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 9, fill: "#cfcbc1" }} />
+          <Radar name="Nilai Aktual" dataKey="actual" stroke="#1a6c2c" fill="#1a6c2c" fillOpacity={0.28} />
+          <Radar name="Ambang S2" dataKey="ambang" stroke="#a8a49a" strokeDasharray="4 4" fill="none" />
           <Legend wrapperStyle={{ fontSize: 11 }} />
         </RadarChart>
       </ResponsiveContainer>
@@ -189,18 +189,18 @@ function BarsPanel({ panel }: { panel: Extract<ScreenPanel, { kind: "bars" }> })
       <BarChart data={panel.data} layout={horizontal ? "vertical" : "horizontal"} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
         {horizontal ? (
           <>
-            <XAxis type="number" tick={{ fontSize: 10, fill: "#94a3b8" }} />
-            <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: "#475569" }} width={90} />
+            <XAxis type="number" tick={{ fontSize: 10, fill: "#a8a49a" }} />
+            <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: "#45443f" }} width={90} />
           </>
         ) : (
           <>
-            <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#64748b" }} />
-            <YAxis tick={{ fontSize: 10, fill: "#94a3b8" }} width={44} />
+            <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#5c5a55" }} />
+            <YAxis tick={{ fontSize: 10, fill: "#a8a49a" }} width={44} />
           </>
         )}
         <Tooltip formatter={(v) => (panel.unit ? `${v} ${panel.unit}` : v)} />
         <Bar dataKey="value" radius={horizontal ? [0, 3, 3, 0] : [3, 3, 0, 0]}>
-          {panel.data.map((d, i) => <Cell key={i} fill={d.color ?? "#059669"} />)}
+          {panel.data.map((d, i) => <Cell key={i} fill={d.color ?? "#1f8033"} />)}
         </Bar>
       </BarChart>
     </ResponsiveContainer>
@@ -214,8 +214,8 @@ function PiePanel({ panel }: { panel: Extract<ScreenPanel, { kind: "pie" }> }) {
       <div className="relative">
         <ResponsiveContainer width={150} height={150}>
           <PieChart>
-            <Pie data={total > 0 ? panel.data : [{ name: "—", value: 1, color: "#e2e8f0" }]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={44} outerRadius={68}>
-              {(total > 0 ? panel.data : [{ color: "#e2e8f0" }]).map((d, i) => <Cell key={i} fill={d.color} />)}
+            <Pie data={total > 0 ? panel.data : [{ name: "—", value: 1, color: "#e5e2da" }]} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={44} outerRadius={68}>
+              {(total > 0 ? panel.data : [{ color: "#e5e2da" }]).map((d, i) => <Cell key={i} fill={d.color} />)}
             </Pie>
             {total > 0 && <Tooltip />}
           </PieChart>

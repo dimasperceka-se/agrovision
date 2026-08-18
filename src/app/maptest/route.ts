@@ -17,7 +17,7 @@ export async function GET() {
 <style>
   html,body{margin:0;height:100%} #map{position:absolute;inset:0}
   #log{position:absolute;z-index:9;top:10px;left:10px;right:10px;background:rgba(0,0,0,.82);
-       color:#e2e8f0;padding:10px 12px;font:13px ui-monospace,monospace;border-radius:8px;white-space:pre-wrap}
+       color:#e5e2da;padding:10px 12px;font:13px ui-monospace,monospace;border-radius:8px;white-space:pre-wrap}
 </style>
 </head>
 <body>
