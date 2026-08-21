@@ -5,7 +5,7 @@
 set -euo pipefail
 
 APP_DIR=/var/www/agrovision
-REPO_URL=https://github.com/dimasperceka-se/agrovision.git
+REPO_URL=https://github.com/ugadimas25/agrovision.git
 DOMAIN=agrof.sustainit.id
 
 echo "==> Install Node.js 22 LTS (Next 16 butuh Node >= 20.9)"

@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Assignee** | Harits Balfas (`haritshb`) |
-| **Reviewer** | @dimasperceka-se |
+| **Reviewer** | @ugadimas25 |
 | **Prioritas** | High |
 | **Estimasi** | 3–4 hari kerja |
 | **Tipe** | QA / Testing |

@@ -3,23 +3,23 @@
 | | |
 |---|---|
 | **Assignee** | Ridwan Nulloh (`ridwannulloh`) |
-| **Reviewer** | @dimasperceka-se |
-| **Total estimasi** | ± 12 hari kerja |
+| **Reviewer** | @ugadimas25 |
+| **Total estimasi tersisa** | ± 10,5 hari kerja (di luar B-2, B-3, dan B-5 yang sudah selesai) |
 | **Aturan** | Satu tiket = satu branch = satu PR, wajib approval sebelum merge |
 
-Fokus: keandalan deploy, ketahanan data, kebersihan skema, dan kesiapan operasional.
+Fokus: ketahanan data, kebersihan skema, integrasi approval, dan kesiapan operasional.
 
-> **Catatan:** ada beberapa tiket tambahan yang dibagikan terpisah oleh Dimas (tidak lewat repo). Tanyakan langsung ke beliau sebelum mulai Sprint 3.
+> **Pembaruan meeting 21 Agustus 2026:** B-2, B-3, dan B-5 sudah selesai. Prioritas Ridwan berikutnya adalah membuat Cloud Storage bucket untuk evidence, menyiapkan database/schema bersih, menghubungkan survei lapangan ke approval, serta mengerjakan B-8 sampai B-11. B-12 ditunda sampai alurnya difinalkan.
 
 ---
 
 ## Aturan kerja
 
-Branch `main` terkunci. Push langsung ditolak — semua perubahan lewat PR dan **harus disetujui @dimasperceka-se**.
+Branch `main` terkunci. Push langsung ditolak — semua perubahan lewat PR dan **harus disetujui @ugadimas25**.
 
 ```
 branch baru → commit → push branch → buka PR
-  → review @dimasperceka-se → merge ke main → auto-deploy Cloud Run
+  → review @ugadimas25 → merge ke main → auto-deploy Cloud Run
 ```
 
 Penamaan branch: `feat/…`, `fix/…`, `chore/…`
@@ -57,10 +57,12 @@ Nilai environment sungguhan (project ID, connection name, secret) **tidak ada di
 
 ---
 
-# SPRINT 1 · Jaring pengaman (± 2,5 hari)
+# SPRINT 1 · Jaring pengaman (✅ selesai)
 
 ## B-5 · Bug: tombol "Setujui" tidak mengirim `moduleKey`
 `fix/approve-modulekey` · **30 menit** · 🔴 Urgent
+
+**Status: ✅ Selesai dan sudah diuji kembali (meeting 21 Agustus 2026).**
 
 **Masalah**
 Di `src/app/(app)/approval/DecisionForm.tsx`, form approve hanya mengirim `id` + `decision`, sedangkan form tolak juga mengirim `moduleKey`. Akibatnya action jatuh ke nilai default `"cost_transaction"` (`src/lib/actions/costing.ts:207`).
@@ -79,6 +81,8 @@ Tambahkan `<input type="hidden" name="moduleKey" value={moduleKey} />` pada form
 
 ## B-3 · CI: lint, typecheck, build, uji DB — jadikan syarat merge
 `chore/ci-pipeline` · **1 hari** · 🔴 High
+
+**Status: ✅ Selesai.** Pipeline sudah mencakup build, test, verification, dan migrasi database.
 
 **Masalah**
 Tidak ada `.github/workflows/`, dan branch protection belum punya *required status checks* — PR yang gagal build tetap bisa di-merge. Reviewer harus percaya begitu saja bahwa kodenya lolos.
@@ -99,6 +103,8 @@ Repo sudah punya skrip verifikasi yang **belum pernah jalan otomatis**: `db:test
 
 ## B-2 · Migrasi DB belum jalan saat deploy
 `feat/deploy-migrations` · **1 hari** · 🔴 High
+
+**Status: ✅ Selesai.** Migrasi dari file dijalankan otomatis saat deployment.
 
 **Masalah**
 `cloudbuild.yaml` hanya build → push → deploy. **Tidak ada langkah migrasi.** Kalau ada PR yang butuh migrasi baru, kode naik ke produksi sementara skema DB belum berubah → aplikasi error. Sekarang aman semata karena migrasi dijalankan manual dan belum ada yang lupa.
@@ -127,7 +133,7 @@ Padahal bukti pembelian **wajib** diunggah saat mengajukan pengeluaran — jadi 
 
 **Kerjakan**
 1. Implementasikan Cloud Storage di `storage.ts` (bucket privat)
-2. Minta Dimas membuat bucket + IAM untuk service account Cloud Run
+2. Buat bucket Cloud Storage untuk evidence dan konfigurasi IAM service account Cloud Run; koordinasikan nilai project/credential yang dibutuhkan dengan Dimas
 3. Baca kembali lewat **signed URL** berumur pendek
 4. Pertahankan perhitungan `sha256` (baris 62) untuk verifikasi integritas
 5. Fallback penyimpanan lokal tetap dipertahankan untuk pengembangan
@@ -149,7 +155,7 @@ Padahal bukti pembelian **wajib** diunggah saat mengajukan pengeluaran — jadi 
 
 ---
 
-# SPRINT 3 · Kelengkapan jejak & kebersihan skema (± 3 hari)
+# SPRINT 3 · Kelengkapan jejak & kebersihan skema (± 3,5 hari tersisa)
 
 > Sebelum mulai sprint ini, tanyakan ke Dimas soal tiket tambahan yang dibagikan terpisah — beberapa di antaranya menyentuh berkas yang sama.
 
@@ -174,7 +180,18 @@ Trigger `write_audit()` baru terpasang di 5 tabel: `cost_transactions` (`0016:93
 
 Tabel punya kolom `approval_status` (`0014:134-137`) tapi tidak terhubung ke alur approval mana pun: tidak ada di view `v_pending_approvals`, dan tidak ada routing di `decide_record()`. Record di tabel itu tidak akan pernah bisa diputuskan lewat UI.
 
-**Putuskan bersama Dimas:** hubungkan ke alur approval, **atau** buang kolomnya. Jangan dibiarkan menggantung.
+**Keputusan meeting 21 Agustus 2026:** hubungkan survei lapangan ke alur approval satu tingkat. Jangan buang kolom approval-nya.
+
+**Kerjakan**
+- Masukkan pengajuan survei lapangan ke `v_pending_approvals`
+- Tambahkan routing keputusan survei di `decide_record()`
+- Pastikan creator dapat menyimpan draft, mengajukan, dan mengedit kembali data yang ditolak
+- Wajibkan alasan penolakan dan pertahankan riwayat pengajuan yang sudah diproses di Inbox Approval
+
+**Selesai bila**
+- [ ] Survei dapat diajukan, disetujui, dan ditolak dari alur approval
+- [ ] Survei yang ditolak kembali menjadi draft yang dapat diedit dan diajukan ulang
+- [ ] Riwayat keputusan beserta aktor, waktu, dan alasan penolakan dapat ditelusuri
 
 ---
 
@@ -192,16 +209,41 @@ Enum lama 8 nilai (`0002_core.sql:34-46`) masih ada di samping `app_role` yang k
 
 `approval_requests` + `approval_steps` (`0012:12-41`, `0014:90-125`) lengkap dengan `required_app_role`, `step_order`, `resubmitted_from_id` — tapi **nol referensi di `src/`**. Skema mati yang menyesatkan pembaca berikutnya.
 
-**Kerjakan:** drop, **atau** tulis ADR singkat kalau memang direncanakan dipakai.
+**Keputusan meeting 21 Agustus 2026:** approval saat ini hanya satu tingkat dan approval berjenjang belum diperlukan.
+
+**Kerjakan:** pastikan tabel benar-benar tidak digunakan, lalu drop melalui migrasi idempoten. Dokumentasikan bahwa alur aktif menggunakan approval satu tingkat.
 
 ---
 
 ## B-12 · Status yang tak pernah dipakai
 `chore/prune-record-status` · **0,5 hari** · 🟡 Medium
 
+**Status: ⏸ Ditunda.** Jangan dikerjakan sampai finalisasi alur berdasarkan hasil meeting dikonfirmasi oleh Dimas.
+
 Enum `app.record_status` punya 6 nilai, tapi `under_review` dan `cancelled` tidak pernah di-set kode mana pun — hanya muncul di klausa `IN (…)` dan label i18n. State machine efektifnya cuma 4 status.
 
 **Kerjakan:** buang dari enum & label, **atau** implementasikan alurnya.
+
+---
+
+## B-19 · Database/schema bersih untuk pengujian
+`chore/clean-test-database` · **1 hari** · 🟠 High
+
+**Masalah**
+Data lama dapat memengaruhi hasil QA dan menyulitkan verifikasi bahwa migrasi serta seed menghasilkan kondisi awal yang benar.
+
+**Kerjakan**
+- Siapkan database atau schema baru yang bersih
+- Jalankan seluruh migrasi, bootstrap role aplikasi, dan seed data demo yang diperlukan
+- Arahkan environment pengujian ke database/schema tersebut tanpa memasukkan credential ke repo
+- Pertahankan database existing sebagai development/staging sampai pembagian environment dikonfirmasi
+- Catat konfigurasi dan langkah reset/rebuild agar dapat diulang
+
+**Selesai bila**
+- [ ] Aplikasi environment pengujian terhubung ke database/schema bersih
+- [ ] Seluruh migrasi berhasil dari kondisi kosong
+- [ ] QA dapat dijalankan tanpa terpengaruh data lama
+- [ ] Credential tidak tersimpan di repo
 
 ---
 
@@ -248,10 +290,10 @@ Sekarang merge ke `main` langsung ke produksi. Tidak ada tempat mencoba migrasi 
 
 | Sprint | Tiket | Estimasi |
 |---|---|---|
-| 1 · Jaring pengaman | B-5, B-3, B-2 | ± 2,5 hari |
+| 1 · Jaring pengaman | B-5, B-3, B-2 | ✅ Selesai |
 | 2 · Ketahanan data | B-1, B-13 | ± 2,5 hari |
-| 3 · Jejak & skema | B-8, B-9, B-10, B-11, B-12 | ± 3 hari |
+| 3 · Jejak & skema | B-8, B-9, B-10, B-11, B-19; B-12 ditunda | ± 3,5 hari tersisa |
 | 4 · Kesiapan produksi | B-15, B-16, B-17, B-18 | ± 4,5 hari |
-| | **Total** | **± 12,5 hari kerja** |
+| | **Total tersisa** | **± 10,5 hari kerja** |
 
 **Urutan bukan sekadar saran.** Sprint 3 menyentuh migrasi dan skema — bagian paling rawan di sistem ini. Jangan dimulai sebelum **B-3 (CI)** selesai, supaya uji otomatis bisa menangkap kalau ada yang jebol.
