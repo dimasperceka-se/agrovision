@@ -7,7 +7,7 @@ di belakang nginx, DB PostgreSQL 16 + PostGIS via docker compose (port 55433).
 
 ```bash
 # di VM
-curl -fsSL https://raw.githubusercontent.com/dimasperceka-se/agrovision/main/deploy/setup-vm.sh -o setup-vm.sh
+curl -fsSL https://raw.githubusercontent.com/ugadimas25/agrovision/main/deploy/setup-vm.sh -o setup-vm.sh
 bash setup-vm.sh
 # script berhenti setelah membuat .env.local -> edit dulu, lalu jalankan lagi
 ```

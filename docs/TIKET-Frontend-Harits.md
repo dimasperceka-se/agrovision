@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Assignee** | Harits Balfas (`haritshb`) |
-| **Reviewer** | @dimasperceka-se |
+| **Reviewer** | @ugadimas25 |
 | **Total estimasi** | ± 4–5 minggu (termasuk F-1 yang paling besar) |
 | **Aturan** | Satu tiket = satu branch = satu PR, wajib approval sebelum merge |
 | **Prasyarat** | Selesaikan **TIKET-01 (QA manual)** lebih dulu untuk F-1 dan F-2 |
@@ -14,11 +14,11 @@ Semua temuan diverifikasi langsung ke kode. Tanda 🔍 = angka/kondisi diperiksa
 
 ## Aturan kerja
 
-Branch `main` terkunci. Push langsung ditolak — semua perubahan lewat PR dan **harus disetujui @dimasperceka-se**.
+Branch `main` terkunci. Push langsung ditolak — semua perubahan lewat PR dan **harus disetujui @ugadimas25**.
 
 ```
 branch baru → commit → push branch → buka PR
-  → review @dimasperceka-se → merge ke main → auto-deploy Cloud Run
+  → review @ugadimas25 → merge ke main → auto-deploy Cloud Run
 ```
 
 Penamaan branch: `feat/…`, `fix/…`, `chore/…`, `test/…`
