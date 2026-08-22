@@ -167,10 +167,23 @@ export default async function PengeluaranPage({
                       <td data-label="Supplier" data-empty={!r.supplierName} className="px-4 py-2.5 text-slate-500">{r.supplierName ?? EMPTY}</td>
                       <td data-label="Nilai" className="whitespace-nowrap px-4 py-2.5 text-right tabular-nums text-slate-800">{formatIdr(r.amountIdr)}</td>
                       <td data-label="Bukti" className="px-4 py-2.5">
-                        <span className="inline-flex items-center gap-1 text-xs text-slate-500" title={`${r.evidenceCount} lampiran`}>
-                          <Paperclip className="h-3.5 w-3.5" />
-                          {r.evidenceCount}
-                        </span>
+                        {r.evidenceId ? (
+                          <a
+                            href={`/api/evidence/${r.evidenceId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-emerald-700 hover:underline"
+                            title={`${r.evidenceCount} lampiran — lihat bukti`}
+                          >
+                            <Paperclip className="h-3.5 w-3.5" />
+                            {r.evidenceCount}
+                          </a>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-xs text-slate-500" title={`${r.evidenceCount} lampiran`}>
+                            <Paperclip className="h-3.5 w-3.5" />
+                            {r.evidenceCount}
+                          </span>
+                        )}
                       </td>
                       <td data-label="Status" className="px-4 py-2.5">
                         <RecordStatusBadge status={r.approvalStatus} />

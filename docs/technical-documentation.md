@@ -30,9 +30,7 @@ AgroVision is intentionally built so that scaffolding is never disguised as fini
 
 **Demo-scaffold / not production-ready (real mechanism, guarded so it cannot be mistaken for production):**
 - **Authentication** — the session mechanism is real, but `resolveLogin()` matches an email to an active user with **no credential verification**. Must not be deployed publicly as-is; flagged by `app.check_production_readiness()`.
-- **GCP wiring** — the app is written *for* Google Cloud but not yet connected: no `Dockerfile`, `cloudbuild.yaml`, or Terraform; `putEvidence()`'s Cloud Storage path is an unimplemented `TODO` that throws if `GCS_BUCKET_EVIDENCE` is set.
 - **Estimate-only agronomy** — emission factors and allometric coefficients are IPCC Tier-1 estimates flagged `requires_validation`; `master_items` content is intentionally empty; demo tenants are flagged `is_demo` (a blocking production-readiness item).
-- **Known mutation-test gap** — `createExpenditure` intentionally does not write the `evidence_links` row (labeled `MUTATION-TEST`), so `evidenceCount` reads 0.
 
 **Coming-soon (schema present, UI disabled or placeholder):**
 - Deforestation module (teaser only — the single `ready:false` nav stub)
@@ -500,7 +498,7 @@ Operational and financial records share an `approval_status` state machine: rows
 
 ### Accounting reflection model — live (cost side), pending harvest (revenue side)
 
-Repo `pricing.ts`, page `costing/refleksi`. No manual cost entry: reflected cost = **Σ (real operational volume × catalog rate)** from `app.price_list`, where each cost row's `driver` maps to a volume query in `DRIVER_SQL` (`block_area_ha`, `landprep_area_ha` (approved), `seedling_qty`, `fertilizer_qty` (approved)). Revenue = approved `harvest_records` tonnage × per-crop revenue rate (`REV-DUR-A`, `REV-COCO`). `balanceIdr` is **`null` until an approved harvest exists**. `setPriceRate` edits catalog rates (approver/super_admin). Separately, `costing/pengeluaran` + `costing/anggaran` are a full expenditure/budget module (`cost_transactions`, `budgets`, `fiscal_periods`, views `v_block_cost_summary`, `v_budget_vs_actual`, `v_spend_by_category`) with mandatory evidence upload. **Honest gap:** `createExpenditure` contains a labeled `MUTATION-TEST: evidence link INSERT disabled on purpose` — the `evidence_links` row is intentionally not written, so `evidenceCount` reads 0.
+Repo `pricing.ts`, page `costing/refleksi`. No manual cost entry: reflected cost = **Σ (real operational volume × catalog rate)** from `app.price_list`, where each cost row's `driver` maps to a volume query in `DRIVER_SQL` (`block_area_ha`, `landprep_area_ha` (approved), `seedling_qty`, `fertilizer_qty` (approved)). Revenue = approved `harvest_records` tonnage × per-crop revenue rate (`REV-DUR-A`, `REV-COCO`). `balanceIdr` is **`null` until an approved harvest exists**. `setPriceRate` edits catalog rates (approver/super_admin). Separately, `costing/pengeluaran` + `costing/anggaran` are a full expenditure/budget module (`cost_transactions`, `budgets`, `fiscal_periods`, views `v_block_cost_summary`, `v_budget_vs_actual`, `v_spend_by_category`) with mandatory evidence upload, stored via Cloud Storage (`putEvidence()`/`getSignedReadUrl()` in `storage.ts`; falls back to local disk when `GCS_BUCKET_EVIDENCE` is unset) and linked to its transaction via `evidence_links`, viewable from a short-lived signed URL at `/api/evidence/[id]`.
 
 ### Reports — definition-driven, one stub
 
