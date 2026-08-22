@@ -78,7 +78,7 @@ substitutions:
   # Bucket privat penyimpanan bukti (tiket B-1). Kosong = fallback disk lokal
   # container -- HILANG tiap scale-to-zero/deploy baru, jangan biarkan kosong
   # di produksi. Isi setelah Dimas membuat bucket + IAM (lihat PR untuk detail).
-  _EVIDENCE_BUCKET: ""
+  _EVIDENCE_BUCKET: agrovision-evidence-393569486275
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_ID/secrets/MIGRATION_DATABASE_URL/versions/latest
